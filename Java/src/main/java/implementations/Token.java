@@ -18,7 +18,7 @@ public class Token {
 	    this.linha = linha;
 	    this.coluna = coluna;
     }
-    
+
     public Token() {
 	    //do nothing
     }

@@ -4,15 +4,18 @@ import src.main.java.utils.ErrorHandler;
 import src.main.java.utils.TabSimbolos;
 import src.main.java.utils.TokenType;
 
+import java.io.IOException;
+
 public class Sintatico {
 
 	private Lexico lexico;
+	private TabSimbolos tabSimbolos = TabSimbolos.getInstance();
 	
-	public void processar(){
+	public void processar() throws IOException {
 		Token token = lexico.nextToken();
 		while(token.getTokenType() != TokenType.EOF){
 			token.printToken();
-//			token.lexico.nextToken();
+			lexico.nextToken();
 		}
 	}
 	

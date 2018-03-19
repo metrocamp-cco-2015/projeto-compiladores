@@ -1,19 +1,41 @@
 package src.main.java.implementations;
 
 import src.main.java.utils.FileLoader;
+import src.main.java.utils.TabSimbolos;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Lexico {
 
+	private static final char BLANK_SPACE = ' ';
 	private FileLoader fileLoader;
+	private TabSimbolos tabSimbolos = TabSimbolos.getInstance();
 	
 	public Lexico(final String filename){
-		
+		try {
+			fileLoader = new FileLoader(filename);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 	
-	public Token nextToken(){
-		//utilizar fileLoader
+	public Token nextToken() throws IOException {
 
-        //TODO remover linha abaixo quando implementação estiver finalizada
+		StringBuilder lexemaBuilder = new StringBuilder();
+
+		while(fileLoader.getNextChar() != BLANK_SPACE) {
+			lexemaBuilder.append(fileLoader.getNextChar());
+		}
+
+		if(tabSimbolos.instalaToken(lexemaBuilder.toString(),
+									(int) fileLoader.getLine(),
+									(int) fileLoader.getColumn())){
+
+		}
+
         return new Token();
 	}
 	
