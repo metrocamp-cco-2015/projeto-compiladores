@@ -4,11 +4,19 @@ import src.main.java.utils.TokenType;
 
 public class Token {
 	
-/*	private TokenType tokenType;
-	
-	// Texto encontrado no código processado que equivale ao token
+	private TokenType tokenType;
+
+	// Texto encontrado no cï¿½digo processado que equivale ao token
 	private String lexema;
-	
+
 	private int linha;
-	private int coluna;*/
+	private int coluna;
+
+	public Token(final TokenType tokenType, final String lexema, final int linha, final int coluna){
+
+	    this.tokenType = tokenType;
+	    this.lexema = lexema;
+	    this.linha = linha;
+	    this.coluna = coluna;
+    }
 }
