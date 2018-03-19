@@ -18,20 +18,44 @@ public class Token {
 	    this.linha = linha;
 	    this.coluna = coluna;
     }
+    
+    public Token() {
+	    //do nothing
+    }
 
-	public int getLinha() {
-		return linha;
-	}
+    public TokenType getTokenType() {
+        return tokenType;
+    }
 
-	public void setLinha(int linha) {
-		this.linha = linha;
-	}
+    public void setTokenType(TokenType tokenType) {
+        this.tokenType = tokenType;
+    }
 
-	public int getColuna() {
-		return coluna;
-	}
+    public String getLexema() {
+        return lexema;
+    }
 
-	public void setColuna(int coluna) {
-		this.coluna = coluna;
-	}
+    public void setLexema(String lexema) {
+        this.lexema = lexema;
+    }
+
+    public int getLinha() {
+        return linha;
+    }
+
+    public void setLinha(int linha) {
+        this.linha = linha;
+    }
+
+    public int getColuna() {
+        return coluna;
+    }
+
+    public void setColuna(int coluna) {
+        this.coluna = coluna;
+    }
+
+    public void printToken(){
+	    //TODO implementar metodo para printar o token
+    }
 }
