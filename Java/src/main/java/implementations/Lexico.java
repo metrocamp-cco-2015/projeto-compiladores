@@ -5,8 +5,6 @@ import src.main.java.utils.TabSimbolos;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Lexico {
 
@@ -30,13 +28,9 @@ public class Lexico {
 			lexemaBuilder.append(fileLoader.getNextChar());
 		}
 
-		if(tabSimbolos.instalaToken(lexemaBuilder.toString(),
-									(int) fileLoader.getLine(),
-									(int) fileLoader.getColumn())){
+		return tabSimbolos.instalaToken(lexemaBuilder.toString(),
+				fileLoader.getLine(), fileLoader.getColumn());
 
-		}
-
-        return new Token();
 	}
 	
 }

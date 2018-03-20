@@ -2,8 +2,6 @@ package src.main.java;
 
 import src.main.java.implementations.Sintatico;
 
-import java.util.Arrays;
-
 public class Compilador {
 
 	public static void main(String[] args) throws Exception {

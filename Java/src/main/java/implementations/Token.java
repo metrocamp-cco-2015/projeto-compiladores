@@ -9,10 +9,10 @@ public class Token {
 	// Texto encontrado no codigo processado que equivale ao token
 	private String lexema;
 
-	private int linha;
-	private int coluna;
+	private long linha;
+	private long coluna;
 
-	public Token(final TokenType tokenType, final String lexema, final int linha, final int coluna){
+	public Token(final TokenType tokenType, final String lexema, final long linha, final long coluna){
 	    this.tokenType = tokenType;
 	    this.lexema = lexema;
 	    this.linha = linha;
@@ -39,19 +39,19 @@ public class Token {
         this.lexema = lexema;
     }
 
-    public int getLinha() {
+    public long getLinha() {
         return linha;
     }
 
-    public void setLinha(int linha) {
+    public void setLinha(long linha) {
         this.linha = linha;
     }
 
-    public int getColuna() {
+    public long getColuna() {
         return coluna;
     }
 
-    public void setColuna(int coluna) {
+    public void setColuna(long coluna) {
         this.coluna = coluna;
     }
 

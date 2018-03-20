@@ -41,7 +41,7 @@ public class TabSimbolos {
 		TabSimbolos.instance = instance;
 	}
 	
-	public Token instalaToken(String lexema, int linha, int coluna){
+	public Token instalaToken(String lexema, long linha, long coluna){
 		Token token = tabela.get(lexema);
 		
 		if(token == null){
