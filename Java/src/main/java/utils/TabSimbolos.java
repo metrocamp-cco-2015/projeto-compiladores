@@ -45,11 +45,11 @@ public class TabSimbolos {
 		Token token = tabela.get(lexema);
 		
 		if(token == null){
-			//tk = new Token(TokenType.ID, lexema, linha, coluna);
+			token = new Token(TokenType.ID, lexema, linha, coluna);
 			tabela.put(lexema, token);
 		}else{
-//			token.setLinha(linha);
-//			token.setCol(coluna);
+			token.setLinha(linha);
+			token.setColuna(coluna);
 		}
 		return token;
 	}
