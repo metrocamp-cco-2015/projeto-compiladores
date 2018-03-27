@@ -37,11 +37,7 @@ public class TabSimbolos {
 		return instance;
 	}
 	
-<<<<<<< Updated upstream
-	public Token instalaToken(String lexema, long linha, long coluna){
-=======
-	public Token instalaToken(TokenType tokenType, String lexema, int linha, int coluna){
->>>>>>> Stashed changes
+	public Token instalaToken(TokenType tokenType, String lexema, long linha, long coluna){
 		Token token = tabela.get(lexema);
 		
 		if(token == null){

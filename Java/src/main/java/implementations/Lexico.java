@@ -2,6 +2,7 @@ package src.main.java.implementations;
 
 import src.main.java.utils.FileLoader;
 import src.main.java.utils.TabSimbolos;
+import src.main.java.utils.TokenType;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -28,7 +29,7 @@ public class Lexico {
 			lexemaBuilder.append(fileLoader.getNextChar());
 		}
 
-		return tabSimbolos.instalaToken(lexemaBuilder.toString(),
+		return tabSimbolos.instalaToken(TokenType.ID ,lexemaBuilder.toString(),
 				fileLoader.getLine(), fileLoader.getColumn());
 
 	}
