@@ -36,16 +36,16 @@ public class TabSimbolos {
 	public static TabSimbolos getInstance() {
 		return instance;
 	}
-
-	public static void setInstance(TabSimbolos instance) {
-		TabSimbolos.instance = instance;
-	}
 	
+<<<<<<< Updated upstream
 	public Token instalaToken(String lexema, long linha, long coluna){
+=======
+	public Token instalaToken(TokenType tokenType, String lexema, int linha, int coluna){
+>>>>>>> Stashed changes
 		Token token = tabela.get(lexema);
 		
 		if(token == null){
-			token = new Token(TokenType.ID, lexema, linha, coluna);
+			token = new Token(tokenType, lexema, linha, coluna);
 			tabela.put(lexema, token);
 		}else{
 			token.setLinha(linha);

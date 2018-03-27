@@ -33,4 +33,8 @@ public class Lexico {
 
 	}
 	
+	public void processaToken(String palavra){
+		
+	}
+	
 }

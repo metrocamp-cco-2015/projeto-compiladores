@@ -1,7 +1,5 @@
 package src.main.java.implementations;
 
-import src.main.java.utils.ErrorHandler;
-import src.main.java.utils.TabSimbolos;
 import src.main.java.utils.TokenType;
 
 import java.io.IOException;
@@ -15,7 +13,11 @@ public class Sintatico {
 		Token token = lexico.nextToken();
 		while(token.getTokenType() != TokenType.EOF){
 			token.printToken();
+<<<<<<< Updated upstream
 			lexico.nextToken();
+=======
+//			lexico.nextToken();
+>>>>>>> Stashed changes
 		}
 	}
 	
