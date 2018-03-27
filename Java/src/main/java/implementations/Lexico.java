@@ -25,6 +25,8 @@ public class Lexico {
 
 		StringBuilder lexemaBuilder = new StringBuilder();
 		char nextChar;
+		long coluna;
+		long linha;
 		
 		//Metodo substituido pelo metodo a baixo
 		/*while(fileLoader.getNextChar() != BLANK_SPACE) {
@@ -36,35 +38,30 @@ public class Lexico {
 		}while(nextChar == BLANK_SPACE);
 		
 		lexemaBuilder.append(nextChar);
+		coluna = fileLoader.getColumn();
+		linha = fileLoader.getLine();
 		
 		switch (nextChar) {
 			case '&':
 				//TODO metodo para RELOP
 				break;
 			case '+':
-				//TODO metodo ADD
-				break;
+				return addSub(lexemaBuilder, coluna, linha);
 			case '-':
-				//TODO metodo SUB
-				break;
+				return addSub(lexemaBuilder, coluna, linha);
 			case '*':
-				//TODO metodo MULT
-				break;
+				return multDiv(lexemaBuilder, coluna, linha);
 			case '/':
-				//TODO metodo DIV
-				break;
+				return multDiv(lexemaBuilder, coluna, linha);
 			case '<':
 				//TODO metodo ATRRIB
 				break;
 			case ';':
-				//TODO metodo TERM
-				break;
+				return term(lexemaBuilder, coluna, linha);
 			case '(':
-				//TODO metodo L_PAR
-				break;
+				return lPar(lexemaBuilder, coluna, linha);
 			case ')':
-				//TODO metodo R_PAR
-				break;
+				return rPar(lexemaBuilder, coluna, linha);
 			case '_':
 				//TODO metodo ID
 				break;
@@ -82,7 +79,47 @@ public class Lexico {
 		return tabSimbolos.instalaToken(TokenType.ID ,lexemaBuilder.toString(),
 				fileLoader.getLine(), fileLoader.getColumn());
 	}
+
+	private Token addSub(StringBuilder lexemaBuilder, long coluna, long linha) {
+		return tabSimbolos.instalaToken(TokenType.ADDSUB ,lexemaBuilder.toString(),
+				linha, coluna);
+	}
 	
+	private Token multDiv(StringBuilder lexemaBuilder, long coluna, long linha) {
+		return tabSimbolos.instalaToken(TokenType.MULTDIV ,lexemaBuilder.toString(),
+				linha, coluna);
+	}
+	
+	private Token term(StringBuilder lexemaBuilder, long coluna, long linha) {
+		return tabSimbolos.instalaToken(TokenType.TERM ,lexemaBuilder.toString(),
+				linha, coluna);
+	}
+	
+	private Token lPar(StringBuilder lexemaBuilder, long coluna, long linha) {
+		return tabSimbolos.instalaToken(TokenType.L_PAR ,lexemaBuilder.toString(),
+				linha, coluna);
+	}
+	
+	private Token rPar(StringBuilder lexemaBuilder, long coluna, long linha) {
+		return tabSimbolos.instalaToken(TokenType.R_PAR ,lexemaBuilder.toString(),
+				linha, coluna);
+	}
+	
+	private Token relop(StringBuilder lexemaBuilder, long coluna, long linha) {
+		char nextChar;
+		
+		try {
+			nextChar = fileLoader.getNextChar();
+			
+			if(nextChar == '&'){
+				return tabSimbolos.instalaToken(TokenType.RELOP ,lexemaBuilder.toString(),
+						linha, coluna);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	public void processaToken(String palavra){
 		
 	}
