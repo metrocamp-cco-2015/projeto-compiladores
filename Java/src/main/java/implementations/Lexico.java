@@ -43,19 +43,23 @@ public class Lexico {
 		
 		switch (nextChar) {
 			case '&':
-				//TODO metodo para RELOP
-				break;
+				return relop(lexemaBuilder, coluna, linha);
 			case '+':
 				return addSub(lexemaBuilder, coluna, linha);
 			case '-':
 				return addSub(lexemaBuilder, coluna, linha);
 			case '*':
 				return multDiv(lexemaBuilder, coluna, linha);
+			case '\'':
+				//TODO metodo LITERAL
+				break;
+			case '#':
+				//TODO metodo COMENTARIO
+				break;
 			case '/':
 				return multDiv(lexemaBuilder, coluna, linha);
 			case '<':
-				//TODO metodo ATRRIB
-				break;
+				return atrrib(lexemaBuilder, coluna, linha);
 			case ';':
 				return term(lexemaBuilder, coluna, linha);
 			case '(':
@@ -63,15 +67,13 @@ public class Lexico {
 			case ')':
 				return rPar(lexemaBuilder, coluna, linha);
 			case '_':
-				//TODO metodo ID
-				break;
+				return rPar(lexemaBuilder, coluna, linha);
 			default:
 				if(Character.isDigit(nextChar)){
 					//TODO metodo NUMERICO
 					break;
 				}else if(Character.isLetter(nextChar)){
-					//TODO metodo ID
-					break;
+					return rPar(lexemaBuilder, coluna, linha);
 				}else{
 					//TODO metodo de excecao
 				}
@@ -106,20 +108,105 @@ public class Lexico {
 	}
 	
 	private Token relop(StringBuilder lexemaBuilder, long coluna, long linha) {
-		char nextChar;
-		
 		try {
+			char nextChar;
 			nextChar = fileLoader.getNextChar();
+			lexemaBuilder.append(nextChar);
+			
+			switch (nextChar) {
+				case '<':
+					nextChar = fileLoader.getNextChar();
+					lexemaBuilder.append(nextChar);
+					
+					if(nextChar == '=' || nextChar == '>'){
+						nextChar = fileLoader.getNextChar();
+						lexemaBuilder.append(nextChar);
+					}
+					break;
+				case '>':
+					nextChar = fileLoader.getNextChar();
+					lexemaBuilder.append(nextChar);
+					
+					if(nextChar == '='){
+						nextChar = fileLoader.getNextChar();
+						lexemaBuilder.append(nextChar);
+					}
+					break;
+				case '=':
+					nextChar = fileLoader.getNextChar();
+					lexemaBuilder.append(nextChar);
+					break;
+			default:
+				//TODO throw exception
+				break;
+			}
 			
 			if(nextChar == '&'){
 				return tabSimbolos.instalaToken(TokenType.RELOP ,lexemaBuilder.toString(),
 						linha, coluna);
+			}else{
+				//TODO throw exception
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
+	
+	private Token atrrib(StringBuilder lexemaBuilder, long coluna, long linha) {
+		try {
+			char nextChar;
+			nextChar = fileLoader.getNextChar();
+			lexemaBuilder.append(nextChar);
+			
+			if(nextChar == '-'){
+				return tabSimbolos.instalaToken(TokenType.TERM ,lexemaBuilder.toString(),
+						linha, coluna);
+			}else{
+				//TODO throw exception
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	private Token id(StringBuilder lexemaBuilder, long coluna, long linha) {
+		try {
+			char nextChar;
+			boolean isId = true;
+			
+			nextChar = fileLoader.getNextChar();
+			lexemaBuilder.append(nextChar);
+			
+			if(Character.isLetter(nextChar) && nextChar != '&'){
+				nextChar = fileLoader.getNextChar();
+				lexemaBuilder.append(nextChar);
+			}else{
+				// TODO throw exception
+			}
+			
+			while(isId){
+				if(Character.isLetter(nextChar) || Character.isDigit(nextChar) || nextChar != '&'){
+					nextChar = fileLoader.getNextChar();
+					lexemaBuilder.append(nextChar);
+				}else{
+					isId = false;
+					fileLoader.resetLastChar();
+				}
+			}
+			
+			return tabSimbolos.instalaToken(TokenType.ID ,lexemaBuilder.toString(),
+					linha, coluna);
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return tabSimbolos.instalaToken(TokenType.R_PAR ,lexemaBuilder.toString(),
+				linha, coluna);
+	}
+	
 	public void processaToken(String palavra){
 		
 	}
