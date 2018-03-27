@@ -24,14 +24,63 @@ public class Lexico {
 	public Token nextToken() throws IOException {
 
 		StringBuilder lexemaBuilder = new StringBuilder();
-
-		while(fileLoader.getNextChar() != BLANK_SPACE) {
+		char nextChar;
+		
+		//Metodo substituido pelo metodo a baixo
+		/*while(fileLoader.getNextChar() != BLANK_SPACE) {
 			lexemaBuilder.append(fileLoader.getNextChar());
+		}*/
+		
+		do{
+			nextChar = fileLoader.getNextChar();
+		}while(nextChar == BLANK_SPACE);
+		
+		lexemaBuilder.append(nextChar);
+		
+		switch (nextChar) {
+			case '&':
+				//TODO metodo para RELOP
+				break;
+			case '+':
+				//TODO metodo ADD
+				break;
+			case '-':
+				//TODO metodo SUB
+				break;
+			case '*':
+				//TODO metodo MULT
+				break;
+			case '/':
+				//TODO metodo DIV
+				break;
+			case '<':
+				//TODO metodo ATRRIB
+				break;
+			case ';':
+				//TODO metodo TERM
+				break;
+			case '(':
+				//TODO metodo L_PAR
+				break;
+			case ')':
+				//TODO metodo R_PAR
+				break;
+			case '_':
+				//TODO metodo ID
+				break;
+			default:
+				if(Character.isDigit(nextChar)){
+					//TODO metodo NUMERICO
+					break;
+				}else if(Character.isLetter(nextChar)){
+					//TODO metodo ID
+					break;
+				}else{
+					//TODO metodo de excecao
+				}
 		}
-
 		return tabSimbolos.instalaToken(TokenType.ID ,lexemaBuilder.toString(),
 				fileLoader.getLine(), fileLoader.getColumn());
-
 	}
 	
 	public void processaToken(String palavra){
