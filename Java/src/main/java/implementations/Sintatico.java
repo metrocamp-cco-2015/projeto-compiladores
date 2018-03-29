@@ -11,7 +11,7 @@ public class Sintatico {
 	private Lexico lexico;
 	
 	public void processar() throws IOException {
-		System.out.println("Iniciando processamento do arquivo...");
+		System.out.println("Iniciando processamento do arquivo...\n\n\n");
 		Token token = lexico.nextToken();
 		while(token.getTokenType() != TokenType.EOF){
 			System.out.println(token.asString());

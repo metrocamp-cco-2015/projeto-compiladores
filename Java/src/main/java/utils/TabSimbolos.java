@@ -38,8 +38,9 @@ public class TabSimbolos {
 	}
 
 	public Token instalaToken(TokenType tokenType, String lexema, long linha, long coluna) {
+		
 		Token token = tabela.get(lexema);
-
+		
 		if (token == null) {
 			token = new Token(tokenType, lexema, linha, coluna);
 			tabela.put(lexema, token);
@@ -51,10 +52,11 @@ public class TabSimbolos {
 	}
 
 	public void printTabSimb() {
-		System.out.println("Tabela de Simbolos\n");
-
+		System.out.println("\nTabela de Simbolos\n");
+		
 		tabela.forEach((literal, token) -> {
-			System.out.println("Literal: " + literal + " | Token : [ " + token.asString() + " ]");
+			if(token.getLinha() !=0)
+				System.out.println("Literal: " + literal + " | Token : [ " + token.asString() + " ]");
 		});
 	}
 }
