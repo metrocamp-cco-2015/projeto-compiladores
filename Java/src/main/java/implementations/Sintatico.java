@@ -11,10 +11,11 @@ public class Sintatico {
 	private Lexico lexico;
 	
 	public void processar() throws IOException {
+		System.out.println("Iniciando processamento do arquivo...");
 		Token token = lexico.nextToken();
 		while(token.getTokenType() != TokenType.EOF){
-			token.printToken();
-			lexico.nextToken();
+			System.out.println(token.asString());
+			token = lexico.nextToken();
 		}
 
 		// Imprime relatorio de erros

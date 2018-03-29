@@ -51,12 +51,10 @@ public class TabSimbolos {
 	}
 
 	public void printTabSimb() {
-		System.out.println("Tabela de Símbolos\n");
+		System.out.println("Tabela de Simbolos\n");
 
 		tabela.forEach((literal, token) -> {
-			System.out.println("Literal: " + literal + " | Token : [ ");
-			token.printToken();
-			System.out.print(" ]");
+			System.out.println("Literal: " + literal + " | Token : [ " + token.asString() + " ]");
 		});
 	}
 }

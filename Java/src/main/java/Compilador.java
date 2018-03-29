@@ -8,6 +8,7 @@ public class Compilador {
 		if(args.length <= 0){
 			throw new Exception("USAGE ERROR");
 		} else {
+			System.out.println("Lendo o arquivo: " + args[0]);
 			Sintatico sintatico = new Sintatico(args[0]);
 			sintatico.processar();
 		}

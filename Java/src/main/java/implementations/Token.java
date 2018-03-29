@@ -55,10 +55,14 @@ public class Token {
         this.coluna = coluna;
     }
 
-    public void printToken(){
-	    System.out.print("tokenType: " + this.tokenType.toString() + ", ");
-        System.out.print("lexema: " + this.lexema + ", ");
-        System.out.print("linha: " + this.linha + ", ");
-        System.out.print("coluna: " + this.coluna);
+    public String asString(){
+    	return new StringBuilder().append("tokenType: ")
+    							  .append(this.tokenType.toString())
+    							  .append(", lexema: ")
+    							  .append(this.lexema)
+    							  .append(", linha: ")
+    							  .append(this.linha)
+    							  .append(", coluna: ")
+    							  .append(this.coluna).toString();
     }
 }
