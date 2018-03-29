@@ -4,6 +4,7 @@ import src.main.java.utils.FileLoader;
 import src.main.java.utils.TabSimbolos;
 import src.main.java.utils.TokenType;
 
+import java.io.EOFException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -25,55 +26,45 @@ public class Lexico {
 
 		StringBuilder lexemaBuilder = new StringBuilder();
 		char nextChar;
-		long coluna;
-		long linha;
-		
-		//Metodo substituido pelo metodo a baixo
-		/*while(fileLoader.getNextChar() != BLANK_SPACE) {
-			lexemaBuilder.append(fileLoader.getNextChar());
-		}*/
+		long col;
+		long line;
 		
 		do{
 			nextChar = fileLoader.getNextChar();
 		}while(nextChar == BLANK_SPACE);
 		
 		lexemaBuilder.append(nextChar);
-		coluna = fileLoader.getColumn();
-		linha = fileLoader.getLine();
+		col = fileLoader.getColumn();
+		line = fileLoader.getLine();
 		
 		switch (nextChar) {
 			case '&':
-				return relop(lexemaBuilder, coluna, linha);
+				return relop(lexemaBuilder, col, line);
 			case '+':
-				return addSub(lexemaBuilder, coluna, linha);
 			case '-':
-				return addSub(lexemaBuilder, coluna, linha);
+				return addSub(lexemaBuilder, col, line);
 			case '*':
-				return multDiv(lexemaBuilder, coluna, linha);
-			case '\'':
-				//TODO metodo LITERAL
-				break;
-			case '#':
-				//TODO metodo COMENTARIO
-				break;
 			case '/':
-				return multDiv(lexemaBuilder, coluna, linha);
+				return multDiv(lexemaBuilder, col, line);
+			case '\'':
+				return literal(lexemaBuilder, col, line);
+			case '#':
+				return comment(lexemaBuilder, col, line);
 			case '<':
-				return atrrib(lexemaBuilder, coluna, linha);
+				return atrrib(lexemaBuilder, col, line);
 			case ';':
-				return term(lexemaBuilder, coluna, linha);
+				return term(lexemaBuilder, col, line);
 			case '(':
-				return lPar(lexemaBuilder, coluna, linha);
+				return lPar(lexemaBuilder, col, line);
 			case ')':
-				return rPar(lexemaBuilder, coluna, linha);
+				return rPar(lexemaBuilder, col, line);
 			case '_':
-				return rPar(lexemaBuilder, coluna, linha);
+				return id(lexemaBuilder, col, line);
 			default:
 				if(Character.isDigit(nextChar)){
-					//TODO metodo NUMERICO
-					break;
+					return numeric(lexemaBuilder, col, line);
 				}else if(Character.isLetter(nextChar)){
-					return rPar(lexemaBuilder, coluna, linha);
+					return id(lexemaBuilder, col, line);
 				}else{
 					//TODO metodo de excecao
 				}
@@ -203,12 +194,156 @@ public class Lexico {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return tabSimbolos.instalaToken(TokenType.R_PAR ,lexemaBuilder.toString(),
-				linha, coluna);
+		return null;
 	}
-	
-	public void processaToken(String palavra){
+
+	private Token comment(StringBuilder lexemaBuilder, long coluna, long linha) {
+		try {
+			char nextChar;
+			nextChar = fileLoader.getNextChar();
+			
+			if(nextChar == '{'){
+				do{
+					nextChar = fileLoader.getNextChar();
+				}while(nextChar != '}');
+				
+				nextChar = fileLoader.getNextChar();
+				if(nextChar == '#'){
+					return nextToken();
+				}else{
+					//TODO throw exception
+				}
+			}else{
+				//TODO throw exception
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
+		return null;
 	}
 	
+	private Token literal(StringBuilder lexemaBuilder, long coluna, long linha) {
+		try {
+			char nextChar;
+			boolean isLiteral = true;
+
+			while(isLiteral){
+				nextChar = fileLoader.getNextChar();
+				lexemaBuilder.append(nextChar);
+				
+				if(nextChar == '\''){
+					isLiteral = false;
+				}
+			}
+			
+			return tabSimbolos.instalaToken(TokenType.LITERAL ,lexemaBuilder.toString(),
+					linha, coluna);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	private Token numeric(StringBuilder lexemaBuilder, long coluna, long linha) {
+		try {
+			char nextChar;
+			nextChar = fileLoader.getNextChar();
+			lexemaBuilder.append(nextChar);
+			
+			while(Character.isDigit(nextChar)){
+				nextChar = fileLoader.getNextChar();
+				lexemaBuilder.append(nextChar);
+			}
+			
+			if(nextChar == '.'){
+				return numericFloat(lexemaBuilder, coluna, linha);
+			}else if(nextChar == 'e' || nextChar == 'E'){
+				nextChar = fileLoader.getNextChar();
+				lexemaBuilder.append(nextChar);
+				
+				if(nextChar == '+' || nextChar == '-'){
+					nextChar = fileLoader.getNextChar();
+					lexemaBuilder.append(nextChar);
+					
+					if(Character.isDigit(nextChar)){
+						while(true){
+							nextChar = fileLoader.getNextChar();
+							if(!Character.isDigit(nextChar)){
+								break;
+							}
+							lexemaBuilder.append(nextChar);
+						}
+						return tabSimbolos.instalaToken(TokenType.NUM_INT ,lexemaBuilder.toString(),
+								linha, coluna);
+					}else{
+						//TODO throw exception
+					}
+				}else{
+					//TODO throw exception
+				}
+			}else{
+				fileLoader.resetLastChar();
+				lexemaBuilder.deleteCharAt((lexemaBuilder.length() - 1));
+				
+				return tabSimbolos.instalaToken(TokenType.NUM_INT ,lexemaBuilder.toString(),
+						linha, coluna);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
+	private Token numericFloat(StringBuilder lexemaBuilder, long coluna, long linha) throws EOFException, IOException {
+		char nextChar;
+		nextChar = fileLoader.getNextChar();
+		lexemaBuilder.append(nextChar);
+		
+		if(Character.isDigit(nextChar)){
+			do{
+				nextChar = fileLoader.getNextChar();
+				lexemaBuilder.append(nextChar);
+			}while(Character.isDigit(nextChar));
+			
+			if(nextChar == 'e' || nextChar == 'E'){
+				nextChar = fileLoader.getNextChar();
+				lexemaBuilder.append(nextChar);
+				
+				if(nextChar == '+' || nextChar == '-'){
+					nextChar = fileLoader.getNextChar();
+					lexemaBuilder.append(nextChar);
+					
+					if(Character.isDigit(nextChar)){
+						while(true){
+							nextChar = fileLoader.getNextChar();
+							if(!Character.isDigit(nextChar)){
+								break;
+							}
+							lexemaBuilder.append(nextChar);
+						}
+						return tabSimbolos.instalaToken(TokenType.NUM_INT ,lexemaBuilder.toString(),
+								linha, coluna);
+					}else{
+						//TODO throw exception
+					}
+				}else{
+					//TODO throw exception
+				}
+			}else{
+				fileLoader.resetLastChar();
+				lexemaBuilder.deleteCharAt((lexemaBuilder.length() - 1));
+				return tabSimbolos.instalaToken(TokenType.NUM_FLOAT ,lexemaBuilder.toString(),
+						linha, coluna);
+			}
+		}else{
+			//TODO throw exception
+		}
+		return null;
+	}
 }
