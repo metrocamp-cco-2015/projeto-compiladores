@@ -56,6 +56,9 @@ public class Token {
     }
 
     public void printToken(){
-	    //TODO implementar metodo para printar o token
+	    System.out.print("tokenType: " + this.tokenType.toString() + ", ");
+        System.out.print("lexema: " + this.lexema + ", ");
+        System.out.print("linha: " + this.linha + ", ");
+        System.out.print("coluna: " + this.coluna);
     }
 }
