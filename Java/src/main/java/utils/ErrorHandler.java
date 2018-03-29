@@ -11,7 +11,7 @@ public class ErrorHandler {
         return ErrorHandler.instance;
     }
 
-    public static void addError(Error error) {
+    public void addError(Error error) {
         ErrorHandler.getInstance().errors.add(error);
     }
 

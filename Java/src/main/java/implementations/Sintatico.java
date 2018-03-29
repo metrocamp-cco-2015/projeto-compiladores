@@ -9,7 +9,6 @@ import java.io.IOException;
 public class Sintatico {
 
 	private Lexico lexico;
-	private TabSimbolos tabSimbolos = TabSimbolos.getInstance();
 	
 	public void processar() throws IOException {
 		Token token = lexico.nextToken();
