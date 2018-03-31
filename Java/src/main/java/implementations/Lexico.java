@@ -147,8 +147,7 @@ public class Lexico {
 				break;
 			default:
 				errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_TOKEN_ERROR, col, line));
-				token = this.nextToken();
-				break;
+				return this.nextToken();
 			}
 
 			if (nextChar == '&') {
@@ -172,7 +171,7 @@ public class Lexico {
 			lexemaBuilder.append(nextChar);
 
 			if (nextChar == '-') {
-				token = tabSimbolos.instalaToken(TokenType.TERM, lexemaBuilder.toString(), line, col);
+				token = tabSimbolos.instalaToken(TokenType.ATTRIB, lexemaBuilder.toString(), line, col);
 			} else {
 				errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_TOKEN_ERROR, col, line));
 				token = this.nextToken();
@@ -207,7 +206,10 @@ public class Lexico {
 						fileLoader.resetLastChar();
 					}
 				}
-			} else {
+			} else if(lexemaBuilder.toString().equals("e ")){ 
+				lexemaBuilder.deleteCharAt(lexemaBuilder.length() - 1);
+				fileLoader.resetLastChar();
+			}else {
 				errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_TOKEN_ERROR, col, line));
 				token = this.nextToken();
 			}
@@ -359,7 +361,7 @@ public class Lexico {
 							}
 							lexemaBuilder.append(nextChar);
 						}
-						token = tabSimbolos.instalaToken(TokenType.NUM_INT, lexemaBuilder.toString(), line, col);
+						token = tabSimbolos.instalaToken(TokenType.NUM_FLOAT, lexemaBuilder.toString(), line, col);
 					} else {
 						errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_TOKEN_ERROR, col, line));
 						token = this.nextToken();

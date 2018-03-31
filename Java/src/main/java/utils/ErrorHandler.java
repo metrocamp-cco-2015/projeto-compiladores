@@ -18,7 +18,7 @@ public class ErrorHandler {
     public void showErrors(){
         if (!errors.isEmpty()) {
 
-            System.out.println("Relatorio de Erros");
+            System.out.println("\n\nRelatorio de Erros");
 
             errors.forEach(error -> {
                 System.out.println("\nLexema: " + error.getLexema());
