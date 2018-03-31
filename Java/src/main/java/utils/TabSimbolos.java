@@ -6,10 +6,10 @@ import java.util.Map;
 import src.main.java.implementations.Token;
 
 public class TabSimbolos {
-	
+
 	private static TabSimbolos instance = new TabSimbolos();
 	private Map<String, Token> tabela;
-	
+
 	private TabSimbolos() {
 		tabela = new HashMap<String, Token>();
 		tabela.put("verdadeiro", new Token(TokenType.LOGIC_VAL, "verdadeiro", 0, 0));
@@ -36,17 +36,27 @@ public class TabSimbolos {
 	public static TabSimbolos getInstance() {
 		return instance;
 	}
-	
-	public Token instalaToken(TokenType tokenType, String lexema, long linha, long coluna){
+
+	public Token instalaToken(TokenType tokenType, String lexema, long linha, long coluna) {
 		Token token = tabela.get(lexema);
-		
-		if(token == null){
+
+		if (token == null) {
 			token = new Token(tokenType, lexema, linha, coluna);
 			tabela.put(lexema, token);
-		}else{
+		} else {
 			token.setLinha(linha);
 			token.setColuna(coluna);
 		}
 		return token;
+	}
+
+	public void printTabSimb() {
+		System.out.println("Tabela de Símbolos\n");
+
+		tabela.forEach((literal, token) -> {
+			System.out.println("Literal: " + literal + " | Token : [ ");
+			token.printToken();
+			System.out.print(" ]");
+		});
 	}
 }
