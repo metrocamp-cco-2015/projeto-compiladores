@@ -1,5 +1,12 @@
 package src.main.java.utils;
 
+// André Henrique Pereira
+// Ednaldo Leite Junior
+// Erik Ricardo Balthazar
+// Jean Carlos Guinami Frias
+// Letícia Machado
+// Vitor Matheus Reis Marcelo
+
 public enum TokenType {
 
     NUM_INT, NUM_FLOAT, LITERAL, ID, RELOP, ADDSUB, MULTDIV,

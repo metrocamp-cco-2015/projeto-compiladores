@@ -1,3 +1,11 @@
+/**
+ * André Henrique Pereira
+ * Ednaldo Leite Junior
+ * Erik Ricardo Balthazar
+ * Jean Carlos Guinami Frias
+ * Letícia Machado
+ * Vitor Matheus Reis Marcelo
+ */
 package src.main.java.implementations;
 
 import src.main.java.utils.Error;
@@ -16,9 +24,14 @@ public class Lexico {
 	private TabSimbolos tabSimbolos = TabSimbolos.getInstance();
 	private ErrorHandler errorHandler = ErrorHandler.getInstance();
 
-	private static final String INVALID_TOKEN_ERROR = "Token inv�lido";
+	private static final String INVALID_TOKEN_ERROR = "Token inv�lido";
 	private static final String UNEXPECTED_ERROR = "Erro inesperado";
 
+	/**
+	 * Construtor do Lexico.
+	 *
+	 * @param filename
+	 */
 	public Lexico(final String filename) {
 		try {
 			fileLoader = new FileLoader(filename);
@@ -27,6 +40,13 @@ public class Lexico {
 		}
 	}
 
+	/**
+	 * Le o proximo token atraves do FileLoader. A partir do caracter lido, e
+	 * realizada uma verificacao de seu conteudo e aplicada a regra cabivel.
+	 *
+	 * @return
+	 * @throws IOException
+	 */
 	public Token nextToken() throws IOException {
 
 		StringBuilder lexemaBuilder = new StringBuilder();
@@ -94,26 +114,82 @@ public class Lexico {
 		return token;
 	}
 
+	/**
+	 * Instala um token do tipo ADDSUB na tabela de simbolos.
+	 *
+	 * @param lexemaBuilder
+	 * @param col
+	 * @param line
+	 * @return
+	 */
 	private Token addSub(StringBuilder lexemaBuilder, long col, long line) {
 		return tabSimbolos.instalaToken(TokenType.ADDSUB, lexemaBuilder.toString(), line, col);
 	}
 
+	/**
+	 * Instala um token do tipo MULTIDIV na tabela de simbolos.
+	 *
+	 * @param lexemaBuilder
+	 * @param col
+	 * @param line
+	 * @return
+	 */
 	private Token multDiv(StringBuilder lexemaBuilder, long col, long line) {
 		return tabSimbolos.instalaToken(TokenType.MULTDIV, lexemaBuilder.toString(), line, col);
 	}
 
+	/**
+	 * Instala um token do tipo TERM na tabela de simbolos.
+	 *
+	 * @param lexemaBuilder
+	 * @param col
+	 * @param line
+	 * @return
+	 */
 	private Token term(StringBuilder lexemaBuilder, long col, long line) {
 		return tabSimbolos.instalaToken(TokenType.TERM, lexemaBuilder.toString(), line, col);
 	}
 
+	/**
+	 * Instala um token do tipo L_PAR na tabela de simbolos.
+	 *
+	 * @param lexemaBuilder
+	 * @param col
+	 * @param line
+	 * @return
+	 */
 	private Token lPar(StringBuilder lexemaBuilder, long col, long line) {
 		return tabSimbolos.instalaToken(TokenType.L_PAR, lexemaBuilder.toString(), line, col);
 	}
 
+	/**
+	 * Instala um token do tipo R_PAR na tabela de simbolos.
+	 *
+	 * @param lexemaBuilder
+	 * @param col
+	 * @param line
+	 * @return
+	 */
 	private Token rPar(StringBuilder lexemaBuilder, long col, long line) {
 		return tabSimbolos.instalaToken(TokenType.R_PAR, lexemaBuilder.toString(), line, col);
 	}
 
+	/**
+	 * Verifica se o conteudo do lexema pertence ao conjunto RELOP:
+	 * - &>&
+	 * - &<&
+	 * - &=&
+	 * - &<=&
+	 * - &>=&
+	 * - &<>&
+	 *
+	 * Em caso positivo, instala um token do tipo ADDSUB na tabela de simbolos.
+	 *
+	 * @param lexemaBuilder
+	 * @param col
+	 * @param line
+	 * @return
+	 */
 	private Token relop(StringBuilder lexemaBuilder, long col, long line) {
 		Token token = null;
 		
@@ -162,6 +238,18 @@ public class Lexico {
 		return token;
 	}
 
+	/**
+	 * Verifica se o conteudo do lexema pertence ao conjunto ATTRIB:
+	 * - <-
+	 *
+	 * Em caso positivo, instala um token do tipo ATTRIB na tabela de simbolos.
+	 *
+	 * @param lexemaBuilder
+	 * @param col
+	 * @param line
+	 * @return
+	 * @throws IOException
+	 */
 	private Token atrrib(StringBuilder lexemaBuilder, long col, long line) throws IOException {
 		Token token = null;
 		
@@ -183,6 +271,16 @@ public class Lexico {
 		return token;
 	}
 
+	/**
+	 * Verifica se o conteudo do lexema lido pertence ao conjunto ID.
+	 * Em caso positivo, instala um token do tipo ID na tabela de simbolos.
+	 *
+	 * @param lexemaBuilder
+	 * @param col
+	 * @param line
+	 * @return
+	 * @throws IOException
+	 */
 	private Token id(StringBuilder lexemaBuilder, long col, long line) throws IOException {
 		Token token = null;
 		try {
@@ -225,6 +323,16 @@ public class Lexico {
 		return token;
 	}
 
+	/**
+	 * Verifica se o conteudo do lexema lido pertence ao conjunto de comentarios.
+	 * Em caso positivo, ignora o lexema.
+	 *
+	 * @param lexemaBuilder
+	 * @param col
+	 * @param line
+	 * @return
+	 * @throws IOException
+	 */
 	private Token comment(StringBuilder lexemaBuilder, long col, long line) throws IOException {
 		Token token = null;
 		try {
@@ -255,6 +363,16 @@ public class Lexico {
 		return token;
 	}
 
+	/**
+	 * Verifica se o conteudo do lexema lido pertence ao conjunto LITERAL.
+	 * Em caso positivo, instala um token do tipo LITERAL na tabela de simbolos.
+	 *
+	 * @param lexemaBuilder
+	 * @param col
+	 * @param line
+	 * @return
+	 * @throws IOException
+	 */
 	private Token literal(StringBuilder lexemaBuilder, long col, long line) throws IOException {
 		Token token = null;
 		try {
@@ -279,6 +397,16 @@ public class Lexico {
 		return token;
 	}
 
+	/**
+	 * Verifica se o conteudo do lexema lido pertence ao conjunto NUM_INT.
+	 * Em caso positivo, instala um token do tipo NUM_INT na tabela de simbolos.
+	 *
+	 * @param lexemaBuilder
+	 * @param col
+	 * @param line
+	 * @return
+	 * @throws IOException
+	 */
 	private Token numeric(StringBuilder lexemaBuilder, long col, long line) throws IOException {
 		Token token = null;
 		try {
@@ -332,6 +460,16 @@ public class Lexico {
 		return token;
 	}
 
+	/**
+	 * Verifica se o conteudo do lexema lido pertence ao conjunto NUM_FLOAT.
+	 * Em caso positivo, instala um token do tipo NUM_FLOAT na tabela de simbolos.
+	 *
+	 * @param lexemaBuilder
+	 * @param col
+	 * @param line
+	 * @return
+	 * @throws IOException
+	 */
 	private Token numericFloat(StringBuilder lexemaBuilder, long col, long line) throws EOFException, IOException {
 		Token token = null;
 		char nextChar;
