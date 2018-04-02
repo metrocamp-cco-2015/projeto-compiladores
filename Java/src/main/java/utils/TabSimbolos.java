@@ -1,3 +1,11 @@
+/**
+ * André Henrique Pereira
+ * Ednaldo Leite Junior
+ * Erik Ricardo Balthazar
+ * Jean Carlos Guinami Frias
+ * Letícia Machado
+ * Vitor Matheus Reis Marcelo
+ */
 package src.main.java.utils;
 
 import java.util.HashMap;
@@ -6,10 +14,15 @@ import java.util.Map;
 import src.main.java.implementations.Token;
 
 public class TabSimbolos {
-	
+
 	private static TabSimbolos instance = new TabSimbolos();
 	private Map<String, Token> tabela;
-	
+
+	/**
+	 * Cria um mapa contendo as palavras reservadas. Cada item do mapa
+	 * consiste de um identificador literal da palavra reservada e um
+	 * token que a representa.
+	 */
 	private TabSimbolos() {
 		tabela = new HashMap<String, Token>();
 		tabela.put("verdadeiro", new Token(TokenType.LOGIC_VAL, "verdadeiro", 0, 0));
@@ -33,20 +46,49 @@ public class TabSimbolos {
 		tabela.put("ate", new Token(TokenType.TO, "ate", 0, 0));
 	}
 
+	/**
+	 * Recupera a instancia da TabSimbolos.
+	 *
+	 * @return
+	 */
 	public static TabSimbolos getInstance() {
 		return instance;
 	}
-	
-	public Token instalaToken(TokenType tokenType, String lexema, long linha, long coluna){
+
+	/**
+	 * Cria um novo token na instancia de TabSimbolos com as informacoes
+	 * de TokenType, String (lexema), long (numero da linha) e long (numero
+	 * da coluna).
+	 *
+	 * @param tokenType
+	 * @param lexema
+	 * @param linha
+	 * @param coluna
+	 * @return
+	 */
+	public Token instalaToken(TokenType tokenType, String lexema, long linha, long coluna) {
+		
 		Token token = tabela.get(lexema);
 		
-		if(token == null){
+		if (token == null) {
 			token = new Token(tokenType, lexema, linha, coluna);
 			tabela.put(lexema, token);
-		}else{
+		} else {
 			token.setLinha(linha);
 			token.setColuna(coluna);
 		}
 		return token;
+	}
+
+	/**
+	 * Imprime cada um dos itens da tabela no console.
+	 *
+	 */
+	public void printTabSimb() {
+		System.out.println("\nTabela de Simbolos");
+		
+		tabela.forEach((literal, token) -> {
+			System.out.println("\n" + token.getTokenType() + ": " + literal + " \n\tToken : [ " + token.asString() + " ]");
+		});
 	}
 }
