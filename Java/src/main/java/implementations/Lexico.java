@@ -297,7 +297,7 @@ public class Lexico {
 				nextChar = fileLoader.getNextChar();
 				lexemaBuilder.append(nextChar);
 
-				if (nextChar == '+' || nextChar == '-') {
+				if (nextChar == '+') {
 					nextChar = fileLoader.getNextChar();
 					lexemaBuilder.append(nextChar);
 
@@ -348,7 +348,7 @@ public class Lexico {
 				nextChar = fileLoader.getNextChar();
 				lexemaBuilder.append(nextChar);
 
-				if (nextChar == '+' || nextChar == '-') {
+				if (nextChar == '+') {
 					nextChar = fileLoader.getNextChar();
 					lexemaBuilder.append(nextChar);
 
