@@ -1,9 +1,9 @@
 /**
- * André Henrique Pereira
+ * Andre Henrique Pereira
  * Ednaldo Leite Junior
  * Erik Ricardo Balthazar
  * Jean Carlos Guinami Frias
- * Letícia Machado
+ * Leticia Machado
  * Vitor Matheus Reis Marcelo
  */
 package src.main.java.implementations;
