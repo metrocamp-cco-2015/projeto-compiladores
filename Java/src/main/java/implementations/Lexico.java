@@ -116,6 +116,8 @@ public class Lexico {
 
 	/**
 	 * Instala um token do tipo ADDSUB na tabela de simbolos.
+	 * Em caso positivo, instala um token do tipo ADDSUB na tabela de simbolos.
+	 * Em caso negativo, eh adionado um novo erro e procura por um novo Token.
 	 *
 	 * @param lexemaBuilder
 	 * @param col
@@ -123,11 +125,13 @@ public class Lexico {
 	 * @return
 	 */
 	private Token addSub(StringBuilder lexemaBuilder, long col, long line) {
-		return tabSimbolos.instalaToken(TokenType.ADDSUB, lexemaBuilder.toString(), line, col);
+		return new Token(TokenType.ADDSUB, lexemaBuilder.toString(), line, col);
 	}
 
 	/**
 	 * Instala um token do tipo MULTIDIV na tabela de simbolos.
+	 * Em caso positivo, instala um token do tipo MULTIDIV na tabela de simbolos.
+	 * Em caso negativo, eh adionado um novo erro e procura por um novo Token.
 	 *
 	 * @param lexemaBuilder
 	 * @param col
@@ -135,23 +139,27 @@ public class Lexico {
 	 * @return
 	 */
 	private Token multDiv(StringBuilder lexemaBuilder, long col, long line) {
-		return tabSimbolos.instalaToken(TokenType.MULTDIV, lexemaBuilder.toString(), line, col);
+		return new Token(TokenType.MULTDIV, lexemaBuilder.toString(), line, col);
 	}
 
 	/**
 	 * Instala um token do tipo TERM na tabela de simbolos.
-	 *
+	 * Em caso positivo, instala um token do tipo TERM na tabela de simbolos.
+	 * Em caso negativo, eh adionado um novo erro e procura por um novo Token.
+	 * 
 	 * @param lexemaBuilder
 	 * @param col
 	 * @param line
 	 * @return
 	 */
 	private Token term(StringBuilder lexemaBuilder, long col, long line) {
-		return tabSimbolos.instalaToken(TokenType.TERM, lexemaBuilder.toString(), line, col);
+		return new Token(TokenType.TERM, lexemaBuilder.toString(), line, col);
 	}
 
 	/**
-	 * Instala um token do tipo L_PAR na tabela de simbolos.
+	 * Processa um token do tipo L_PAR.
+	 * Em caso positivo, instala um token do tipo L_PAR na tabela de simbolos.
+	 * Em caso negativo, eh adionado um novo erro e procura por um novo Token.
 	 *
 	 * @param lexemaBuilder
 	 * @param col
@@ -159,19 +167,21 @@ public class Lexico {
 	 * @return
 	 */
 	private Token lPar(StringBuilder lexemaBuilder, long col, long line) {
-		return tabSimbolos.instalaToken(TokenType.L_PAR, lexemaBuilder.toString(), line, col);
+		return new Token(TokenType.L_PAR, lexemaBuilder.toString(), line, col);
 	}
 
 	/**
-	 * Instala um token do tipo R_PAR na tabela de simbolos.
-	 *
+	 * Processa um token do tipo R_PAR.
+	 * Em caso positivo, instala um token do tipo R_PAR na tabela de simbolos.
+	 * Em caso negativo, eh adionado um novo erro e procura por um novo Token.
+	 * 
 	 * @param lexemaBuilder
 	 * @param col
 	 * @param line
 	 * @return
 	 */
 	private Token rPar(StringBuilder lexemaBuilder, long col, long line) {
-		return tabSimbolos.instalaToken(TokenType.R_PAR, lexemaBuilder.toString(), line, col);
+		return new Token(TokenType.R_PAR, lexemaBuilder.toString(), line, col);
 	}
 
 	/**
@@ -183,8 +193,8 @@ public class Lexico {
 	 * - &>=&
 	 * - &<>&
 	 *
-	 * Em caso positivo, instala um token do tipo ADDSUB na tabela de simbolos.
-	 *
+	 * Em caso positivo, instala um token do tipo RELOP na tabela de simbolos.
+	 * Em caso negativo, eh adionado um novo erro e procura por um novo Token.
 	 * @param lexemaBuilder
 	 * @param col
 	 * @param line
@@ -232,7 +242,7 @@ public class Lexico {
 				}
 
 			if (nextChar == '&') {
-				token = tabSimbolos.instalaToken(TokenType.RELOP, lexemaBuilder.toString(), line, col);
+				token = new Token(TokenType.RELOP, lexemaBuilder.toString(), line, col);
 			} else {
 				errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_TOKEN_ERROR, col, line));
 				token = this.nextToken();
@@ -249,9 +259,10 @@ public class Lexico {
 
 	/**
 	 * Verifica se o conteudo do lexema pertence ao conjunto ATTRIB:
-	 * - <-
+	 * - <<
 	 *
-	 * Em caso positivo, instala um token do tipo ATTRIB na tabela de simbolos.
+	 * Em caso positivo, retorna um token do tipo ATTRIB.
+	 * Em caso negativo, eh adionado um novo erro e procura por um novo Token.
 	 *
 	 * @param lexemaBuilder
 	 * @param col
@@ -268,7 +279,7 @@ public class Lexico {
 			lexemaBuilder.append(nextChar);
 
 			if (nextChar == '<') {
-				token = tabSimbolos.instalaToken(TokenType.ATTRIB, lexemaBuilder.toString(), line, col);
+				token = new Token(TokenType.ATTRIB, lexemaBuilder.toString(), line, col);
 			} else {
 				errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_TOKEN_ERROR, col, line));
 				token = this.nextToken();
@@ -283,6 +294,7 @@ public class Lexico {
 	/**
 	 * Verifica se o conteudo do lexema lido pertence ao conjunto ID.
 	 * Em caso positivo, instala um token do tipo ID na tabela de simbolos.
+	 * Em caso negativo, eh adionado um novo erro e procura por um novo Token.
 	 *
 	 * @param lexemaBuilder
 	 * @param col
@@ -374,7 +386,8 @@ public class Lexico {
 
 	/**
 	 * Verifica se o conteudo do lexema lido pertence ao conjunto LITERAL.
-	 * Em caso positivo, instala um token do tipo LITERAL na tabela de simbolos.
+	 * Em caso positivo, retorna um token do tipo LITERAL.
+	 * Em caso negativo, eh adionado um novo erro e procura por um novo Token.
 	 *
 	 * @param lexemaBuilder
 	 * @param col
@@ -397,7 +410,7 @@ public class Lexico {
 				}
 			}
 
-			token = tabSimbolos.instalaToken(TokenType.LITERAL, lexemaBuilder.toString(), line, col);
+			token = new Token(TokenType.LITERAL, lexemaBuilder.toString(), line, col);
 		} catch (EOFException e) {
 			errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_TOKEN_ERROR, col, line));
 			token = this.nextToken();
@@ -411,7 +424,8 @@ public class Lexico {
 
 	/**
 	 * Verifica se o conteudo do lexema lido pertence ao conjunto NUM_INT.
-	 * Em caso positivo, instala um token do tipo NUM_INT na tabela de simbolos.
+	 * Em caso positivo, retorna um token do tipo NUM_INT.
+	 * Em caso negativo, eh adionado um novo erro e procura por um novo Token.
 	 *
 	 * @param lexemaBuilder
 	 * @param col
@@ -449,7 +463,7 @@ public class Lexico {
 							}
 							lexemaBuilder.append(nextChar);
 						}
-						token = tabSimbolos.instalaToken(TokenType.NUM_INT, lexemaBuilder.toString(), line, col);
+						token = new Token(TokenType.NUM_INT, lexemaBuilder.toString(), line, col);
 					} else {
 						errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_TOKEN_ERROR, col, line));
 						token = this.nextToken();
@@ -462,10 +476,10 @@ public class Lexico {
 				fileLoader.resetLastChar();
 				lexemaBuilder.deleteCharAt((lexemaBuilder.length() - 1));
 
-				token = tabSimbolos.instalaToken(TokenType.NUM_INT, lexemaBuilder.toString(), line, col);
+				token = new Token(TokenType.NUM_INT, lexemaBuilder.toString(), line, col);
 			}
 		} catch (EOFException e) {
-			token = tabSimbolos.instalaToken(TokenType.NUM_INT, lexemaBuilder.toString(), line, col);
+			token = new Token(TokenType.NUM_INT, lexemaBuilder.toString(), line, col);
 		} catch (IOException e) {
 			errorHandler.addError(new Error(lexemaBuilder.toString(), UNEXPECTED_ERROR, col, line));
 			token = this.nextToken();
@@ -476,7 +490,8 @@ public class Lexico {
 
 	/**
 	 * Verifica se o conteudo do lexema lido pertence ao conjunto NUM_FLOAT.
-	 * Em caso positivo, instala um token do tipo NUM_FLOAT na tabela de simbolos.
+	 * Em caso positivo, retorna um token do tipo NUM_FLOAT.
+	 * Em caso negativo, eh adionado um novo erro e procura por um novo Token.
 	 *
 	 * @param lexemaBuilder
 	 * @param col
@@ -513,7 +528,7 @@ public class Lexico {
 								}
 								lexemaBuilder.append(nextChar);
 							}
-							token = tabSimbolos.instalaToken(TokenType.NUM_FLOAT, lexemaBuilder.toString(), line, col);
+							token = new Token(TokenType.NUM_FLOAT, lexemaBuilder.toString(), line, col);
 						} else {
 							errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_TOKEN_ERROR, col, line));
 							token = this.nextToken();
@@ -525,10 +540,10 @@ public class Lexico {
 				} else {
 					fileLoader.resetLastChar();
 					lexemaBuilder.deleteCharAt((lexemaBuilder.length() - 1));
-					token = tabSimbolos.instalaToken(TokenType.NUM_FLOAT, lexemaBuilder.toString(), line, col);
+					token = new Token(TokenType.NUM_FLOAT, lexemaBuilder.toString(), line, col);
 				}
 			} catch (EOFException e) {
-				token = tabSimbolos.instalaToken(TokenType.NUM_FLOAT, lexemaBuilder.toString(), line, col);
+				token = new Token(TokenType.NUM_FLOAT, lexemaBuilder.toString(), line, col);
 			}
 		} else {
 			errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_TOKEN_ERROR, col, line));
