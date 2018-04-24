@@ -115,9 +115,9 @@ public class Lexico {
 	}
 
 	/**
-	 * Instala um token do tipo ADDSUB na tabela de simbolos.
-	 * Em caso positivo, instala um token do tipo ADDSUB na tabela de simbolos.
-	 * Em caso negativo, eh adionado um novo erro e procura por um novo Token.
+	 * Processa token do tipo ADDSUB.
+	 * Em caso positivo, retorna um token do tipo ADDSUB na tabela de simbolos.
+	 * Em caso negativo, e adicionado um novo erro e procura por um novo Token.
 	 *
 	 * @param lexemaBuilder
 	 * @param col
@@ -129,9 +129,9 @@ public class Lexico {
 	}
 
 	/**
-	 * Instala um token do tipo MULTIDIV na tabela de simbolos.
-	 * Em caso positivo, instala um token do tipo MULTIDIV na tabela de simbolos.
-	 * Em caso negativo, eh adionado um novo erro e procura por um novo Token.
+	 * Processa token do tipo MULTIDIV.
+	 * Em caso positivo, retorna um token do tipo MULTIDIV na tabela de simbolos.
+	 * Em caso negativo, e adicionado um novo erro e procura por um novo Token.
 	 *
 	 * @param lexemaBuilder
 	 * @param col
@@ -143,9 +143,9 @@ public class Lexico {
 	}
 
 	/**
-	 * Instala um token do tipo TERM na tabela de simbolos.
-	 * Em caso positivo, instala um token do tipo TERM na tabela de simbolos.
-	 * Em caso negativo, eh adionado um novo erro e procura por um novo Token.
+	 * Processa token do tipo TERM.
+	 * Em caso positivo, retorna um token do tipo TERM na tabela de simbolos.
+	 * Em caso negativo, e adicionado um novo erro e procura por um novo Token.
 	 * 
 	 * @param lexemaBuilder
 	 * @param col
@@ -158,8 +158,8 @@ public class Lexico {
 
 	/**
 	 * Processa um token do tipo L_PAR.
-	 * Em caso positivo, instala um token do tipo L_PAR na tabela de simbolos.
-	 * Em caso negativo, eh adionado um novo erro e procura por um novo Token.
+	 * Em caso positivo, retorna um token do tipo L_PAR.
+	 * Em caso negativo, e adicionado um novo erro e procura por um novo Token.
 	 *
 	 * @param lexemaBuilder
 	 * @param col
@@ -172,8 +172,8 @@ public class Lexico {
 
 	/**
 	 * Processa um token do tipo R_PAR.
-	 * Em caso positivo, instala um token do tipo R_PAR na tabela de simbolos.
-	 * Em caso negativo, eh adionado um novo erro e procura por um novo Token.
+	 * Em caso positivo, retorna um token do tipo R_PAR.
+	 * Em caso negativo, e adicionado um novo erro e procura por um novo Token.
 	 * 
 	 * @param lexemaBuilder
 	 * @param col
@@ -193,8 +193,9 @@ public class Lexico {
 	 * - &>=&
 	 * - &<>&
 	 *
-	 * Em caso positivo, instala um token do tipo RELOP na tabela de simbolos.
-	 * Em caso negativo, eh adionado um novo erro e procura por um novo Token.
+	 * Em caso positivo, retorna um token do tipo RELOP na tabela de simbolos.
+	 * Em caso negativo, e adicionado um novo erro e procura por um novo Token.
+	 * 
 	 * @param lexemaBuilder
 	 * @param col
 	 * @param line
@@ -262,7 +263,7 @@ public class Lexico {
 	 * - <<
 	 *
 	 * Em caso positivo, retorna um token do tipo ATTRIB.
-	 * Em caso negativo, eh adionado um novo erro e procura por um novo Token.
+	 * Em caso negativo, e adicionado um novo erro e procura por um novo Token.
 	 *
 	 * @param lexemaBuilder
 	 * @param col
@@ -294,7 +295,7 @@ public class Lexico {
 	/**
 	 * Verifica se o conteudo do lexema lido pertence ao conjunto ID.
 	 * Em caso positivo, instala um token do tipo ID na tabela de simbolos.
-	 * Em caso negativo, eh adionado um novo erro e procura por um novo Token.
+	 * Em caso negativo, e adicionado um novo erro e procura por um novo Token.
 	 *
 	 * @param lexemaBuilder
 	 * @param col
@@ -347,6 +348,7 @@ public class Lexico {
 	/**
 	 * Verifica se o conteudo do lexema lido pertence ao conjunto de comentarios.
 	 * Em caso positivo, ignora o lexema.
+	 * Em caso negativo, e adicionado um novo erro e procura por um novo Token.
 	 *
 	 * @param lexemaBuilder
 	 * @param col
@@ -387,7 +389,7 @@ public class Lexico {
 	/**
 	 * Verifica se o conteudo do lexema lido pertence ao conjunto LITERAL.
 	 * Em caso positivo, retorna um token do tipo LITERAL.
-	 * Em caso negativo, eh adionado um novo erro e procura por um novo Token.
+	 * Em caso negativo, e adicionado um novo erro e procura por um novo Token.
 	 *
 	 * @param lexemaBuilder
 	 * @param col
@@ -425,7 +427,7 @@ public class Lexico {
 	/**
 	 * Verifica se o conteudo do lexema lido pertence ao conjunto NUM_INT.
 	 * Em caso positivo, retorna um token do tipo NUM_INT.
-	 * Em caso negativo, eh adionado um novo erro e procura por um novo Token.
+	 * Em caso negativo, e adicionado um novo erro e procura por um novo Token.
 	 *
 	 * @param lexemaBuilder
 	 * @param col
@@ -451,7 +453,7 @@ public class Lexico {
 				nextChar = fileLoader.getNextChar();
 				lexemaBuilder.append(nextChar);
 
-				if (nextChar == '+' || nextChar == '-') {
+				if (nextChar == '+' || nextChar == '-' || Character.isDigit(nextChar)) {
 					nextChar = fileLoader.getNextChar();
 					lexemaBuilder.append(nextChar);
 
@@ -491,7 +493,7 @@ public class Lexico {
 	/**
 	 * Verifica se o conteudo do lexema lido pertence ao conjunto NUM_FLOAT.
 	 * Em caso positivo, retorna um token do tipo NUM_FLOAT.
-	 * Em caso negativo, eh adionado um novo erro e procura por um novo Token.
+	 * Em caso negativo, e adicionado um novo erro e procura por um novo Token.
 	 *
 	 * @param lexemaBuilder
 	 * @param col
@@ -516,7 +518,7 @@ public class Lexico {
 					nextChar = fileLoader.getNextChar();
 					lexemaBuilder.append(nextChar);
 	
-					if (nextChar == '+' || nextChar == '-') {
+					if (nextChar == '+' || nextChar == '-' || Character.isDigit(nextChar)) {
 						nextChar = fileLoader.getNextChar();
 						lexemaBuilder.append(nextChar);
 	
