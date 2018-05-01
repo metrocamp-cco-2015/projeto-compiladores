@@ -24,9 +24,29 @@ public class Lexico {
 	private TabSimbolos tabSimbolos = TabSimbolos.getInstance();
 	private ErrorHandler errorHandler = ErrorHandler.getInstance();
 
-	private static final String INVALID_TOKEN_ERROR = "Token invalido";
+	// Mensagens de erro gerais
+	private static final String INVALID_FORMAT_TOKEN_ERROR = "O valor informado nao se encaixa nos padroes de nenhum dos tokens";
+	private static final String EOF_WHILE_PROCESSING_TOKEN_ERROR = "Final do arquivo encontrado enquanto processava token";
 	private static final String UNEXPECTED_ERROR = "Erro inesperado";
-	//TODO incluir strings especificas para cada erro
+
+	// Mensagens de erro para processar RELOP
+	private static final String INVALID_RELOP_CONTENT_ERROR = "Conteúdo de operador RELOP invalido";
+	private static final String INVALID_RELOP_ENDING_CHARACTER_ERROR = "Finalizacao do operador RELOP invalida";
+
+	// Mensagens de erro para processar ATTRIB
+	private static final String INVALID_ATTRIB_ENDING_CHARACTER_ERROR = "Finalizacao do operador ATTRIB invalida";
+
+	// Mensagens de erro para processar ID
+	private static final String INVALID_UNDERSCORE_FOLLOW_CHARACTER_ERROR = "ID iniciado com '_' deve ser seguido de um caracter";
+
+	// Mensagens de erro para processar COMMENT
+	private static final String INVALID_COMMENT_FOLLOW_CHARACTER_ERROR = "O inicio de um comentario deve ser seguido de '{'";
+	private static final String INVALID_COMMENT_ENDING_CHARACTER_ERROR = "Finalizacao de comentario invalida";
+
+	// Mensagens de erro para processar números
+	private static final String INVALID_NUMERIC_NOTATION_ERROR = "Formato de notacao numerica invalido";
+	private static final String INVALID_LITERAL_IN_NUMBER_ERROR = "Valor literal invalido dentro do valor numerico";
+
 	/**
 	 * Construtor do Lexico.
 	 *
@@ -107,7 +127,7 @@ public class Lexico {
 				}else if(Character.isLetter(nextChar)){
 					token =  id(lexemaBuilder, col, line);
 				}else{
-					errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_TOKEN_ERROR, col, line));
+					errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_FORMAT_TOKEN_ERROR, col, line));
 					token = this.nextToken();
 				}
 		}
@@ -235,21 +255,21 @@ public class Lexico {
 						lexemaBuilder.append(nextChar);
 						break;
 					default:
-						errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_TOKEN_ERROR, col, line));
+						errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_RELOP_CONTENT_ERROR, col, line));
 						return this.nextToken();
 					}
 				}catch (EOFException e) {
-					errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_TOKEN_ERROR, col, line));
+					errorHandler.addError(new Error(lexemaBuilder.toString(), EOF_WHILE_PROCESSING_TOKEN_ERROR, col, line));
 				}
 
 			if (nextChar == '&') {
 				token = new Token(TokenType.RELOP, lexemaBuilder.toString(), line, col);
 			} else {
-				errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_TOKEN_ERROR, col, line));
+				errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_RELOP_ENDING_CHARACTER_ERROR, col, line));
 				token = this.nextToken();
 			}
 		} catch (EOFException e) {
-			errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_TOKEN_ERROR, col, line));
+			errorHandler.addError(new Error(lexemaBuilder.toString(), EOF_WHILE_PROCESSING_TOKEN_ERROR, col, line));
 			token = this.nextToken();
 		} catch (IOException e) {
 			errorHandler.addError(new Error(lexemaBuilder.toString(), UNEXPECTED_ERROR, col, line));
@@ -282,7 +302,7 @@ public class Lexico {
 			if (nextChar == '<') {
 				token = new Token(TokenType.ATTRIB, lexemaBuilder.toString(), line, col);
 			} else {
-				errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_TOKEN_ERROR, col, line));
+				errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_ATTRIB_ENDING_CHARACTER_ERROR, col, line));
 				token = this.nextToken();
 			}
 		} catch (IOException e) {
@@ -314,7 +334,7 @@ public class Lexico {
 				lexemaBuilder.append(nextChar);
 				
 				if(!Character.isLetter(nextChar)) {
-					errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_TOKEN_ERROR, col, line));
+					errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_UNDERSCORE_FOLLOW_CHARACTER_ERROR, col, line));
 					return this.nextToken();
 				}
 			}
@@ -371,11 +391,11 @@ public class Lexico {
 				if (nextChar == '#') {
 					return nextToken();
 				} else {
-					errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_TOKEN_ERROR, col, line));
+					errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_COMMENT_ENDING_CHARACTER_ERROR, col, line));
 					token = this.nextToken();
 				}
 			} else {
-				errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_TOKEN_ERROR, col, line));
+				errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_COMMENT_FOLLOW_CHARACTER_ERROR, col, line));
 				token = this.nextToken();
 			}
 		} catch (IOException e) {
@@ -414,7 +434,7 @@ public class Lexico {
 
 			token = new Token(TokenType.LITERAL, lexemaBuilder.toString(), line, col);
 		} catch (EOFException e) {
-			errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_TOKEN_ERROR, col, line));
+			errorHandler.addError(new Error(lexemaBuilder.toString(), EOF_WHILE_PROCESSING_TOKEN_ERROR, col, line));
 			token = this.nextToken();
 		} catch (IOException e) {
 			errorHandler.addError(new Error(lexemaBuilder.toString(), UNEXPECTED_ERROR, col, line));
@@ -467,11 +487,11 @@ public class Lexico {
 						}
 						token = new Token(TokenType.NUM_INT, lexemaBuilder.toString(), line, col);
 					} else {
-						errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_TOKEN_ERROR, col, line));
+						errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_NUMERIC_NOTATION_ERROR, col, line));
 						token = this.nextToken();
 					}
 				} else {
-					errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_TOKEN_ERROR, col, line));
+					errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_NUMERIC_NOTATION_ERROR, col, line));
 					token = this.nextToken();
 				}
 			} else {
@@ -532,11 +552,11 @@ public class Lexico {
 							}
 							token = new Token(TokenType.NUM_FLOAT, lexemaBuilder.toString(), line, col);
 						} else {
-							errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_TOKEN_ERROR, col, line));
+							errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_NUMERIC_NOTATION_ERROR, col, line));
 							token = this.nextToken();
 						}
 					} else {
-						errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_TOKEN_ERROR, col, line));
+						errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_NUMERIC_NOTATION_ERROR, col, line));
 						token = this.nextToken();
 					}
 				} else {
@@ -548,7 +568,7 @@ public class Lexico {
 				token = new Token(TokenType.NUM_FLOAT, lexemaBuilder.toString(), line, col);
 			}
 		} else {
-			errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_TOKEN_ERROR, col, line));
+			errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_LITERAL_IN_NUMBER_ERROR, col, line));
 			token = this.nextToken();
 		}
 		return token;
