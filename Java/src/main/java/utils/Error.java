@@ -1,5 +1,12 @@
 package src.main.java.utils;
 
+// André Henrique Pereira
+// Ednaldo Leite Junior
+// Erik Ricardo Balthazar
+// Jean Carlos Guinami Frias
+// Letícia Machado
+// Vitor Matheus Reis Marcelo
+
 public class Error {
 
     private String lexema;
