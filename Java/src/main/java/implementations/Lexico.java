@@ -19,6 +19,35 @@ public class Lexico {
 	private static final String INVALID_TOKEN_ERROR = "Token inválido";
 	private static final String UNEXPECTED_ERROR = "Erro inesperado";
 
+<<<<<<< Updated upstream
+=======
+	// Mensagens de erro para processar RELOP
+	private static final String INVALID_RELOP_CONTENT_ERROR = "ConteÃºdo de operador RELOP invalido";
+	private static final String INVALID_RELOP_ENDING_CHARACTER_ERROR = "Finalizacao do operador RELOP invalida";
+
+	// Mensagens de erro para processar ATTRIB
+	private static final String INVALID_ATTRIB_ENDING_CHARACTER_ERROR = "Finalizacao do operador ATTRIB invalida";
+
+	// Mensagens de erro para processar ID
+	private static final String INVALID_UNDERSCORE_FOLLOW_CHARACTER_ERROR = "ID iniciado com '_' deve ser seguido de um caracter";
+
+	// Mensagens de erro para processar COMMENT
+	private static final String INVALID_COMMENT_FOLLOW_CHARACTER_ERROR = "O inicio de um comentario deve ser seguido de '{'";
+	private static final String INVALID_COMMENT_ENDING_CHARACTER_ERROR = "Finalizacao de comentario invalida";
+
+	// Mensagens de erro para processar numeros
+	private static final String INVALID_NUMERIC_NOTATION_ERROR = "Formato de notacao numerica invalido";
+	private static final String INVALID_LITERAL_IN_NUMBER_ERROR = "Valor literal invalido dentro do valor numerico";
+	
+	// Buffer de tokens, utilizado para armazenar tokens processados, mas nao utilizados pelo Sintatico
+	private Token buffer;
+
+	/**
+	 * Construtor do Lexico.
+	 *
+	 * @param filename
+	 */
+>>>>>>> Stashed changes
 	public Lexico(final String filename) {
 		try {
 			fileLoader = new FileLoader(filename);
@@ -28,12 +57,18 @@ public class Lexico {
 	}
 
 	public Token nextToken() throws IOException {
-
+		
 		StringBuilder lexemaBuilder = new StringBuilder();
 		char nextChar;
 		long col;
 		long line;
 		Token token = null;
+		
+		if(this.buffer != null) {
+			token = this.buffer;
+			this.buffer = null;
+			return token;
+		}
 		
 		do{
 			try{
@@ -379,5 +414,15 @@ public class Lexico {
 			token = this.nextToken();
 		}
 		return token;
+	}
+
+	/**
+	 * Reset do ultimo Token, armazenando o token no buffer do Lexico. 
+	 * 
+	 * @param token
+	 * 		- Token que sera resetado e armazenado no buffer
+	 */
+	public void resetLastToken(Token token) {
+		this.buffer = token;
 	}
 }
