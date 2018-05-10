@@ -3,7 +3,7 @@
  * Ednaldo Leite Junior
  * Erik Ricardo Balthazar
  * Jean Carlos Guinami Frias
- * LetÃ­cia Machado
+ * Leticia Machado
  * Vitor Matheus Reis Marcelo
  */
 package src.main.java.implementations;
@@ -24,7 +24,9 @@ public class Lexico {
 	private TabSimbolos tabSimbolos = TabSimbolos.getInstance();
 	private ErrorHandler errorHandler = ErrorHandler.getInstance();
 
-	private static final String INVALID_TOKEN_ERROR = "Token inválido";
+	// Mensagens de erro gerais
+	private static final String INVALID_FORMAT_TOKEN_ERROR = "O valor informado nao se encaixa nos padroes de nenhum dos tokens";
+	private static final String EOF_WHILE_PROCESSING_TOKEN_ERROR = "Final do arquivo encontrado enquanto processava token";
 	private static final String UNEXPECTED_ERROR = "Erro inesperado";
 
 	// Mensagens de erro para processar RELOP
@@ -134,7 +136,7 @@ public class Lexico {
 				}else if(Character.isLetter(nextChar)){
 					token =  id(lexemaBuilder, col, line);
 				}else{
-					errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_TOKEN_ERROR, col, line));
+					errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_FORMAT_TOKEN_ERROR, col, line));
 					token = this.nextToken();
 				}
 		}
@@ -142,7 +144,9 @@ public class Lexico {
 	}
 
 	/**
-	 * Instala um token do tipo ADDSUB na tabela de simbolos.
+	 * Processa token do tipo ADDSUB.
+	 * Em caso positivo, retorna um token do tipo ADDSUB na tabela de simbolos.
+	 * Em caso negativo, e adicionado um novo erro e procura por um novo Token.
 	 *
 	 * @param lexemaBuilder
 	 * @param col
@@ -150,11 +154,13 @@ public class Lexico {
 	 * @return
 	 */
 	private Token addSub(StringBuilder lexemaBuilder, long col, long line) {
-		return tabSimbolos.instalaToken(TokenType.ADDSUB, lexemaBuilder.toString(), line, col);
+		return new Token(TokenType.ADDSUB, lexemaBuilder.toString(), line, col);
 	}
 
 	/**
-	 * Instala um token do tipo MULTIDIV na tabela de simbolos.
+	 * Processa token do tipo MULTIDIV.
+	 * Em caso positivo, retorna um token do tipo MULTIDIV na tabela de simbolos.
+	 * Em caso negativo, e adicionado um novo erro e procura por um novo Token.
 	 *
 	 * @param lexemaBuilder
 	 * @param col
@@ -162,23 +168,27 @@ public class Lexico {
 	 * @return
 	 */
 	private Token multDiv(StringBuilder lexemaBuilder, long col, long line) {
-		return tabSimbolos.instalaToken(TokenType.MULTDIV, lexemaBuilder.toString(), line, col);
+		return new Token(TokenType.MULTDIV, lexemaBuilder.toString(), line, col);
 	}
 
 	/**
-	 * Instala um token do tipo TERM na tabela de simbolos.
-	 *
+	 * Processa token do tipo TERM.
+	 * Em caso positivo, retorna um token do tipo TERM na tabela de simbolos.
+	 * Em caso negativo, e adicionado um novo erro e procura por um novo Token.
+	 * 
 	 * @param lexemaBuilder
 	 * @param col
 	 * @param line
 	 * @return
 	 */
 	private Token term(StringBuilder lexemaBuilder, long col, long line) {
-		return tabSimbolos.instalaToken(TokenType.TERM, lexemaBuilder.toString(), line, col);
+		return new Token(TokenType.TERM, lexemaBuilder.toString(), line, col);
 	}
 
 	/**
-	 * Instala um token do tipo L_PAR na tabela de simbolos.
+	 * Processa um token do tipo L_PAR.
+	 * Em caso positivo, retorna um token do tipo L_PAR.
+	 * Em caso negativo, e adicionado um novo erro e procura por um novo Token.
 	 *
 	 * @param lexemaBuilder
 	 * @param col
@@ -186,19 +196,21 @@ public class Lexico {
 	 * @return
 	 */
 	private Token lPar(StringBuilder lexemaBuilder, long col, long line) {
-		return tabSimbolos.instalaToken(TokenType.L_PAR, lexemaBuilder.toString(), line, col);
+		return new Token(TokenType.L_PAR, lexemaBuilder.toString(), line, col);
 	}
 
 	/**
-	 * Instala um token do tipo R_PAR na tabela de simbolos.
-	 *
+	 * Processa um token do tipo R_PAR.
+	 * Em caso positivo, retorna um token do tipo R_PAR.
+	 * Em caso negativo, e adicionado um novo erro e procura por um novo Token.
+	 * 
 	 * @param lexemaBuilder
 	 * @param col
 	 * @param line
 	 * @return
 	 */
 	private Token rPar(StringBuilder lexemaBuilder, long col, long line) {
-		return tabSimbolos.instalaToken(TokenType.R_PAR, lexemaBuilder.toString(), line, col);
+		return new Token(TokenType.R_PAR, lexemaBuilder.toString(), line, col);
 	}
 
 	/**
@@ -210,14 +222,16 @@ public class Lexico {
 	 * - &>=&
 	 * - &<>&
 	 *
-	 * Em caso positivo, instala um token do tipo ADDSUB na tabela de simbolos.
-	 *
+	 * Em caso positivo, retorna um token do tipo RELOP na tabela de simbolos.
+	 * Em caso negativo, e adicionado um novo erro e procura por um novo Token.
+	 * 
 	 * @param lexemaBuilder
 	 * @param col
 	 * @param line
 	 * @return
+	 * @throws IOException 
 	 */
-	private Token relop(StringBuilder lexemaBuilder, long col, long line) {
+	private Token relop(StringBuilder lexemaBuilder, long col, long line) throws IOException {
 		Token token = null;
 		
 		try {
@@ -225,51 +239,60 @@ public class Lexico {
 			nextChar = fileLoader.getNextChar();
 			lexemaBuilder.append(nextChar);
 
-			switch (nextChar) {
-			case '<':
-				nextChar = fileLoader.getNextChar();
-				lexemaBuilder.append(nextChar);
+				try {
+					switch (nextChar) {
+					case '<':
+						nextChar = fileLoader.getNextChar();
+						lexemaBuilder.append(nextChar);
 
-				if (nextChar == '=' || nextChar == '>') {
-					nextChar = fileLoader.getNextChar();
-					lexemaBuilder.append(nextChar);
-				}
-				break;
-			case '>':
-				nextChar = fileLoader.getNextChar();
-				lexemaBuilder.append(nextChar);
+						if (nextChar == '=' || nextChar == '>') {
+							nextChar = fileLoader.getNextChar();
+							lexemaBuilder.append(nextChar);
+						}
+						break;
+					case '>':
+						nextChar = fileLoader.getNextChar();
+						lexemaBuilder.append(nextChar);
 
-				if (nextChar == '=') {
-					nextChar = fileLoader.getNextChar();
-					lexemaBuilder.append(nextChar);
+						if (nextChar == '=') {
+							nextChar = fileLoader.getNextChar();
+							lexemaBuilder.append(nextChar);
+						}
+						break;
+					case '=':
+						nextChar = fileLoader.getNextChar();
+						lexemaBuilder.append(nextChar);
+						break;
+					default:
+						errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_RELOP_CONTENT_ERROR, col, line));
+						return this.nextToken();
+					}
+				}catch (EOFException e) {
+					errorHandler.addError(new Error(lexemaBuilder.toString(), EOF_WHILE_PROCESSING_TOKEN_ERROR, col, line));
 				}
-				break;
-			case '=':
-				nextChar = fileLoader.getNextChar();
-				lexemaBuilder.append(nextChar);
-				break;
-			default:
-				errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_TOKEN_ERROR, col, line));
-				return this.nextToken();
-			}
 
 			if (nextChar == '&') {
-				token = tabSimbolos.instalaToken(TokenType.RELOP, lexemaBuilder.toString(), line, col);
+				token = new Token(TokenType.RELOP, lexemaBuilder.toString(), line, col);
 			} else {
-				errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_TOKEN_ERROR, col, line));
+				errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_RELOP_ENDING_CHARACTER_ERROR, col, line));
 				token = this.nextToken();
 			}
+		} catch (EOFException e) {
+			errorHandler.addError(new Error(lexemaBuilder.toString(), EOF_WHILE_PROCESSING_TOKEN_ERROR, col, line));
+			token = this.nextToken();
 		} catch (IOException e) {
-			e.printStackTrace();
+			errorHandler.addError(new Error(lexemaBuilder.toString(), UNEXPECTED_ERROR, col, line));
+			token = this.nextToken();
 		}
 		return token;
 	}
 
 	/**
 	 * Verifica se o conteudo do lexema pertence ao conjunto ATTRIB:
-	 * - <-
+	 * - <<
 	 *
-	 * Em caso positivo, instala um token do tipo ATTRIB na tabela de simbolos.
+	 * Em caso positivo, retorna um token do tipo ATTRIB.
+	 * Em caso negativo, e adicionado um novo erro e procura por um novo Token.
 	 *
 	 * @param lexemaBuilder
 	 * @param col
@@ -285,10 +308,10 @@ public class Lexico {
 			nextChar = fileLoader.getNextChar();
 			lexemaBuilder.append(nextChar);
 
-			if (nextChar == '-') {
-				token = tabSimbolos.instalaToken(TokenType.ATTRIB, lexemaBuilder.toString(), line, col);
+			if (nextChar == '<') {
+				token = new Token(TokenType.ATTRIB, lexemaBuilder.toString(), line, col);
 			} else {
-				errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_TOKEN_ERROR, col, line));
+				errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_ATTRIB_ENDING_CHARACTER_ERROR, col, line));
 				token = this.nextToken();
 			}
 		} catch (IOException e) {
@@ -301,6 +324,7 @@ public class Lexico {
 	/**
 	 * Verifica se o conteudo do lexema lido pertence ao conjunto ID.
 	 * Em caso positivo, instala um token do tipo ID na tabela de simbolos.
+	 * Em caso negativo, e adicionado um novo erro e procura por um novo Token.
 	 *
 	 * @param lexemaBuilder
 	 * @param col
@@ -319,7 +343,7 @@ public class Lexico {
 				lexemaBuilder.append(nextChar);
 				
 				if(!Character.isLetter(nextChar)) {
-					errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_TOKEN_ERROR, col, line));
+					errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_UNDERSCORE_FOLLOW_CHARACTER_ERROR, col, line));
 					return this.nextToken();
 				}
 			}
@@ -328,7 +352,7 @@ public class Lexico {
 			lexemaBuilder.append(nextChar);
 			
 			while (isId) {
-				if ((Character.isLetter(nextChar) && nextChar != '&') || Character.isDigit(nextChar)) {
+				if ((Character.isLetter(nextChar) && nextChar != '&') || Character.isDigit(nextChar) || nextChar == '_') {
 					nextChar = fileLoader.getNextChar();
 					lexemaBuilder.append(nextChar);
 				} else {
@@ -353,6 +377,7 @@ public class Lexico {
 	/**
 	 * Verifica se o conteudo do lexema lido pertence ao conjunto de comentarios.
 	 * Em caso positivo, ignora o lexema.
+	 * Em caso negativo, e adicionado um novo erro e procura por um novo Token.
 	 *
 	 * @param lexemaBuilder
 	 * @param col
@@ -375,11 +400,11 @@ public class Lexico {
 				if (nextChar == '#') {
 					return nextToken();
 				} else {
-					errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_TOKEN_ERROR, col, line));
+					errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_COMMENT_ENDING_CHARACTER_ERROR, col, line));
 					token = this.nextToken();
 				}
 			} else {
-				errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_TOKEN_ERROR, col, line));
+				errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_COMMENT_FOLLOW_CHARACTER_ERROR, col, line));
 				token = this.nextToken();
 			}
 		} catch (IOException e) {
@@ -392,7 +417,8 @@ public class Lexico {
 
 	/**
 	 * Verifica se o conteudo do lexema lido pertence ao conjunto LITERAL.
-	 * Em caso positivo, instala um token do tipo LITERAL na tabela de simbolos.
+	 * Em caso positivo, retorna um token do tipo LITERAL.
+	 * Em caso negativo, e adicionado um novo erro e procura por um novo Token.
 	 *
 	 * @param lexemaBuilder
 	 * @param col
@@ -415,7 +441,10 @@ public class Lexico {
 				}
 			}
 
-			token = tabSimbolos.instalaToken(TokenType.LITERAL, lexemaBuilder.toString(), line, col);
+			token = new Token(TokenType.LITERAL, lexemaBuilder.toString(), line, col);
+		} catch (EOFException e) {
+			errorHandler.addError(new Error(lexemaBuilder.toString(), EOF_WHILE_PROCESSING_TOKEN_ERROR, col, line));
+			token = this.nextToken();
 		} catch (IOException e) {
 			errorHandler.addError(new Error(lexemaBuilder.toString(), UNEXPECTED_ERROR, col, line));
 			token = this.nextToken();
@@ -426,7 +455,8 @@ public class Lexico {
 
 	/**
 	 * Verifica se o conteudo do lexema lido pertence ao conjunto NUM_INT.
-	 * Em caso positivo, instala um token do tipo NUM_INT na tabela de simbolos.
+	 * Em caso positivo, retorna um token do tipo NUM_INT.
+	 * Em caso negativo, e adicionado um novo erro e procura por um novo Token.
 	 *
 	 * @param lexemaBuilder
 	 * @param col
@@ -452,7 +482,7 @@ public class Lexico {
 				nextChar = fileLoader.getNextChar();
 				lexemaBuilder.append(nextChar);
 
-				if (nextChar == '+') {
+				if (nextChar == '+' || nextChar == '-' || Character.isDigit(nextChar)) {
 					nextChar = fileLoader.getNextChar();
 					lexemaBuilder.append(nextChar);
 
@@ -464,21 +494,23 @@ public class Lexico {
 							}
 							lexemaBuilder.append(nextChar);
 						}
-						token = tabSimbolos.instalaToken(TokenType.NUM_INT, lexemaBuilder.toString(), line, col);
+						token = new Token(TokenType.NUM_INT, lexemaBuilder.toString(), line, col);
 					} else {
-						errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_TOKEN_ERROR, col, line));
+						errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_NUMERIC_NOTATION_ERROR, col, line));
 						token = this.nextToken();
 					}
 				} else {
-					errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_TOKEN_ERROR, col, line));
+					errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_NUMERIC_NOTATION_ERROR, col, line));
 					token = this.nextToken();
 				}
 			} else {
 				fileLoader.resetLastChar();
 				lexemaBuilder.deleteCharAt((lexemaBuilder.length() - 1));
 
-				token = tabSimbolos.instalaToken(TokenType.NUM_INT, lexemaBuilder.toString(), line, col);
+				token = new Token(TokenType.NUM_INT, lexemaBuilder.toString(), line, col);
 			}
+		} catch (EOFException e) {
+			token = new Token(TokenType.NUM_INT, lexemaBuilder.toString(), line, col);
 		} catch (IOException e) {
 			errorHandler.addError(new Error(lexemaBuilder.toString(), UNEXPECTED_ERROR, col, line));
 			token = this.nextToken();
@@ -489,7 +521,8 @@ public class Lexico {
 
 	/**
 	 * Verifica se o conteudo do lexema lido pertence ao conjunto NUM_FLOAT.
-	 * Em caso positivo, instala um token do tipo NUM_FLOAT na tabela de simbolos.
+	 * Em caso positivo, retorna um token do tipo NUM_FLOAT.
+	 * Em caso negativo, e adicionado um novo erro e procura por um novo Token.
 	 *
 	 * @param lexemaBuilder
 	 * @param col
@@ -504,43 +537,47 @@ public class Lexico {
 		lexemaBuilder.append(nextChar);
 
 		if (Character.isDigit(nextChar)) {
-			do {
-				nextChar = fileLoader.getNextChar();
-				lexemaBuilder.append(nextChar);
-			} while (Character.isDigit(nextChar));
-
-			if (nextChar == 'e' || nextChar == 'E') {
-				nextChar = fileLoader.getNextChar();
-				lexemaBuilder.append(nextChar);
-
-				if (nextChar == '+') {
+			try {
+				do {
 					nextChar = fileLoader.getNextChar();
 					lexemaBuilder.append(nextChar);
-
-					if (Character.isDigit(nextChar)) {
-						while (true) {
-							nextChar = fileLoader.getNextChar();
-							if (!Character.isDigit(nextChar)) {
-								break;
+				} while (Character.isDigit(nextChar));
+	
+				if (nextChar == 'e' || nextChar == 'E') {
+					nextChar = fileLoader.getNextChar();
+					lexemaBuilder.append(nextChar);
+	
+					if (nextChar == '+' || nextChar == '-' || Character.isDigit(nextChar)) {
+						nextChar = fileLoader.getNextChar();
+						lexemaBuilder.append(nextChar);
+	
+						if (Character.isDigit(nextChar)) {
+							while (true) {
+								nextChar = fileLoader.getNextChar();
+								if (!Character.isDigit(nextChar)) {
+									break;
+								}
+								lexemaBuilder.append(nextChar);
 							}
-							lexemaBuilder.append(nextChar);
+							token = new Token(TokenType.NUM_FLOAT, lexemaBuilder.toString(), line, col);
+						} else {
+							errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_NUMERIC_NOTATION_ERROR, col, line));
+							token = this.nextToken();
 						}
-						token = tabSimbolos.instalaToken(TokenType.NUM_FLOAT, lexemaBuilder.toString(), line, col);
 					} else {
-						errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_TOKEN_ERROR, col, line));
+						errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_NUMERIC_NOTATION_ERROR, col, line));
 						token = this.nextToken();
 					}
 				} else {
-					errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_TOKEN_ERROR, col, line));
-					token = this.nextToken();
+					fileLoader.resetLastChar();
+					lexemaBuilder.deleteCharAt((lexemaBuilder.length() - 1));
+					token = new Token(TokenType.NUM_FLOAT, lexemaBuilder.toString(), line, col);
 				}
-			} else {
-				fileLoader.resetLastChar();
-				lexemaBuilder.deleteCharAt((lexemaBuilder.length() - 1));
-				token = tabSimbolos.instalaToken(TokenType.NUM_FLOAT, lexemaBuilder.toString(), line, col);
+			} catch (EOFException e) {
+				token = new Token(TokenType.NUM_FLOAT, lexemaBuilder.toString(), line, col);
 			}
 		} else {
-			errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_TOKEN_ERROR, col, line));
+			errorHandler.addError(new Error(lexemaBuilder.toString(), INVALID_LITERAL_IN_NUMBER_ERROR, col, line));
 			token = this.nextToken();
 		}
 		return token;

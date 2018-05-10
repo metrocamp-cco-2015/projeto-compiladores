@@ -1,11 +1,13 @@
-package src.main.java.utils;
+/**
+ * Andre Henrique Pereira
+ * Ednaldo Leite Junior
+ * Erik Ricardo Balthazar
+ * Jean Carlos Guinami Frias
+ * Leticia Machado
+ * Vitor Matheus Reis Marcelo
+ */
 
-// André Henrique Pereira
-// Ednaldo Leite Junior
-// Erik Ricardo Balthazar
-// Jean Carlos Guinami Frias
-// Letícia Machado
-// Vitor Matheus Reis Marcelo
+package src.main.java.utils;
 
 public enum TokenType {
 

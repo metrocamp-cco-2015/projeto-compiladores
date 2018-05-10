@@ -1,13 +1,14 @@
+/**
+ * Andre Henrique Pereira
+ * Ednaldo Leite Junior
+ * Erik Ricardo Balthazar
+ * Jean Carlos Guinami Frias
+ * Leticia Machado
+ * Vitor Matheus Reis Marcelo
+ */
 package src.main.java.implementations;
 
 import src.main.java.utils.TokenType;
-
-// André Henrique Pereira
-// Ednaldo Leite Junior
-// Erik Ricardo Balthazar
-// Jean Carlos Guinami Frias
-// Letícia Machado
-// Vitor Matheus Reis Marcelo
 
 public class Token {
 	
