@@ -125,7 +125,6 @@ public class Sintatico {
 		}else {
 			//TODO lança erro por nao possuir o token end_prog 
 			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstá faltando o 'fimprog'");
-			//TODO processa o BLOCO
 		}
 	}
 	
