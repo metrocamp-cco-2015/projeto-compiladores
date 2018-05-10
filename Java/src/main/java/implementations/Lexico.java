@@ -43,9 +43,12 @@ public class Lexico {
 	private static final String INVALID_COMMENT_FOLLOW_CHARACTER_ERROR = "O inicio de um comentario deve ser seguido de '{'";
 	private static final String INVALID_COMMENT_ENDING_CHARACTER_ERROR = "Finalizacao de comentario invalida";
 
-	// Mensagens de erro para processar números
+	// Mensagens de erro para processar numeros
 	private static final String INVALID_NUMERIC_NOTATION_ERROR = "Formato de notacao numerica invalido";
 	private static final String INVALID_LITERAL_IN_NUMBER_ERROR = "Valor literal invalido dentro do valor numerico";
+	
+	// Buffer de tokens, utilizado para armazenar tokens processados, mas nao utilizados pelo Sintatico
+	private Token buffer;
 
 	/**
 	 * Construtor do Lexico.
@@ -68,12 +71,18 @@ public class Lexico {
 	 * @throws IOException
 	 */
 	public Token nextToken() throws IOException {
-
+		
 		StringBuilder lexemaBuilder = new StringBuilder();
 		char nextChar;
 		long col;
 		long line;
 		Token token = null;
+		
+		if(this.buffer != null) {
+			token = this.buffer;
+			this.buffer = null;
+			return token;
+		}
 		
 		do{
 			try{
