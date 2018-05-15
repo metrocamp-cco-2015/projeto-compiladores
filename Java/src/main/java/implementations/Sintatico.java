@@ -60,11 +60,11 @@ public class Sintatico {
 		token = lexico.nextToken();
 		
 		if(token.getTokenType().equals(TokenType.PROGRAM)) {
-			lastInitProgram();
+			beforeInitProgram();
 		}else {
 			//TODO lança erro por nao possuir o 'programa'
 			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstá faltando o 'programa'");
-			lastInitProgram();
+			beforeInitProgram();
 		}
 	}
 
@@ -72,7 +72,7 @@ public class Sintatico {
 	 * Verifica a sintaxe depois do token PROGRAM, ou a falta dele 
 	 * @throws IOException
 	 */
-	private void lastInitProgram() throws IOException {
+	private void beforeInitProgram() throws IOException {
 		if(token.getTokenType().equals(TokenType.ID)) {
 			token = lexico.nextToken();
 			if(token.getTokenType().equals(TokenType.TERM)) {
@@ -114,7 +114,6 @@ public class Sintatico {
 	 * @throws IOException
 	 */
 	private void endProgram() throws IOException {
-		Token token;
 		token = lexico.nextToken();
 		if(token.getTokenType().equals(TokenType.END_PROG)) {
 			token = lexico.nextToken();
@@ -128,5 +127,23 @@ public class Sintatico {
 		}
 	}
 	
+	/**
+	 * Verifica se a sintaxe do BLOCO esta correta
+	 * @throws Exception 
+	 */
+	private void bloco() throws Exception {
+		token = lexico.nextToken();
+		
+		if(token.equals(TokenType.BEGIN)) {
+			// TODO processa CMDS
+			
+			token = lexico.nextToken();
+			if(!token.equals(TokenType.END)) {
+				// TODO lanca erro por nao vir o token 'end' 
+			}
+		}else {
+			// TODO processa CMD
+		}
+	}
 	
 }
