@@ -173,7 +173,7 @@ public class Sintatico {
 	}
 	
 	/**
-	 * Verifica a sintaxe a FVALLOG esta correta
+	 * Verifica a sintaxe do FVALLOG esta correta
 	 * @throws IOException 
 	 */
 	@SuppressWarnings("unused")
@@ -184,6 +184,57 @@ public class Sintatico {
 			//TODO processa o procExplo
 		}else {
 			lexico.resetLastToken(token);
+		}
+	}
+	
+	/**
+	 * Verifica a sintaxe do XEXPNUM esta correta
+	 * @throws IOException 
+	 */
+	@SuppressWarnings("unused")
+	//TODO remover SuppressWarnings quando finalizar 
+	private void procXexpnum() throws IOException {
+		token = lexico.nextToken();
+		
+		if(token.getTokenType().equals(TokenType.ADDSUB)) {
+			lexico.resetLastToken(token);
+			procOpnum();
+		}else {
+			lexico.resetLastToken(token);
+		}
+	}
+	
+	/**
+	 * Verifica a sintaxe do OPNUM esta correta
+	 * @throws IOException 
+	 */
+	private void procOpnum() throws IOException {
+		token = lexico.nextToken();
+		
+		if(token.getTokenType().equals(TokenType.ADDSUB)) {
+			
+		}else {
+			//TODO lanca erro por nao possuir um sinal de + ou de -
+			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstá faltando o '+' ou '-'");
+		}
+	}
+	
+	
+	/**
+	 * Verifica a sintaxe do VAL esta correta
+	 * @throws IOException 
+	 */
+	@SuppressWarnings("unused")
+	// TODO remover SuppressWarnings quando finalizar 
+	private void procVal() throws IOException {
+		token = lexico.nextToken();
+		
+		if(!token.getTokenType().equals(TokenType.ID) 
+				|| !token.getTokenType().equals(TokenType.NUM_INT)
+				|| !token.getTokenType().equals(TokenType.NUM_FLOAT)) {
+			
+			//TODO lanca erro por nao possuir um ID, NUM_INT ou NUM_FLOAT
+			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstá faltando um identificador, ou um número.");
 		}
 	}
 	
