@@ -8,11 +8,10 @@
  */
 package src.main.java.implementations;
 
-import src.main.java.utils.ErrorHandler;
-import src.main.java.utils.TabSimbolos;
-import src.main.java.utils.TokenType;
-
 import java.io.IOException;
+
+import src.main.java.utils.ErrorHandler;
+import src.main.java.utils.TokenType;
 
 public class Sintatico {
 
@@ -29,7 +28,12 @@ public class Sintatico {
 	public void processar() throws IOException {
 		System.out.println("Iniciando processamento do arquivo...\n\n\n");
 		
-		initProgram();
+		try {
+			procS();
+		} catch (Exception e) {
+			// TODO lanca erro de execucao
+			e.printStackTrace();
+		}
 		
 		/*while(token.getTokenType() != TokenType.EOF){
 			System.out.println(token.asString());
@@ -39,8 +43,9 @@ public class Sintatico {
 		// Imprime relatorio de erros
 		ErrorHandler.getInstance().showErrors();
 
+		// TODO descomentar após os testes
 		// Imprime Tabela de Simbolos
-		TabSimbolos.getInstance().printTabSimb();
+		//TabSimbolos.getInstance().printTabSimb();
 	}
 
 	/**
@@ -54,58 +59,79 @@ public class Sintatico {
 	
 	/**
 	 * Inicializa o processamento dos Tokens verificando a sintaxe da linguagem
-	 * @throws IOException
+	 * @throws Exception 
 	 */
-	private void initProgram() throws IOException {
+	//TODO melhorar esse metodo
+	private void procS() throws Exception {
 		token = lexico.nextToken();
 		
 		if(token.getTokenType().equals(TokenType.PROGRAM)) {
-			beforeInitProgram();
+			procContS();
 		}else {
 			//TODO lança erro por nao possuir o 'programa'
 			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstá faltando o 'programa'");
-			beforeInitProgram();
+			
+			if(token.getTokenType().equals(TokenType.ID)) {
+				token = lexico.nextToken();
+				if(token.getTokenType().equals(TokenType.TERM)) {
+					//Processa o Bloco
+					procBloco();
+					//Processa o final do programa
+					procEndS();
+				}else {
+					//TODO lança erro por nao possuir o ';'
+					System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstá faltando um ';'");
+					
+					lexico.resetLastToken(token);
+					//Processa o Bloco
+					procBloco();
+					//Processa o final do programa
+					procEndS();
+				}
+			}else {
+				procContS();
+			}
 		}
 	}
 
 	/**
-	 * Verifica a sintaxe depois do token PROGRAM, ou a falta dele 
+	 * Continuacao do processamento do S
+	 * 
 	 * @throws IOException
+	 * @throws Exception
 	 */
-	private void beforeInitProgram() throws IOException {
+	private void procContS() throws IOException, Exception {
+		//Processa o programa depois de ter lido o token 'PROGRAM'
+		token = lexico.nextToken();
 		if(token.getTokenType().equals(TokenType.ID)) {
 			token = lexico.nextToken();
 			if(token.getTokenType().equals(TokenType.TERM)) {
-				//TODO processa BLOCO
-				endProgram();
+				//Processa o Bloco
+				procBloco();
+				//Processa o final do programa
+				procEndS();
 			}else {
 				//TODO lança erro por nao possuir o ';'
 				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstá faltando um ';'");
-				//TODO processa BLOCO
 				
-				endProgram();
+				lexico.resetLastToken(token);
+				//Processa o Bloco
+				procBloco();
+				//Processa o final do programa
+				procEndS();
 			}
 		}else {
-			token = lexico.nextToken();
-			if(token.getTokenType().equals(TokenType.ID)) {
-				token = lexico.nextToken();
-				if(token.getTokenType().equals(TokenType.TERM)) {
-					//TODO processa BLOCO
-					endProgram();
-				}else {
-					//TODO lança erro por nao possuir o ';'
-					System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstá faltando um ';'");
-					//TODO processa BLOCO
-					
-					endProgram();
-				}
-			}else {
-				//TODO lança erro por nao possuir um ID
-				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstá faltando o identificador do programa");
-				//TODO processa BLOCO
-				
-				endProgram();
+			//TODO lança erro por nao possuir um ID
+			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstá faltando o identificador do programa");
+			if(!token.getTokenType().equals(TokenType.TERM)) {
+				//TODO lança erro por nao possuir o ';'
+				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstá faltando um ';'");
+				lexico.resetLastToken(token);
 			}
+			//Processa o Bloco
+			procBloco();
+			//Processa o final do programa
+			procEndS();
 		}
 	}
 
@@ -113,7 +139,7 @@ public class Sintatico {
 	 * Verifica a sintaxe depois do BLOCO ser processado, verificando se o final do programa esta certo
 	 * @throws IOException
 	 */
-	private void endProgram() throws IOException {
+	private void procEndS() throws IOException {
 		token = lexico.nextToken();
 		if(token.getTokenType().equals(TokenType.END_PROG)) {
 			token = lexico.nextToken();
@@ -131,18 +157,33 @@ public class Sintatico {
 	 * Verifica se a sintaxe do BLOCO esta correta
 	 * @throws Exception 
 	 */
-	private void bloco() throws Exception {
+	private void procBloco() throws Exception {
 		token = lexico.nextToken();
 		
-		if(token.equals(TokenType.BEGIN)) {
+		if(token.getTokenType().equals(TokenType.BEGIN)) {
 			// TODO processa CMDS
 			
 			token = lexico.nextToken();
-			if(!token.equals(TokenType.END)) {
+			if(!token.getTokenType().equals(TokenType.END)) {
 				// TODO lanca erro por nao vir o token 'end' 
 			}
 		}else {
 			// TODO processa CMD
+		}
+	}
+	
+	/**
+	 * Verifica a sintaxe a FVALLOG esta correta
+	 * @throws IOException 
+	 */
+	@SuppressWarnings("unused")
+	//TODO remover SuppressWarnings quando finalizar 
+	private void procFvallog() throws IOException {
+		token = lexico.nextToken();
+		if(token.getTokenType().equals(TokenType.LOGIC_OP)) {
+			//TODO processa o procExplo
+		}else {
+			lexico.resetLastToken(token);
 		}
 	}
 	
