@@ -290,6 +290,11 @@ public class Sintatico {
     //TODO remover SuppressWarnings quando finalizar
     private void procCndb() throws Exception {
         token = lexico.nextToken();
+
+        if (token.getTokenType().equals(TokenType.ELSE)) {
+            //TODO verifica FIRST do procBloco
+            procBloco();
+        }
     }
 
     /**
