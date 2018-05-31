@@ -11,12 +11,14 @@ package src.main.java.implementations;
 import java.io.IOException;
 
 import src.main.java.utils.ErrorHandler;
+import src.main.java.utils.FirstFollow;
 import src.main.java.utils.TokenType;
 
 public class Sintatico {
 
 	private Lexico lexico;
 	private Token token;
+	private FirstFollow firstFollow = new FirstFollow();
 
 	/**
 	 * Realiza o processamento do arquivo ate encontrar um token EOF.
@@ -238,6 +240,7 @@ public class Sintatico {
 		}
 	}
 
+<<<<<<< HEAD
 	private void procFexpnum_3() throws IOException{
 		token = lexico.nextToken();
 
@@ -265,4 +268,141 @@ public class Sintatico {
 
 
 	}
+=======
+	/**
+	 * Verifica a sintaxe do REP esta correta
+	 * @throws IOException
+	 */
+	private void procRep() throws IOException {
+		token = lexico.nextToken();
+
+		if(token.getTokenType().equals(TokenType.FOR)) {
+			lexico.resetLastToken(token);
+			procRepF();
+		}else if (token.getTokenType().equals(TokenType.WHILE)) {
+			lexico.resetLastToken(token);
+			//TODO função não implementada procRepW().
+			//procRepW();
+		} else {
+			//TODO lanca erro por não ser FOR nem WHILE
+			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken não é FOR nem WHILE.");
+		}
+	}
+
+	/**
+	 * Verifica a sintaxe do REPF esta correta
+	 * @throws IOException
+	 */
+	private void procRepF() throws IOException {
+		token = lexico.nextToken();
+
+		if(token.getTokenType().equals(TokenType.FOR)) {
+			token = lexico.nextToken();
+
+			if(token.getTokenType().equals(TokenType.ID)) {
+				token = lexico.nextToken();
+
+				if(token.getTokenType().equals(TokenType.ATTRIB)) {
+					token = lexico.nextToken();
+
+					if(firstFollow.isFirstExpnum(token)) {
+						lexico.resetLastToken(token);
+						//TODO função não implementada procExpNum().
+						//procExpNum();
+						token = lexico.nextToken();
+
+						if(token.getTokenType().equals(TokenType.TO)) {
+							token = lexico.nextToken();
+
+							if(firstFollow.isFirstExpnum(token)) {
+								lexico.resetLastToken(token);
+								//TODO função não implementada procExpNum().
+								//procExpNum();
+								token = lexico.nextToken();
+
+								if(token.getTokenType().equals(TokenType.BEGIN)
+										|| token.getTokenType().equals(TokenType.DECLARE)
+										|| token.getTokenType().equals(TokenType.IF)
+										|| token.getTokenType().equals(TokenType.ID)
+										|| token.getTokenType().equals(TokenType.FOR)
+										|| token.getTokenType().equals(TokenType.WHILE)) {
+									lexico.resetLastToken(token);
+									//Todo Processa o Bloco
+									//procBloco();
+									token = lexico.nextToken();
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		else {
+			//TODO lanca erro por não ser FOR nem WHILE
+			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken não é FOR nem WHILE.");
+		}
+	}
+
+	/**
+	 * Verifica a sintaxe do EXPNUM esta correta
+	 * @throws IOException
+	 */
+	private void procExpnum() throws IOException {
+		token = lexico.nextToken();
+
+		if(token.getTokenType().equals(TokenType.L_PAR)) {
+			lexico.resetLastToken(token);
+			procVal();
+			token = lexico.nextToken();
+
+			if(firstFollow.isFirstExpnum(token)) {
+				lexico.resetLastToken(token);
+				procExpnum();
+				token = lexico.nextToken();
+
+				if(!token.getTokenType().equals(TokenType.R_PAR)) {
+					//TODO lanca erro.
+					System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken não é ')'");
+				}
+
+			}
+		} else if(firstFollow.isFirstVal(token)) {
+			lexico.resetLastToken(token);
+			procVal();
+			token = lexico.nextToken();
+
+			if(firstFollow.isFirstXexpnum(token)) {
+				lexico.resetLastToken(token);
+				procXexpnum();
+			}
+
+		} else {
+			//TODO lanca erro por não ser FOR nem WHILE
+			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken não é FOR nem WHILE.");
+		}
+	}
+
+	/**
+	 * Verifica a sintaxe do REPW esta correta
+	 * @throws IOException
+
+	private void procRepw() throws IOException {
+		token = lexico.nextToken();
+
+		if (token.getTokenType().equals(TokenType.WHILE)) {
+			token = lexico.nextToken();
+
+			if (token.getTokenType().equals(TokenType.ID)) {
+				token = lexico.nextToken();
+
+				if (token.getTokenType().equals(TokenType.ATTRIB)) {
+					token = lexico.nextToken();
+			}
+
+		} else {
+			//TODO lanca erro por não ser FOR nem WHILE
+			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken não é FOR nem WHILE.");
+		}
+	}*/
+>>>>>>> origin/leticia
 }
