@@ -43,7 +43,7 @@ public class Sintatico {
 		// Imprime relatorio de erros
 		ErrorHandler.getInstance().showErrors();
 
-		// TODO descomentar após os testes
+		// TODO descomentar apï¿½s os testes
 		// Imprime Tabela de Simbolos
 		//TabSimbolos.getInstance().printTabSimb();
 	}
@@ -68,8 +68,8 @@ public class Sintatico {
 		if(token.getTokenType().equals(TokenType.PROGRAM)) {
 			procContS();
 		}else {
-			//TODO lança erro por nao possuir o 'programa'
-			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstá faltando o 'programa'");
+			//TODO lanï¿½a erro por nao possuir o 'programa'
+			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstï¿½ faltando o 'programa'");
 			
 			if(token.getTokenType().equals(TokenType.ID)) {
 				token = lexico.nextToken();
@@ -79,8 +79,8 @@ public class Sintatico {
 					//Processa o final do programa
 					procEndS();
 				}else {
-					//TODO lança erro por nao possuir o ';'
-					System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstá faltando um ';'");
+					//TODO lanï¿½a erro por nao possuir o ';'
+					System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstï¿½ faltando um ';'");
 					
 					lexico.resetLastToken(token);
 					//Processa o Bloco
@@ -111,8 +111,8 @@ public class Sintatico {
 				//Processa o final do programa
 				procEndS();
 			}else {
-				//TODO lança erro por nao possuir o ';'
-				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstá faltando um ';'");
+				//TODO lanï¿½a erro por nao possuir o ';'
+				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstï¿½ faltando um ';'");
 				
 				lexico.resetLastToken(token);
 				//Processa o Bloco
@@ -121,11 +121,11 @@ public class Sintatico {
 				procEndS();
 			}
 		}else {
-			//TODO lança erro por nao possuir um ID
-			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstá faltando o identificador do programa");
+			//TODO lanï¿½a erro por nao possuir um ID
+			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstï¿½ faltando o identificador do programa");
 			if(!token.getTokenType().equals(TokenType.TERM)) {
-				//TODO lança erro por nao possuir o ';'
-				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstá faltando um ';'");
+				//TODO lanï¿½a erro por nao possuir o ';'
+				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstï¿½ faltando um ';'");
 				lexico.resetLastToken(token);
 			}
 			//Processa o Bloco
@@ -144,12 +144,12 @@ public class Sintatico {
 		if(token.getTokenType().equals(TokenType.END_PROG)) {
 			token = lexico.nextToken();
 			if(!token.getTokenType().equals(TokenType.TERM)) {
-				//TODO lança erro por nao possuir o token term
-				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstá faltando um ';'");
+				//TODO lanï¿½a erro por nao possuir o token term
+				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstï¿½ faltando um ';'");
 			}
 		}else {
-			//TODO lança erro por nao possuir o token end_prog 
-			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstá faltando o 'fimprog'");
+			//TODO lanï¿½a erro por nao possuir o token end_prog 
+			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstï¿½ faltando o 'fimprog'");
 		}
 	}
 	
@@ -162,16 +162,173 @@ public class Sintatico {
 		
 		if(token.getTokenType().equals(TokenType.BEGIN)) {
 			// TODO processa CMDS
-			
+
+			procCmds();
+
 			token = lexico.nextToken();
 			if(!token.getTokenType().equals(TokenType.END)) {
 				// TODO lanca erro por nao vir o token 'end' 
 			}
 		}else {
 			// TODO processa CMD
+			procCmd();
 		}
 	}
-	
+
+    /**
+     * Verifica se a sintaxe do CMD esta correta
+     * @throws Exception
+     */
+	private void procCmd() throws Exception {
+		token = lexico.nextToken();
+
+        if(token.getTokenType().equals(TokenType.DECLARE)){
+            lexico.resetLastToken(token);
+            procDecl();
+        } else if(token.getTokenType().equals(TokenType.IF)){
+            lexico.resetLastToken(token);
+            procCond();
+        } else if(token.getTokenType().equals(TokenType.FOR)){
+            lexico.resetLastToken(token);
+            //TODO processa o procRepf
+        } else if(token.getTokenType().equals(TokenType.WHILE)){
+            lexico.resetLastToken(token);
+            //TODO processa o procRepw
+        } else if(token.getTokenType().equals(TokenType.ID)){
+            lexico.resetLastToken(token);
+            //TODO processa o procAttrib
+        } else {
+            //TODO lanca erro por nao conseguir processar o token dentro da sintaxe esperada para CMD
+            System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nNao conseguiu processar CMD.");
+        }
+	}
+
+    /**
+     * Verifica se a sintaxe do CMDS esta correta
+     * @throws Exception
+     */
+	private void procCmds() throws Exception{
+		token = lexico.nextToken();
+
+		if(token.getTokenType().equals(TokenType.DECLARE)){
+			lexico.resetLastToken(token);
+			procDecl();
+			procCmds();
+		} else if(token.getTokenType().equals(TokenType.IF)){
+			lexico.resetLastToken(token);
+			procCond();
+			procCmds();
+		} else if(token.getTokenType().equals(TokenType.FOR)){
+			lexico.resetLastToken(token);
+            //TODO processa o procRepf
+			procCmds();
+		} else if(token.getTokenType().equals(TokenType.WHILE)){
+			lexico.resetLastToken(token);
+            //TODO processa o procRepw
+			procCmds();
+		} else if(token.getTokenType().equals(TokenType.ID)){
+			lexico.resetLastToken(token);
+            //TODO processa o procAttrib
+			procCmds();
+		}
+	}
+
+    /**
+     * Verifica se a sintaxe do COND esta correta
+     * @throws Exception
+     */
+    @SuppressWarnings("unused")
+    //TODO remover SuppressWarnings quando finalizar
+	private void procCond() throws Exception {
+        token = lexico.nextToken();
+
+        if (token.getTokenType().equals(TokenType.IF)) {
+            token = lexico.nextToken();
+
+            if (token.getTokenType().equals(TokenType.L_PAR)) {
+                //TODO verifica FIRST do procExplo
+                //TODO processa procExplo
+                token = lexico.nextToken();
+
+                if (token.getTokenType().equals(TokenType.R_PAR)) {
+                    token = lexico.nextToken();
+
+                    if (token.getTokenType().equals(TokenType.THEN)) {
+                        //TODO verifica FIRST do procBloco
+                        procBloco();
+                        //TODO verifica FIRST do procCndb
+                        procCndb();
+
+                    } else {
+                        //TODO lanca erro por nao conseguir processar o token THEN dentro da sintaxe esperada para COND
+                        System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken THEN nÃ£o encontrado.");
+                    }
+
+                } else {
+                    //TODO lanca erro por nao conseguir processar o token R_PAR dentro da sintaxe esperada para COND
+                    System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken R_PAR nÃ£o encontrado.");
+                }
+
+            } else {
+                //TODO lanca erro por nao conseguir processar o token L_PAR dentro da sintaxe esperada para COND
+                System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken L_PAR nÃ£o encontrado.");
+            }
+
+        } else {
+            //TODO lanca erro por nao conseguir processar o token IF dentro da sintaxe esperada para COND
+            System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken IF nÃ£o encontrado.");
+        }
+	}
+
+    /**
+     * Verifica se a sintaxe do CNDB esta correta
+     * @throws Exception
+     */
+    @SuppressWarnings("unused")
+    //TODO remover SuppressWarnings quando finalizar
+    private void procCndb() throws Exception {
+        token = lexico.nextToken();
+    }
+
+    /**
+     * Verifica se a sintaxe do DECL esta correta
+     * @throws Exception
+     */
+    @SuppressWarnings("unused")
+    //TODO remover SuppressWarnings quando finalizar
+	private void procDecl() throws Exception {
+        token = lexico.nextToken();
+
+        if (token.getTokenType().equals(TokenType.DECLARE)) {
+            token = lexico.nextToken();
+
+            if (token.getTokenType().equals(TokenType.ID)) {
+                token = lexico.nextToken();
+
+                if (token.getTokenType().equals(TokenType.TYPE)) {
+                    token = lexico.nextToken();
+
+                    if (!token.getTokenType().equals(TokenType.TERM)) {
+                        //TODO lanca erro por nao conseguir processar o token TERM dentro da sintaxe esperada para DECLARE
+                        System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken TERM nÃ£o encontrado.");
+                    }
+
+                } else {
+                    //TODO lanca erro por nao conseguir processar o token TYPE dentro da sintaxe esperada para DECLARE
+                    System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken TYPE nÃ£o encontrado.");
+                }
+
+            } else {
+                //TODO lanca erro por nao conseguir processar o token ID dentro da sintaxe esperada para DECLARE
+                System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken ID nÃ£o encontrado.");
+            }
+
+        } else {
+            //TODO lanca erro por nao conseguir processar o token DECLARE dentro da sintaxe esperada para DECLARE
+            System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken DECLARE nÃ£o encontrado.");
+        }
+    }
+
 	/**
 	 * Verifica a sintaxe do FVALLOG esta correta
 	 * @throws IOException 
@@ -215,7 +372,7 @@ public class Sintatico {
 			
 		}else {
 			//TODO lanca erro por nao possuir um sinal de + ou de -
-			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstá faltando o '+' ou '-'");
+			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstï¿½ faltando o '+' ou '-'");
 		}
 	}
 	
@@ -234,7 +391,7 @@ public class Sintatico {
 				|| !token.getTokenType().equals(TokenType.NUM_FLOAT)) {
 			
 			//TODO lanca erro por nao possuir um ID, NUM_INT ou NUM_FLOAT
-			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstá faltando um identificador, ou um número.");
+			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstï¿½ faltando um identificador, ou um nï¿½mero.");
 		}
 	}
 	
