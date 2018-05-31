@@ -43,7 +43,7 @@ public class Sintatico {
 		// Imprime relatorio de erros
 		ErrorHandler.getInstance().showErrors();
 
-		// TODO descomentar após os testes
+		// TODO descomentar apï¿½s os testes
 		// Imprime Tabela de Simbolos
 		//TabSimbolos.getInstance().printTabSimb();
 	}
@@ -68,8 +68,8 @@ public class Sintatico {
 		if(token.getTokenType().equals(TokenType.PROGRAM)) {
 			procContS();
 		}else {
-			//TODO lança erro por nao possuir o 'programa'
-			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstá faltando o 'programa'");
+			//TODO lanï¿½a erro por nao possuir o 'programa'
+			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstï¿½ faltando o 'programa'");
 			
 			if(token.getTokenType().equals(TokenType.ID)) {
 				token = lexico.nextToken();
@@ -79,8 +79,8 @@ public class Sintatico {
 					//Processa o final do programa
 					procEndS();
 				}else {
-					//TODO lança erro por nao possuir o ';'
-					System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstá faltando um ';'");
+					//TODO lanï¿½a erro por nao possuir o ';'
+					System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstï¿½ faltando um ';'");
 					
 					lexico.resetLastToken(token);
 					//Processa o Bloco
@@ -111,8 +111,8 @@ public class Sintatico {
 				//Processa o final do programa
 				procEndS();
 			}else {
-				//TODO lança erro por nao possuir o ';'
-				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstá faltando um ';'");
+				//TODO lanï¿½a erro por nao possuir o ';'
+				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstï¿½ faltando um ';'");
 				
 				lexico.resetLastToken(token);
 				//Processa o Bloco
@@ -121,11 +121,11 @@ public class Sintatico {
 				procEndS();
 			}
 		}else {
-			//TODO lança erro por nao possuir um ID
-			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstá faltando o identificador do programa");
+			//TODO lanï¿½a erro por nao possuir um ID
+			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstï¿½ faltando o identificador do programa");
 			if(!token.getTokenType().equals(TokenType.TERM)) {
-				//TODO lança erro por nao possuir o ';'
-				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstá faltando um ';'");
+				//TODO lanï¿½a erro por nao possuir o ';'
+				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstï¿½ faltando um ';'");
 				lexico.resetLastToken(token);
 			}
 			//Processa o Bloco
@@ -144,12 +144,12 @@ public class Sintatico {
 		if(token.getTokenType().equals(TokenType.END_PROG)) {
 			token = lexico.nextToken();
 			if(!token.getTokenType().equals(TokenType.TERM)) {
-				//TODO lança erro por nao possuir o token term
-				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstá faltando um ';'");
+				//TODO lanï¿½a erro por nao possuir o token term
+				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstï¿½ faltando um ';'");
 			}
 		}else {
-			//TODO lança erro por nao possuir o token end_prog 
-			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstá faltando o 'fimprog'");
+			//TODO lanï¿½a erro por nao possuir o token end_prog 
+			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstï¿½ faltando o 'fimprog'");
 		}
 	}
 	
@@ -215,7 +215,7 @@ public class Sintatico {
 			
 		}else {
 			//TODO lanca erro por nao possuir um sinal de + ou de -
-			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstá faltando o '+' ou '-'");
+			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstï¿½ faltando o '+' ou '-'");
 		}
 	}
 	
@@ -234,8 +234,35 @@ public class Sintatico {
 				|| !token.getTokenType().equals(TokenType.NUM_FLOAT)) {
 			
 			//TODO lanca erro por nao possuir um ID, NUM_INT ou NUM_FLOAT
-			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstá faltando um identificador, ou um número.");
+			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstï¿½ faltando um identificador, ou um nï¿½mero.");
 		}
 	}
-	
+
+	private void procFexpnum_3() throws IOException{
+		token = lexico.nextToken();
+
+		if(token.getTokenType().equals(TokenType.RELOP)){
+			if(token.getTokenType().equals(TokenType.L_PAR)){
+				||token.getTokenType().equals(TokenType.ID)
+				||token.getTokenType().equals(TokenType.NUM_INT)
+				||token.getTokenType().equals(TokenType.NUM_FLOAT)
+				//TODO processa EXPNUM
+			}else{
+				//TODO lanca erro por nao possuir um L_PAR, ID, NUM_INT ou NUM_FLOAT
+				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstï¿½ faltando um (, identificador, ou um nï¿½mero.");
+			}
+		}else{
+			lexico.resetLastToken(token);
+		}
+	}
+
+	private void Flpar() throws IOException {
+
+
+
+	}
+
+
+
+	}
 }
