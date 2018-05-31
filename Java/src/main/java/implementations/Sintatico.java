@@ -239,13 +239,11 @@ public class Sintatico {
 			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstï¿½ faltando um identificador, ou um nï¿½mero.");
 		}
 	}
-<<<<<<< HEAD
 	
 	private void procFnumInt() throws IOException {
 		token = lexico.nextToken();
 		
-		if(token.getTokenType().equals(TokenType.ADDSUB)
-			|| token.getTokenType().equals(TokenType.MULTDIV)) {
+		if(firstFollow.isFirstFnumint(token)) {
 			
 			lexico.resetLastToken(token);
 			procOpnum();
@@ -261,10 +259,7 @@ public class Sintatico {
 	private void procFopnum_1() throws IOException {
 		token = lexico.nextToken();
 
-		if(token.getTokenType().equals(TokenType.L_PAR)
-			|| token.getTokenType().equals(TokenType.ID)
-			|| token.getTokenType().equals(TokenType.NUM_INT)
-			|| token.getTokenType().equals(TokenType.NUM_FLOAT)) {
+		if(firstFollow.isFirstFopnum_1(token)) {
 			
 			lexico.resetLastToken(token);
 			//TODO processa EXPNUM
@@ -279,12 +274,9 @@ public class Sintatico {
 	private void procFexpnum_2() throws IOException{
 		token = lexico.nextToken();
 		
-		if(token.getTokenType().equals(TokenType.RELOP)) {
+		if(firstFollow.isFirstFexpnum_2(token)) {
 
-			if(token.getTokenType().equals(TokenType.L_PAR)
-				||token.getTokenType().equals(TokenType.ID)
-				||token.getTokenType().equals(TokenType.NUM_INT)
-				||token.getTokenType().equals(TokenType.NUM_FLOAT)) {
+			if(firstFollow.isFirstExpnum(token)) {
 					//TODO processa EXPNUM
 			
 			}else {
@@ -299,13 +291,37 @@ public class Sintatico {
 	private void procFnumfloat() throws IOException{
 		token = lexico.nextToken();
 		
-		if(token.getTokenType().equals(TokenType.ADDSUB)
-			||token.getTokenType().equals(TokenType.MULTDIV)) {
+		if(firstFollow.isFirstOpnum(token)) {
+			lexico.resetLastToken(token);
 			procOpnum();
+			token = lexico.nextToken();		
+		}else {
+			//TODO lanca erro por nao possuir um L_PAR, ID, NUM_INT ou NUM_FLOAT
+			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstá faltando um (, ou um identificador, ou um número.");
+		}
+		if(firstFollow.isFirstFopnum_2(token)) {
+			lexico.resetLastToken(token);
+			procFopnum_2();
+			token = lexico.nextToken();
+		}else {
+			//TODO lanca erro por nao possuir um L_PAR, ID, NUM_INT ou NUM_FLOAT
+			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstá faltando um (, ou um identificador, ou um número.");
 		}
 	}
 	
-=======
+	private void procFopnum_2() throws IOException {
+		token = lexico.nextToken();
+		
+		if(firstFollow.isFirstFopnum_2(token)) {
+			if(firstFollow.isFirstExpnum(token)) {
+				procExpnum();
+			}else if(firstFollow.isFirstFexpnum_3(token)){
+				//TODO processa FEXPNUM_3
+			}
+			
+		}
+		
+	}
 
 	/**
 	 * Verifica a sintaxe do REP esta correta
@@ -442,5 +458,4 @@ public class Sintatico {
 			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken nÃ£o Ã© FOR nem WHILE.");
 		}
 	}*/
->>>>>>> leticia
 }
