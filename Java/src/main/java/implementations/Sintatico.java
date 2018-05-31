@@ -278,8 +278,7 @@ public class Sintatico {
 
 					if(firstFollow.isFirstExpnum(token)) {
 						lexico.resetLastToken(token);
-						//TODO função não implementada procExpNum().
-						//procExpNum();
+						procExpnum();
 						token = lexico.nextToken();
 
 						if(token.getTokenType().equals(TokenType.TO)) {
@@ -287,16 +286,10 @@ public class Sintatico {
 
 							if(firstFollow.isFirstExpnum(token)) {
 								lexico.resetLastToken(token);
-								//TODO função não implementada procExpNum().
-								//procExpNum();
+								procExpnum();
 								token = lexico.nextToken();
 
-								if(token.getTokenType().equals(TokenType.BEGIN)
-										|| token.getTokenType().equals(TokenType.DECLARE)
-										|| token.getTokenType().equals(TokenType.IF)
-										|| token.getTokenType().equals(TokenType.ID)
-										|| token.getTokenType().equals(TokenType.FOR)
-										|| token.getTokenType().equals(TokenType.WHILE)) {
+								if(firstFollow.isFirstBloco(token)) {
 									lexico.resetLastToken(token);
 									//Todo Processa o Bloco
 									//procBloco();
@@ -307,8 +300,7 @@ public class Sintatico {
 					}
 				}
 			}
-		}
-		else {
+		} else {
 			//TODO lanca erro por não ser FOR nem WHILE
 			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken não é FOR nem WHILE.");
 		}
@@ -348,7 +340,7 @@ public class Sintatico {
 			}
 
 		} else {
-			//TODO lanca erro por não ser FOR nem WHILE
+			//TODO lanca erro.
 			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken não é FOR nem WHILE.");
 		}
 	}
@@ -356,23 +348,89 @@ public class Sintatico {
 	/**
 	 * Verifica a sintaxe do REPW esta correta
 	 * @throws IOException
-
+	 */
 	private void procRepw() throws IOException {
 		token = lexico.nextToken();
 
 		if (token.getTokenType().equals(TokenType.WHILE)) {
 			token = lexico.nextToken();
 
-			if (token.getTokenType().equals(TokenType.ID)) {
+			if (token.getTokenType().equals(TokenType.L_PAR)) {
 				token = lexico.nextToken();
 
-				if (token.getTokenType().equals(TokenType.ATTRIB)) {
+				if (firstFollow.isFirstExplo(token)) {
+					lexico.resetLastToken(token);
+					procExplo();
 					token = lexico.nextToken();
+
+					if (token.getTokenType().equals(TokenType.R_PAR)) {
+						token = lexico.nextToken();
+
+						if (firstFollow.isFirstBloco(token)) {
+							lexico.resetLastToken(token);
+							// TODO procBloco().
+							//procBloco();
+						}
+					}
+				}
+			}
+		} else {
+				//TODO lanca erro.
+				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken não é WHILE.");
+		}
+	}
+
+	/**
+	 * Verifica a sintaxe do EXPLO esta correta
+	 * @throws IOException
+	 */
+	private void procExplo() throws IOException {
+		token = lexico.nextToken();
+
+		if (token.getTokenType().equals(TokenType.LOGIC_VAL)) {
+			token = lexico.nextToken();
+
+			if (firstFollow.isFirstFvallog(token)) {
+				lexico.resetLastToken(token);
+				procFvallog();
 			}
 
+		} else if (token.getTokenType().equals(TokenType.ID)) {
+			token = lexico.nextToken();
+
+			if (firstFollow.isFirstFid1(token)) {
+				lexico.resetLastToken(token);
+				// TODO processa procFid1().
+				//procFid1();
+			}
+
+		} else if (token.getTokenType().equals(TokenType.NUM_INT) || token.getTokenType().equals(TokenType.NUM_FLOAT)) {
+			token = lexico.nextToken();
+
+			if (firstFollow.isFirstOpnum(token)) {
+				lexico.resetLastToken(token);
+				// TODO processa procOpnum().
+				//procOpnum();
+				token = lexico.nextToken();
+
+				if (firstFollow.isFirstExpnum(token)) {
+					lexico.resetLastToken(token);
+					procExpnum();
+					token = lexico.nextToken();
+
+					if (token.getTokenType().equals(TokenType.RELOP)) {
+						token = lexico.nextToken();
+
+						if (firstFollow.isFirstExpnum(token)) {
+							lexico.resetLastToken(token);
+							procExpnum();
+						}
+					}
+				}
+			}
 		} else {
-			//TODO lanca erro por não ser FOR nem WHILE
-			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken não é FOR nem WHILE.");
+				//TODO lanca erro
+				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
 		}
-	}*/
+	}
 }
