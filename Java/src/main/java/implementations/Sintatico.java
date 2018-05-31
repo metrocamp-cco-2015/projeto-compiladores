@@ -154,10 +154,10 @@ public class Sintatico {
 			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEst� faltando o 'fimprog'");
 		}
 	}
-	
+
 	/**
 	 * Verifica se a sintaxe do BLOCO esta correta
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	private void procBloco() throws Exception {
 		token = lexico.nextToken();
@@ -173,13 +173,13 @@ public class Sintatico {
 			// TODO processa CMD
 		}
 	}
-	
+
 	/**
 	 * Verifica a sintaxe do FVALLOG esta correta
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	@SuppressWarnings("unused")
-	//TODO remover SuppressWarnings quando finalizar 
+	//TODO remover SuppressWarnings quando finalizar
 	private void procFvallog() throws IOException {
 		token = lexico.nextToken();
 		if(token.getTokenType().equals(TokenType.LOGIC_OP)) {
@@ -188,13 +188,13 @@ public class Sintatico {
 			lexico.resetLastToken(token);
 		}
 	}
-	
+
 	/**
 	 * Verifica a sintaxe do XEXPNUM esta correta
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	@SuppressWarnings("unused")
-	//TODO remover SuppressWarnings quando finalizar 
+	//TODO remover SuppressWarnings quando finalizar
 	private void procXexpnum() throws IOException {
 		token = lexico.nextToken();
 		
@@ -205,10 +205,10 @@ public class Sintatico {
 			lexico.resetLastToken(token);
 		}
 	}
-	
+
 	/**
 	 * Verifica a sintaxe do OPNUM esta correta
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	private void procOpnum() throws IOException {
 		token = lexico.nextToken();
@@ -220,14 +220,14 @@ public class Sintatico {
 			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEst� faltando o '+' ou '-'");
 		}
 	}
-	
-	
+
+
 	/**
 	 * Verifica a sintaxe do VAL esta correta
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	@SuppressWarnings("unused")
-	// TODO remover SuppressWarnings quando finalizar 
+	// TODO remover SuppressWarnings quando finalizar
 	private void procVal() throws IOException {
 		token = lexico.nextToken();
 		
@@ -240,7 +240,7 @@ public class Sintatico {
 		}
 	}
 
-<<<<<<< HEAD
+
 	private void procFexpnum_3() throws IOException{
 		token = lexico.nextToken();
 
@@ -268,7 +268,7 @@ public class Sintatico {
 
 
 	}
-=======
+
 	/**
 	 * Verifica a sintaxe do REP esta correta
 	 * @throws IOException
