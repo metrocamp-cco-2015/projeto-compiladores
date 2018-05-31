@@ -29,14 +29,14 @@ public class Sintatico {
 	 */
 	public void processar() throws IOException {
 		System.out.println("Iniciando processamento do arquivo...\n\n\n");
-		
+
 		try {
 			procS();
 		} catch (Exception e) {
 			// TODO lanca erro de execucao
 			e.printStackTrace();
 		}
-		
+
 		/*while(token.getTokenType() != TokenType.EOF){
 			System.out.println(token.asString());
 			token = lexico.nextToken();
@@ -58,21 +58,21 @@ public class Sintatico {
 	public Sintatico(final String filename){
 		this.lexico = new Lexico(filename);
 	}
-	
+
 	/**
 	 * Inicializa o processamento dos Tokens verificando a sintaxe da linguagem
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	//TODO melhorar esse metodo
 	private void procS() throws Exception {
 		token = lexico.nextToken();
-		
+
 		if(token.getTokenType().equals(TokenType.PROGRAM)) {
 			procContS();
 		}else {
 			//TODO lan�a erro por nao possuir o 'programa'
 			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEst� faltando o 'programa'");
-			
+
 			if(token.getTokenType().equals(TokenType.ID)) {
 				token = lexico.nextToken();
 				if(token.getTokenType().equals(TokenType.TERM)) {
@@ -83,7 +83,7 @@ public class Sintatico {
 				}else {
 					//TODO lan�a erro por nao possuir o ';'
 					System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEst� faltando um ';'");
-					
+
 					lexico.resetLastToken(token);
 					//Processa o Bloco
 					procBloco();
@@ -98,7 +98,7 @@ public class Sintatico {
 
 	/**
 	 * Continuacao do processamento do S
-	 * 
+	 *
 	 * @throws IOException
 	 * @throws Exception
 	 */
@@ -115,7 +115,7 @@ public class Sintatico {
 			}else {
 				//TODO lan�a erro por nao possuir o ';'
 				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEst� faltando um ';'");
-				
+
 				lexico.resetLastToken(token);
 				//Processa o Bloco
 				procBloco();
@@ -150,7 +150,7 @@ public class Sintatico {
 				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEst� faltando um ';'");
 			}
 		}else {
-			//TODO lan�a erro por nao possuir o token end_prog 
+			//TODO lan�a erro por nao possuir o token end_prog
 			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEst� faltando o 'fimprog'");
 		}
 	}
@@ -161,13 +161,13 @@ public class Sintatico {
 	 */
 	private void procBloco() throws Exception {
 		token = lexico.nextToken();
-		
+
 		if(token.getTokenType().equals(TokenType.BEGIN)) {
 			// TODO processa CMDS
-			
+
 			token = lexico.nextToken();
 			if(!token.getTokenType().equals(TokenType.END)) {
-				// TODO lanca erro por nao vir o token 'end' 
+				// TODO lanca erro por nao vir o token 'end'
 			}
 		}else {
 			// TODO processa CMD
@@ -197,7 +197,7 @@ public class Sintatico {
 	//TODO remover SuppressWarnings quando finalizar
 	private void procXexpnum() throws IOException {
 		token = lexico.nextToken();
-		
+
 		if(token.getTokenType().equals(TokenType.ADDSUB)) {
 			lexico.resetLastToken(token);
 			procOpnum();
@@ -212,15 +212,14 @@ public class Sintatico {
 	 */
 	private void procOpnum() throws IOException {
 		token = lexico.nextToken();
-		
+
 		if(token.getTokenType().equals(TokenType.ADDSUB)) {
-			
+
 		}else {
 			//TODO lanca erro por nao possuir um sinal de + ou de -
 			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEst� faltando o '+' ou '-'");
 		}
 	}
-
 
 	/**
 	 * Verifica a sintaxe do VAL esta correta
@@ -230,25 +229,88 @@ public class Sintatico {
 	// TODO remover SuppressWarnings quando finalizar
 	private void procVal() throws IOException {
 		token = lexico.nextToken();
-		
-		if(!token.getTokenType().equals(TokenType.ID) 
+
+		if(!token.getTokenType().equals(TokenType.ID)
 				|| !token.getTokenType().equals(TokenType.NUM_INT)
 				|| !token.getTokenType().equals(TokenType.NUM_FLOAT)) {
-			
+
 			//TODO lanca erro por nao possuir um ID, NUM_INT ou NUM_FLOAT
 			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEst� faltando um identificador, ou um n�mero.");
 		}
 	}
 
+	private void procFnumInt() throws IOException {
+		token = lexico.nextToken();
+
+		if(token.getTokenType().equals(TokenType.ADDSUB)
+			|| token.getTokenType().equals(TokenType.MULTDIV)) {
+
+			lexico.resetLastToken(token);
+			procOpnum();
+			procFopnum_1();
+
+		}else{
+			//TODO lanca erro por nao possuir um ADDSUB ou MULTDIV
+			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEst� faltando um operador (+, -, * ou /).");
+		}
+
+	}
+
+	private void procFopnum_1() throws IOException {
+		token = lexico.nextToken();
+
+		if(token.getTokenType().equals(TokenType.L_PAR)
+			|| token.getTokenType().equals(TokenType.ID)
+			|| token.getTokenType().equals(TokenType.NUM_INT)
+			|| token.getTokenType().equals(TokenType.NUM_FLOAT)) {
+
+			lexico.resetLastToken(token);
+			//TODO processa EXPNUM
+			//TODO processa FEXPNUM_2
+
+		}else{
+			//TODO lanca erro por nao possuir um L_PAR, ID, NUM_INT ou NUM_FLOAT
+			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEst� faltando um (, ou um identificador, ou um n�mero.");
+		}
+	}
+
+	private void procFexpnum_2() throws IOException{
+		token = lexico.nextToken();
+
+		if(token.getTokenType().equals(TokenType.RELOP)) {
+
+			if(token.getTokenType().equals(TokenType.L_PAR)
+				||token.getTokenType().equals(TokenType.ID)
+				||token.getTokenType().equals(TokenType.NUM_INT)
+				||token.getTokenType().equals(TokenType.NUM_FLOAT)) {
+					//TODO processa EXPNUM
+
+			}else {
+				//TODO lanca erro por nao possuir um L_PAR, ID, NUM_INT ou NUM_FLOAT
+				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEst� faltando um (, ou um identificador, ou um n�mero.");
+			}
+		}else{
+			lexico.resetLastToken(token);
+		}
+	}
+
+	private void procFnumfloat() throws IOException{
+		token = lexico.nextToken();
+
+		if(token.getTokenType().equals(TokenType.ADDSUB)
+			||token.getTokenType().equals(TokenType.MULTDIV)) {
+			procOpnum();
+		}
+	}
 
 	private void procFexpnum_3() throws IOException{
 		token = lexico.nextToken();
 
 		if(token.getTokenType().equals(TokenType.RELOP)){
-			if(token.getTokenType().equals(TokenType.L_PAR)){
+			if(token.getTokenType().equals(TokenType.L_PAR)
 				||token.getTokenType().equals(TokenType.ID)
 				||token.getTokenType().equals(TokenType.NUM_INT)
-				||token.getTokenType().equals(TokenType.NUM_FLOAT)
+				||token.getTokenType().equals(TokenType.NUM_FLOAT)) {
 				//TODO processa EXPNUM
 			}else{
 				//TODO lanca erro por nao possuir um L_PAR, ID, NUM_INT ou NUM_FLOAT
@@ -260,10 +322,6 @@ public class Sintatico {
 	}
 
 	private void Flpar() throws IOException {
-
-
-
-	}
 
 
 
@@ -404,5 +462,5 @@ public class Sintatico {
 			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken não é FOR nem WHILE.");
 		}
 	}*/
->>>>>>> origin/leticia
+
 }
