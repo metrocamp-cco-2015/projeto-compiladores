@@ -188,7 +188,7 @@ public class Sintatico {
 	}
 	
 	/**
-	 * Verifica a sintaxe do XEXPNUM esta correta
+	 * Verifica a sintaxe do X	 esta correta
 	 * @throws IOException 
 	 */
 	@SuppressWarnings("unused")
@@ -235,6 +235,70 @@ public class Sintatico {
 			
 			//TODO lanca erro por nao possuir um ID, NUM_INT ou NUM_FLOAT
 			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstá faltando um identificador, ou um número.");
+		}
+	}
+	
+	private void procFnumInt() throws IOException {
+		token = lexico.nextToken();
+		
+		if(token.getTokenType().equals(TokenType.ADDSUB)
+			|| token.getTokenType().equals(TokenType.MULTDIV)) {
+			
+			lexico.resetLastToken(token);
+			procOpnum();
+			procFopnum_1();
+
+		}else{
+			//TODO lanca erro por nao possuir um ADDSUB ou MULTDIV
+			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstá faltando um operador (+, -, * ou /).");
+		}
+			
+	}
+
+	private void procFopnum_1() throws IOException {
+		token = lexico.nextToken();
+
+		if(token.getTokenType().equals(TokenType.L_PAR)
+			|| token.getTokenType().equals(TokenType.ID)
+			|| token.getTokenType().equals(TokenType.NUM_INT)
+			|| token.getTokenType().equals(TokenType.NUM_FLOAT)) {
+			
+			lexico.resetLastToken(token);
+			//TODO processa EXPNUM
+			//TODO processa FEXPNUM_2
+			
+		}else{
+			//TODO lanca erro por nao possuir um L_PAR, ID, NUM_INT ou NUM_FLOAT
+			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstá faltando um (, ou um identificador, ou um número.");
+		}
+	}
+	
+	private void procFexpnum_2() throws IOException{
+		token = lexico.nextToken();
+		
+		if(token.getTokenType().equals(TokenType.RELOP)) {
+
+			if(token.getTokenType().equals(TokenType.L_PAR)
+				||token.getTokenType().equals(TokenType.ID)
+				||token.getTokenType().equals(TokenType.NUM_INT)
+				||token.getTokenType().equals(TokenType.NUM_FLOAT)) {
+					//TODO processa EXPNUM
+			
+			}else {
+				//TODO lanca erro por nao possuir um L_PAR, ID, NUM_INT ou NUM_FLOAT
+				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstá faltando um (, ou um identificador, ou um número.");
+			}
+		}else{
+			lexico.resetLastToken(token);
+		}
+	}
+	
+	private void procFnumfloat() throws IOException{
+		token = lexico.nextToken();
+		
+		if(token.getTokenType().equals(TokenType.ADDSUB)
+			||token.getTokenType().equals(TokenType.MULTDIV)) {
+			procOpnum();
 		}
 	}
 	
