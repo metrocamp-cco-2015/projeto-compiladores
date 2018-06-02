@@ -163,16 +163,13 @@ public class Sintatico {
 		token = lexico.nextToken();
 		
 		if(token.getTokenType().equals(TokenType.BEGIN)) {
-			// TODO processa CMDS
-
 			procCmds();
-
 			token = lexico.nextToken();
 			if(!token.getTokenType().equals(TokenType.END)) {
-				// TODO lanca erro por nao vir o token 'end' 
+				// TODO lanca erro por nao vir o token 'end'
+				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nNao conseguiu processar BLOCO.");
 			}
 		}else {
-			// TODO processa CMD
 			procCmd();
 		}
 	}
@@ -184,22 +181,24 @@ public class Sintatico {
 	private void procCmd() throws Exception {
 		token = lexico.nextToken();
 
-        if(token.getTokenType().equals(TokenType.DECLARE)){
-            lexico.resetLastToken(token);
-            procDecl();
-        } else if(token.getTokenType().equals(TokenType.IF)){
-            lexico.resetLastToken(token);
-            procCond();
-        } else if(token.getTokenType().equals(TokenType.FOR)){
-            lexico.resetLastToken(token);
-            //TODO processa o procRepf
-        } else if(token.getTokenType().equals(TokenType.WHILE)){
-            lexico.resetLastToken(token);
-            //TODO processa o procRepw
-        } else if(token.getTokenType().equals(TokenType.ID)){
-            lexico.resetLastToken(token);
-            //TODO processa o procAttrib
-        } else {
+		if(firstFollow.isFirstCmd(token)) {
+			if(token.getTokenType().equals(TokenType.DECLARE)){
+				lexico.resetLastToken(token);
+				procDecl();
+			} else if(token.getTokenType().equals(TokenType.IF)){
+				lexico.resetLastToken(token);
+				procCond();
+			} else if(token.getTokenType().equals(TokenType.FOR)){
+				lexico.resetLastToken(token);
+				//TODO processa o procRepf
+			} else if(token.getTokenType().equals(TokenType.WHILE)){
+				lexico.resetLastToken(token);
+				//TODO processa o procRepw
+			} else if(token.getTokenType().equals(TokenType.ID)) {
+				lexico.resetLastToken(token);
+				//TODO processa o procAttrib
+			}
+		} else {
             //TODO lanca erro por nao conseguir processar o token dentro da sintaxe esperada para CMD
             System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nNao conseguiu processar CMD.");
         }
@@ -212,26 +211,28 @@ public class Sintatico {
 	private void procCmds() throws Exception{
 		token = lexico.nextToken();
 
-		if(token.getTokenType().equals(TokenType.DECLARE)){
-			lexico.resetLastToken(token);
-			procDecl();
-			procCmds();
-		} else if(token.getTokenType().equals(TokenType.IF)){
-			lexico.resetLastToken(token);
-			procCond();
-			procCmds();
-		} else if(token.getTokenType().equals(TokenType.FOR)){
-			lexico.resetLastToken(token);
-            //TODO processa o procRepf
-			procCmds();
-		} else if(token.getTokenType().equals(TokenType.WHILE)){
-			lexico.resetLastToken(token);
-            //TODO processa o procRepw
-			procCmds();
-		} else if(token.getTokenType().equals(TokenType.ID)){
-			lexico.resetLastToken(token);
-            //TODO processa o procAttrib
-			procCmds();
+		if(firstFollow.isFirstCmds(token)) {
+			if(token.getTokenType().equals(TokenType.DECLARE)){
+				lexico.resetLastToken(token);
+				procDecl();
+				procCmds();
+			} else if(token.getTokenType().equals(TokenType.IF)){
+				lexico.resetLastToken(token);
+				procCond();
+				procCmds();
+			} else if(token.getTokenType().equals(TokenType.FOR)){
+				lexico.resetLastToken(token);
+				//TODO processa o procRepf
+				procCmds();
+			} else if(token.getTokenType().equals(TokenType.WHILE)){
+				lexico.resetLastToken(token);
+				//TODO processa o procRepw
+				procCmds();
+			} else if(token.getTokenType().equals(TokenType.ID)){
+				lexico.resetLastToken(token);
+				//TODO processa o procAttrib
+				procCmds();
+			}
 		}
 	}
 

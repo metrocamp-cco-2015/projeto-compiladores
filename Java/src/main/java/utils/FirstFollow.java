@@ -4,6 +4,46 @@ import src.main.java.implementations.Token;
 
 public class FirstFollow {
 
+    /**
+     * Verifica se um token pertence ao conjunto FIRST de CMDS
+     * @param token
+     * @return
+     */
+    public boolean isFirstCmds(Token token) {
+        if(token.getTokenType().equals(TokenType.DECLARE)
+                || token.getTokenType().equals(TokenType.IF)
+                || token.getTokenType().equals(TokenType.FOR)
+                || token.getTokenType().equals(TokenType.WHILE)
+                || token.getTokenType().equals(TokenType.ID)
+                || isFollowCmds(token)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Verifica se um token pertence ao conjunto FOLLOW de CMDS
+     * @param token
+     * @return
+     */
+    private boolean isFollowCmds(Token token) {
+        if(token.getTokenType().equals((TokenType.END))){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isFirstCmd(Token token) {
+        if(token.getTokenType().equals(TokenType.DECLARE)
+                || token.getTokenType().equals(TokenType.IF)
+                || token.getTokenType().equals(TokenType.FOR)
+                || token.getTokenType().equals(TokenType.WHILE)
+                || token.getTokenType().equals(TokenType.ID)) {
+            return true;
+        }
+        return false;
+    }
+
     public boolean isFirstVal(Token token) {
         if(token.getTokenType().equals(TokenType.ID)
                 || token.getTokenType().equals(TokenType.NUM_INT)
