@@ -119,4 +119,45 @@ public class FirstFollow {
         return false;
     }
 
+    public boolean isFirstExp(Token token) {
+        if(token.getTokenType().equals(TokenType.ID)) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isFirstFid(Token token) {
+        if(token.getTokenType().equals(TokenType.LOGIC_OP)
+                || token.getTokenType().equals(TokenType.ADDSUB)
+                || token.getTokenType().equals(TokenType.MULTDIV)) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isFirstNumInt(Token token) {
+        if(token.getTokenType().equals(TokenType.ADDSUB)
+                || token.getTokenType().equals(TokenType.MULTDIV)) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isFirstNumFloat(Token token) {
+        if(token.getTokenType().equals(TokenType.ADDSUB)
+                || token.getTokenType().equals(TokenType.MULTDIV)) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isFirstLPar(Token token) {
+        if(token.getTokenType().equals(TokenType.L_PAR)
+                || token.getTokenType().equals(TokenType.ID)
+                || token.getTokenType().equals(TokenType.NUM_INT)
+                || token.getTokenType().equals(TokenType.NUM_FLOAT)) {
+            return true;
+        }
+        return false;
+    }
 }
