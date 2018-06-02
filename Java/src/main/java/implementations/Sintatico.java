@@ -743,4 +743,27 @@ public class Sintatico {
 			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
 		}
 	}
+
+	/**
+	 * Verifica se a sintaxe do FEXPNUM_1 esta correta
+	 * @throws Exception
+	 */
+	private void procFExpnum_1() throws Exception {
+		token = lexico.nextToken();
+
+		if (token.getTokenType().equals(TokenType.RELOP)) {
+			token = lexico.nextToken();
+
+			if (firstFollow.isFirstExpnum(token)) {
+				lexico.resetLastToken(token);
+				//TODO procExpnum();
+				//procExpnum();
+			} else {
+				//TODO lanca erro
+				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
+			}
+		} else {
+			lexico.resetLastToken(token);
+		}
+	}
 }
