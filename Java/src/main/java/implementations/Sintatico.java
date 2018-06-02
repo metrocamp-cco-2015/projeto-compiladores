@@ -612,7 +612,7 @@ public class Sintatico {
 
 				if (firstFollow.isFirstExp(token)) {
 					lexico.resetLastToken(token);
-					//procExp();
+					procExp();
 					token = lexico.nextToken();
 
 					if (token.getTokenType().equals(TokenType.TERM)) {
@@ -652,13 +652,14 @@ public class Sintatico {
 
 			if (firstFollow.isFirstFid(token)) {
 				lexico.resetLastToken(token);
-				//procFid();
+				procFid();
 			}
 		} else if (token.getTokenType().equals(TokenType.NUM_INT)) {
 			token = lexico.nextToken();
 
 			if (firstFollow.isFirstNumInt(token)) {
 				lexico.resetLastToken(token);
+				//TODO procNumInt();
 				//procNumInt();
 			}
 		} else if (token.getTokenType().equals(TokenType.NUM_FLOAT)) {
@@ -666,6 +667,7 @@ public class Sintatico {
 
 			if (firstFollow.isFirstNumFloat(token)) {
 				lexico.resetLastToken(token);
+				//TODO procNumFloat();
 				//procNumFloat();
 			}
 		} else if (token.getTokenType().equals(TokenType.L_PAR)) {
@@ -673,9 +675,42 @@ public class Sintatico {
 
 			if (firstFollow.isFirstLPar(token)) {
 				lexico.resetLastToken(token);
+				//TODO procFpar();
 				//procFpar();
 			}
 		} else if (!token.getTokenType().equals(TokenType.LITERAL)) {
+			//TODO lanca erro
+			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
+		}
+	}
+
+	/**
+	 * Verifica se a sintaxe do FID esta correta
+	 * @throws Exception
+	 */
+	private void procFid() throws Exception {
+		token = lexico.nextToken();
+
+		if (firstFollow.isFirstFvallog(token)) {
+			lexico.resetLastToken(token);
+			//TODO procFvallog();
+			//procFvallog();
+		} else if (firstFollow.isFirstOpnum(token)) {
+			lexico.resetLastToken(token);
+			//TODO procOpnum();
+			//procOpnum();
+
+			token = lexico.nextToken();
+
+			if (firstFollow.isFirstOpnum(token)) {
+				lexico.resetLastToken(token);
+				//TODO procOpnum();
+				//procOpnum();
+			} else {
+				//TODO lanca erro
+				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
+			}
+		} else {
 			//TODO lanca erro
 			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
 		}

@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="331579a8-ee7b-4276-9b0f-ea3a11373daa" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Java/src/main/java/implementations/Sintatico.java" afterPath="$PROJECT_DIR$/Java/src/main/java/implementations/Sintatico.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Java/src/main/java/utils/FirstFollow.java" afterPath="$PROJECT_DIR$/Java/src/main/java/utils/FirstFollow.java" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -29,8 +29,8 @@
       <file leaf-file-name="Sintatico.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Java/src/main/java/implementations/Sintatico.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="493">
-              <caret line="683" column="0" lean-forward="true" selection-start-line="683" selection-start-column="0" selection-end-line="683" selection-end-column="0" />
+            <state relative-caret-position="525">
+              <caret line="718" column="0" lean-forward="true" selection-start-line="718" selection-start-column="0" selection-end-line="718" selection-end-column="0" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -41,8 +41,8 @@
       <file leaf-file-name="FirstFollow.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Java/src/main/java/utils/FirstFollow.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="457">
-              <caret line="161" column="5" lean-forward="true" selection-start-line="161" selection-start-column="5" selection-end-line="161" selection-end-column="5" />
+            <state relative-caret-position="464">
+              <caret line="113" column="31" lean-forward="false" selection-start-line="113" selection-start-column="19" selection-end-line="113" selection-end-column="31" />
               <folding />
             </state>
           </provider>
@@ -69,6 +69,10 @@
       <find>isFirstOpnum</find>
       <find>L_PAR</find>
       <find>decl</find>
+      <find>DeCL</find>
+      <find>cmd</find>
+      <find>FID1</find>
+      <find>opnum</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -335,8 +339,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Java/src/main/java/utils/FirstFollow.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="457">
-          <caret line="161" column="5" lean-forward="true" selection-start-line="161" selection-start-column="5" selection-end-line="161" selection-end-column="5" />
+        <state relative-caret-position="464">
+          <caret line="113" column="31" lean-forward="false" selection-start-line="113" selection-start-column="19" selection-end-line="113" selection-end-column="31" />
           <folding />
         </state>
       </provider>
@@ -353,8 +357,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Java/src/main/java/implementations/Sintatico.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="683" column="0" lean-forward="true" selection-start-line="683" selection-start-column="0" selection-end-line="683" selection-end-column="0" />
+        <state relative-caret-position="525">
+          <caret line="718" column="0" lean-forward="true" selection-start-line="718" selection-start-column="0" selection-end-line="718" selection-end-column="0" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
