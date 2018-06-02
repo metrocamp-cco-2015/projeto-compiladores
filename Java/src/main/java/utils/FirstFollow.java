@@ -170,4 +170,11 @@ public class FirstFollow {
         }
         return false;
     }
+
+    public boolean isFirstFExpnum_1(Token token) {
+        if(token.getTokenType().equals(TokenType.RELOP)) {
+            return true;
+        }
+        return false;
+    }
 }

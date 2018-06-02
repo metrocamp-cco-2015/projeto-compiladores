@@ -26,11 +26,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Sintatico.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Sintatico.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Java/src/main/java/implementations/Sintatico.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="370">
-              <caret line="708" column="20" lean-forward="true" selection-start-line="708" selection-start-column="20" selection-end-line="708" selection-end-column="20" />
+            <state relative-caret-position="489">
+              <caret line="744" column="5" lean-forward="true" selection-start-line="744" selection-start-column="5" selection-end-line="744" selection-end-column="5" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -38,11 +38,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FirstFollow.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="FirstFollow.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Java/src/main/java/utils/FirstFollow.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="277">
-              <caret line="159" column="9" lean-forward="true" selection-start-line="159" selection-start-column="9" selection-end-line="159" selection-end-column="9" />
+            <state relative-caret-position="435">
+              <caret line="179" column="1" lean-forward="true" selection-start-line="179" selection-start-column="1" selection-end-line="179" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -51,8 +51,8 @@
       <file leaf-file-name="TokenType.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Java/src/main/java/utils/TokenType.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="234">
-              <caret line="13" column="31" lean-forward="false" selection-start-line="13" selection-start-column="24" selection-end-line="13" selection-end-column="31" />
+            <state relative-caret-position="270">
+              <caret line="15" column="41" lean-forward="true" selection-start-line="15" selection-start-column="41" selection-end-line="15" selection-end-column="41" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -75,6 +75,7 @@
       <find>opnum</find>
       <find>CNDB</find>
       <find>procOpnum</find>
+      <find>Expnum</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -88,8 +89,8 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Java/src/main/java/implementations/Sintatico.java" />
         <option value="$PROJECT_DIR$/Java/src/main/java/utils/FirstFollow.java" />
+        <option value="$PROJECT_DIR$/Java/src/main/java/implementations/Sintatico.java" />
       </list>
     </option>
   </component>
@@ -376,18 +377,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Java/src/main/java/utils/TokenType.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="13" column="31" lean-forward="false" selection-start-line="13" selection-start-column="24" selection-end-line="13" selection-end-column="31" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Java/src/main/java/implementations/Sintatico.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="370">
-          <caret line="708" column="20" lean-forward="true" selection-start-line="708" selection-start-column="20" selection-end-line="708" selection-end-column="20" />
+        <state relative-caret-position="270">
+          <caret line="15" column="41" lean-forward="true" selection-start-line="15" selection-start-column="41" selection-end-line="15" selection-end-column="41" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
@@ -396,9 +387,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Java/src/main/java/utils/FirstFollow.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="277">
-          <caret line="159" column="9" lean-forward="true" selection-start-line="159" selection-start-column="9" selection-end-line="159" selection-end-column="9" />
+        <state relative-caret-position="435">
+          <caret line="179" column="1" lean-forward="true" selection-start-line="179" selection-start-column="1" selection-end-line="179" selection-end-column="1" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Java/src/main/java/implementations/Sintatico.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="489">
+          <caret line="744" column="5" lean-forward="true" selection-start-line="744" selection-start-column="5" selection-end-line="744" selection-end-column="5" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

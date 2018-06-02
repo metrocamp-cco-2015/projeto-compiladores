@@ -715,4 +715,32 @@ public class Sintatico {
 			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
 		}
 	}
+
+	/**
+	 * Verifica se a sintaxe do FOPNUM esta correta
+	 * @throws Exception
+	 */
+	private void procFOpnum() throws Exception {
+		token = lexico.nextToken();
+
+		if (firstFollow.isFirstExpnum(token)) {
+			lexico.resetLastToken(token);
+			//TODO procExpnum();
+			//procExpnum();
+
+			token = lexico.nextToken();
+
+			if (firstFollow.isFirstFExpnum_1(token)) {
+				lexico.resetLastToken(token);
+				//TODO procFExpnum_1();
+				//procFExpnum_1();
+			} else {
+				//TODO lanca erro
+				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
+			}
+		} else {
+			//TODO lanca erro
+			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
+		}
+	}
 }
