@@ -657,26 +657,26 @@ public class Sintatico {
 		} else if (token.getTokenType().equals(TokenType.NUM_INT)) {
 			token = lexico.nextToken();
 
-			if (firstFollow.isFirstNumInt(token)) {
+			if (firstFollow.isFirstFNumInt(token)) {
 				lexico.resetLastToken(token);
-				//TODO procNumInt();
-				//procNumInt();
+				//TODO procFNumInt();
+				//procFNumInt();
 			}
 		} else if (token.getTokenType().equals(TokenType.NUM_FLOAT)) {
 			token = lexico.nextToken();
 
-			if (firstFollow.isFirstNumFloat(token)) {
+			if (firstFollow.isFirstFNumFloat(token)) {
 				lexico.resetLastToken(token);
-				//TODO procNumFloat();
-				//procNumFloat();
+				//TODO procFNumFloat();
+				//procFNumFloat();
 			}
 		} else if (token.getTokenType().equals(TokenType.L_PAR)) {
 			token = lexico.nextToken();
 
-			if (firstFollow.isFirstLPar(token)) {
+			if (firstFollow.isFirstFlpar(token)) {
 				lexico.resetLastToken(token);
-				//TODO procFpar();
-				//procFpar();
+				//TODO procFlpar();
+				//procFlpar();
 			}
 		} else if (!token.getTokenType().equals(TokenType.LITERAL)) {
 			//TODO lanca erro
@@ -702,10 +702,10 @@ public class Sintatico {
 
 			token = lexico.nextToken();
 
-			if (firstFollow.isFirstOpnum(token)) {
+			if (firstFollow.isFirstFOpnum(token)) {
 				lexico.resetLastToken(token);
-				//TODO procOpnum();
-				//procOpnum();
+				//TODO procFOpnum();
+				//procFOpnum();
 			} else {
 				//TODO lanca erro
 				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");

@@ -135,7 +135,7 @@ public class FirstFollow {
         return false;
     }
 
-    public boolean isFirstNumInt(Token token) {
+    public boolean isFirstFNumInt(Token token) {
         if(token.getTokenType().equals(TokenType.ADDSUB)
                 || token.getTokenType().equals(TokenType.MULTDIV)) {
             return true;
@@ -143,7 +143,7 @@ public class FirstFollow {
         return false;
     }
 
-    public boolean isFirstNumFloat(Token token) {
+    public boolean isFirstFNumFloat(Token token) {
         if(token.getTokenType().equals(TokenType.ADDSUB)
                 || token.getTokenType().equals(TokenType.MULTDIV)) {
             return true;
@@ -151,7 +151,17 @@ public class FirstFollow {
         return false;
     }
 
-    public boolean isFirstLPar(Token token) {
+    public boolean isFirstFlpar(Token token) {
+        if(token.getTokenType().equals(TokenType.L_PAR)
+                || token.getTokenType().equals(TokenType.ID)
+                || token.getTokenType().equals(TokenType.NUM_INT)
+                || token.getTokenType().equals(TokenType.NUM_FLOAT)) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isFirstFOpnum(Token token) {
         if(token.getTokenType().equals(TokenType.L_PAR)
                 || token.getTokenType().equals(TokenType.ID)
                 || token.getTokenType().equals(TokenType.NUM_INT)
