@@ -307,7 +307,7 @@ public class Sintatico {
 		token = lexico.nextToken();
 
 		if(token.getTokenType().equals(TokenType.RELOP)){
-			if(firstFollow.isFirstExpnum(token){
+			if(firstFollow.isFirstExpnum(token)){
 				procExpnum();
 				//TODO processa EXPNUM
 			}else{
