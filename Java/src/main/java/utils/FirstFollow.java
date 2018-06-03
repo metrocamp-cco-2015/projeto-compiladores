@@ -42,6 +42,7 @@ public class FirstFollow {
         }
         return false;
     }
+    
 
     public boolean isFirstExplo(Token token) {
         if(token.getTokenType().equals(TokenType.LOGIC_VAL)
@@ -78,5 +79,17 @@ public class FirstFollow {
         }
         return false;
     }
-
+    
+    public boolean isFirstFexpnum(Token token) {
+    	if(token.getTokenType().equals(TokenType.R_PAR)) {
+    		return true;
+    	}
+    	return false;
+    }
+    public boolean isFirstFrpar(Token token) {
+        if(token.getTokenType().equals(TokenType.RELOP)) {
+            return true;
+        }
+        return false;
+    }
 }

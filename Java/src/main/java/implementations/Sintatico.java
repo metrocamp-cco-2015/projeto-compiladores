@@ -309,7 +309,7 @@ public class Sintatico {
 		if(token.getTokenType().equals(TokenType.RELOP)){
 			if(firstFollow.isFirstExpnum(token)){
 				procExpnum();
-				//TODO processa EXPNUM
+				
 			}else{
 				//TODO lanca erro por nao possuir um L_PAR, ID, NUM_INT ou NUM_FLOAT
 				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEst� faltando um (, identificador, ou um n�mero.");
@@ -320,10 +320,85 @@ public class Sintatico {
 	}
 
 	private void Flpar() throws IOException {
-
-
-
-
+		token = lexico.nextToken();
+		
+		if(firstFollow.isFirstExpnum(token)) {
+			procExpnum();
+			
+			if(firstFollow.isFirstFexpnum(token)) {
+				//TODO procFexpnum();	
+			}else {
+				//TODO lanca erro
+				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
+			}
+		}else {
+			//TODO lanca erro
+			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
+		}
+	}
+	
+	private void Fexpnum() throws IOException{
+		token = lexico.nextToken();
+		
+		if(token.getTokenType().equals(TokenType.R_PAR)){
+			if(firstFollow.isFirstFrpar(token)) {
+				//TODO procFrpar();
+			}else {
+				//TODO lanca erro
+				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
+			}
+		}else {
+			//TODO lanca erro
+			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
+		}
+	}
+	
+	private void Frpar() throws IOException{
+		token = lexico.nextToken();
+		
+		if(token.getTokenType().equals(TokenType.RELOP)) {
+			if(firstFollow.isFirstExpnum(token)) {
+				procExpnum();
+			}else {
+				//TODO lanca erro
+				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
+			}
+		}else {
+			lexico.resetLastToken(token);
+		}
+	}
+	
+	private void Fid_1() throws IOException{
+		token = lexico.nextToken();
+		
+		if(firstFollow.isFirstFvallog(token)){
+			procFvallog();
+		}else if(firstFollow.isFirstOpnum(token)){
+				procOpnum();
+				
+				if(firstFollow.isFirstExpnum(token)) {
+					procExpnum();
+					
+					if(token.getTokenType().equals(TokenType.RELOP)) {
+						
+						if(firstFollow.isFirstExpnum(token)){
+							procExpnum();
+						}else {
+							//TODO lanca erro
+							System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
+						}
+					}else {
+						//TODO lanca erro
+						System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
+					}
+				}else {
+					//TODO lanca erro
+					System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
+				}
+		}else {
+			//TODO lanca erro
+			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
+		}
 	}
 
 	/**
