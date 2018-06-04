@@ -33,14 +33,8 @@ public class Sintatico {
 		try {
 			procS();
 		} catch (Exception e) {
-			// TODO lanca erro de execucao
 			e.printStackTrace();
 		}
-
-		/*while(token.getTokenType() != TokenType.EOF){
-			System.out.println(token.asString());
-			token = lexico.nextToken();
-		}*/
 
 		// Imprime relatorio de erros
 		ErrorHandler.getInstance().showErrors();
@@ -109,9 +103,16 @@ public class Sintatico {
 			token = lexico.nextToken();
 			if(token.getTokenType().equals(TokenType.TERM)) {
 				//Processa o Bloco
-				procBloco();
-				//Processa o final do programa
-				procEndS();
+				token = lexico.nextToken();
+				if(firstFollow.isFirstBloco(token)) {
+					lexico.resetLastToken(token);
+					procBloco();
+					//Processa o final do programa
+					procEndS();
+				}else {
+					//TODO lanï¿½a erro por nao estar no first do bloco
+					System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nNão está no first do bloco");
+				}
 			}else {
 				//TODO lanï¿½a erro por nao possuir o ';'
 				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstï¿½ faltando um ';'");
@@ -163,29 +164,236 @@ public class Sintatico {
 		token = lexico.nextToken();
 
 		if(token.getTokenType().equals(TokenType.BEGIN)) {
-			// TODO processa CMDS
-
+			
 			token = lexico.nextToken();
-			if(!token.getTokenType().equals(TokenType.END)) {
-				// TODO lanca erro por nao vir o token 'end'
+			if(firstFollow.isFirstCmds(token)) {
+				lexico.resetLastToken(token);
+				procCmds();
+				
+				token = lexico.nextToken();
+				if(!token.getTokenType().equals(TokenType.END)) {
+					// TODO lanca erro por nao vir o token 'end'
+					System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nNao conseguiu processar BLOCO.");
+				}
 			}
+		}else if(firstFollow.isFirstCmd(token)){
+			lexico.resetLastToken(token);
+			procCmd();
 		}else {
-			// TODO processa CMD
+			//TODO Lança erro por não possui o first de CMD
+			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nNao possui o first de CMD");
 		}
 	}
+
+    /**
+     * Verifica se a sintaxe do CMD esta correta
+     * @throws Exception
+     */
+	private void procCmd() throws Exception {
+		token = lexico.nextToken();
+
+		if(token.getTokenType().equals(TokenType.DECLARE)){
+			lexico.resetLastToken(token);
+			procDecl();
+		} else if(token.getTokenType().equals(TokenType.IF)){
+			lexico.resetLastToken(token);
+			procCond();
+		} else if(token.getTokenType().equals(TokenType.FOR)){
+			lexico.resetLastToken(token);
+			//TODO processa o procRepf
+		} else if(token.getTokenType().equals(TokenType.WHILE)){
+			lexico.resetLastToken(token);
+			//TODO processa o procRepw
+		} else if(token.getTokenType().equals(TokenType.ID)) {
+			lexico.resetLastToken(token);
+			//TODO processa o procAttrib
+		} else {
+            //TODO lanca erro por nao conseguir processar o token dentro da sintaxe esperada para CMD
+            System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nNao conseguiu processar CMD.");
+        }
+	}
+
+    /**
+     * Verifica se a sintaxe do CMDS esta correta
+     * @throws Exception
+     */
+	private void procCmds() throws Exception{
+		token = lexico.nextToken();
+		
+		if(firstFollow.isFirstCmds(token)) {
+			if(token.getTokenType().equals(TokenType.DECLARE)){
+				lexico.resetLastToken(token);
+				procDecl();
+			} else if(token.getTokenType().equals(TokenType.IF)){
+				lexico.resetLastToken(token);
+				procCond();
+			} else if(token.getTokenType().equals(TokenType.FOR)){
+				lexico.resetLastToken(token);
+				procRepF();
+			} else if(token.getTokenType().equals(TokenType.WHILE)){
+				lexico.resetLastToken(token);
+				procRepw();
+			} else if(token.getTokenType().equals(TokenType.ID)){
+				lexico.resetLastToken(token);
+				procAtrib();
+			}
+			
+			token = lexico.nextToken();
+			if(firstFollow.isFirstCmds(token)) {
+				lexico.resetLastToken(token);
+				procCmds();
+			}else {
+				//TODO lanca erro por nao conseguir processar o token dentro da sintaxe esperada para CMDS
+	            System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nNao conseguiu processar CMDS.");
+			}
+		}else {
+			if(firstFollow.isFollowCmds(token)) {
+				lexico.resetLastToken(token);
+			}else {
+				//TODO lanca erro por nao vir token do tipo END
+	            System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken não esperado, END");
+			}
+		}
+	}
+
+    /**
+     * Verifica se a sintaxe do COND esta correta
+     * @throws Exception
+     */
+	private void procCond() throws Exception {
+        token = lexico.nextToken();
+
+        if (token.getTokenType().equals(TokenType.IF)) {
+            token = lexico.nextToken();
+
+            if (token.getTokenType().equals(TokenType.L_PAR)) {
+            	if(firstFollow.isFirstExplo(token)) {
+            		lexico.resetLastToken(token);
+            		procExplo();
+            		token = lexico.nextToken();
+
+                    if (token.getTokenType().equals(TokenType.R_PAR)) {
+                        token = lexico.nextToken();
+
+                        if (token.getTokenType().equals(TokenType.THEN)) {
+                            token = lexico.nextToken();
+                        	if(firstFollow.isFirstBloco(token)) {
+                        		lexico.resetLastToken(token);
+                                procBloco();
+                                token = lexico.nextToken();
+                                if(firstFollow.isFirstCndb(token)) {
+                                	lexico.resetLastToken(token);
+                                	procCndb();
+                                }else {
+                                	//TODO lanca erro por nao possuir first do CNDB
+                                    System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nFirst de CNDB não encontrado.");
+                                }
+                        	}else {
+                        		//TODO lanca erro por nao possuir first do BLOCO
+                                System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nFirst de Bloco não encontrado.");
+                        	}
+                        } else {
+                            //TODO lanca erro por nao conseguir processar o token THEN dentro da sintaxe esperada para COND
+                            System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken THEN nÃ£o encontrado.");
+                        }
+
+                    } else {
+                        //TODO lanca erro por nao conseguir processar o token R_PAR dentro da sintaxe esperada para COND
+                        System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken R_PAR nÃ£o encontrado.");
+                    }
+            	}else {
+            		//TODO lanca erro por nao vir o first de EXPLO
+    	            System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken não esperado, first EXPLO");
+            	}
+            } else {
+                //TODO lanca erro por nao conseguir processar o token L_PAR dentro da sintaxe esperada para COND
+                System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken L_PAR nÃ£o encontrado.");
+            }
+
+        } else {
+            //TODO lanca erro por nao conseguir processar o token IF dentro da sintaxe esperada para COND
+            System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken IF nÃ£o encontrado.");
+        }
+	}
+
+    /**
+     * Verifica se a sintaxe do CNDB esta correta
+     * @throws Exception
+     */
+    private void procCndb() throws Exception {
+        token = lexico.nextToken();
+
+        if (token.getTokenType().equals(TokenType.ELSE)) {
+        	token = lexico.nextToken();
+        	if(firstFollow.isFirstBloco(token)) {
+        		lexico.resetLastToken(token);
+        		procBloco();
+        	}else {
+        		//TODO lanca erro por nao possuir o FIRST do Bloco
+                System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nFirst de Bloco não encontrado.");
+        	}
+        }
+    }
+
+    /**
+     * Verifica se a sintaxe do DECL esta correta
+     * @throws Exception
+     */
+	private void procDecl() throws Exception {
+        token = lexico.nextToken();
+
+        if (token.getTokenType().equals(TokenType.DECLARE)) {
+            token = lexico.nextToken();
+
+            if (token.getTokenType().equals(TokenType.ID)) {
+                token = lexico.nextToken();
+
+                if (token.getTokenType().equals(TokenType.TYPE)) {
+                    token = lexico.nextToken();
+
+                    if (!token.getTokenType().equals(TokenType.TERM)) {
+                        //TODO lanca erro por nao conseguir processar o token TERM dentro da sintaxe esperada para DECLARE
+                        System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken TERM nÃ£o encontrado.");
+                    }
+
+                } else {
+                    //TODO lanca erro por nao conseguir processar o token TYPE dentro da sintaxe esperada para DECLARE
+                    System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken TYPE nÃ£o encontrado.");
+                }
+
+            } else {
+                //TODO lanca erro por nao conseguir processar o token ID dentro da sintaxe esperada para DECLARE
+                System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken ID nÃ£o encontrado.");
+            }
+
+        } else {
+            //TODO lanca erro por nao conseguir processar o token DECLARE dentro da sintaxe esperada para DECLARE
+            System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken DECLARE nÃ£o encontrado.");
+        }
+    }
 
 	/**
 	 * Verifica a sintaxe do FVALLOG esta correta
 	 * @throws IOException
 	 */
-	@SuppressWarnings("unused")
-	//TODO remover SuppressWarnings quando finalizar
 	private void procFvallog() throws IOException {
 		token = lexico.nextToken();
 		if(token.getTokenType().equals(TokenType.LOGIC_OP)) {
-			//TODO processa o procExplo
+			token = lexico.nextToken();
+			if(firstFollow.isFirstExplo(token)) {
+				lexico.resetLastToken(token);
+				procExplo();
+			}else {
+				//TODO lanca erro por nao encontrar o first de Explo
+	            System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nFirst de Explo não encontrado.");
+			}
 		}else {
-			lexico.resetLastToken(token);
+			if (firstFollow.isFollowFvallog(token)) {
+				lexico.resetLastToken(token);
+			}else {
+				//TODO lanca erro por nao encontrar o first de Explo
+	            System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nFollow de Fvallog não encontrado.");
+			}
 		}
 	}
 
@@ -193,16 +401,25 @@ public class Sintatico {
 	 * Verifica a sintaxe do XEXPNUM esta correta
 	 * @throws IOException
 	 */
-	@SuppressWarnings("unused")
-	//TODO remover SuppressWarnings quando finalizar
 	private void procXexpnum() throws IOException {
 		token = lexico.nextToken();
 
 		if(token.getTokenType().equals(TokenType.ADDSUB)) {
-			lexico.resetLastToken(token);
-			procOpnum();
+			token = lexico.nextToken();
+			if (firstFollow.isFirstOpnum(token)) {
+				lexico.resetLastToken(token);
+				procOpnum();
+			}else {
+				//TODO lanca erro por nao encontrar o first de Explo
+	            System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nFirst de Opnum não encontrado.");
+			}
 		}else {
-			lexico.resetLastToken(token);
+			if (firstFollow.isFollowXexpnum(token)) {
+				lexico.resetLastToken(token);
+			}else {
+				//TODO lanca erro por nao encontrar o follow de Xexpnum
+	            System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nFollow de Xexpnum não encontrado.");
+			}
 		}
 	}
 
@@ -213,9 +430,7 @@ public class Sintatico {
 	private void procOpnum() throws IOException {
 		token = lexico.nextToken();
 
-		if(token.getTokenType().equals(TokenType.ADDSUB)) {
-
-		}else {
+		if(!token.getTokenType().equals(TokenType.ADDSUB)) {
 			//TODO lanca erro por nao possuir um sinal de + ou de -
 			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstï¿½ faltando o '+' ou '-'");
 		}
@@ -225,8 +440,6 @@ public class Sintatico {
 	 * Verifica a sintaxe do VAL esta correta
 	 * @throws IOException
 	 */
-	@SuppressWarnings("unused")
-	// TODO remover SuppressWarnings quando finalizar
 	private void procVal() throws IOException {
 		token = lexico.nextToken();
 
@@ -242,16 +455,19 @@ public class Sintatico {
 	private void procFnumInt() throws IOException {
 		token = lexico.nextToken();
 
-		if(token.getTokenType().equals(TokenType.ADDSUB)
-			|| token.getTokenType().equals(TokenType.MULTDIV)) {
-
+		if(firstFollow.isFirstFOpnum(token)) {
 			lexico.resetLastToken(token);
 			procOpnum();
-			procFopnum_1();
-
+			
+			/*if(firstFollow.isFirstFopnum_1(token)) {
+				procFopnum_1();
+			}else {
+				//TODO lanca erro por nao possuir um MULTDIV
+				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstï¿½ faltando um operador (* ou /).");
+			}*/
 		}else{
-			//TODO lanca erro por nao possuir um ADDSUB ou MULTDIV
-			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstï¿½ faltando um operador (+, -, * ou /).");
+			//TODO lanca erro por nao possuir um ADDSUB
+			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstï¿½ faltando um operador (+ ou -).");
 		}
 
 	}
@@ -259,15 +475,15 @@ public class Sintatico {
 	private void procFopnum_1() throws IOException {
 		token = lexico.nextToken();
 
-		if(token.getTokenType().equals(TokenType.L_PAR)
-			|| token.getTokenType().equals(TokenType.ID)
-			|| token.getTokenType().equals(TokenType.NUM_INT)
-			|| token.getTokenType().equals(TokenType.NUM_FLOAT)) {
-
+		if(firstFollow.isFirstExpnum(token)) {
 			lexico.resetLastToken(token);
-			//TODO processa EXPNUM
-			//TODO processa FEXPNUM_2
-
+			procExpnum();
+			/*if(firstFollow.isFirstFexpnum_2(token)) {
+				//TODO processa FEXPNUM_2
+			}else {
+				//TODO lanca erro por nao possuir First de Fexpnum_2
+				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nFirst de Fexpnum_2 não encontrado.");
+			}*/
 		}else{
 			//TODO lanca erro por nao possuir um L_PAR, ID, NUM_INT ou NUM_FLOAT
 			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstï¿½ faltando um (, ou um identificador, ou um nï¿½mero.");
@@ -615,6 +831,175 @@ public class Sintatico {
 				//TODO lanca erro
 				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
 		}
+	}
 
-}
+	/**
+	 * Verifica se a sintaxe do ATRIB esta correta
+	 * @throws Exception
+	 */
+	private void procAtrib() throws Exception {
+		token = lexico.nextToken();
+
+		if (token.getTokenType().equals(TokenType.ID)) {
+			token = lexico.nextToken();
+
+			if (token.getTokenType().equals(TokenType.ATTRIB)) {
+				token = lexico.nextToken();
+
+				if (firstFollow.isFirstExp(token)) {
+					lexico.resetLastToken(token);
+					procExp();
+					token = lexico.nextToken();
+
+					if (token.getTokenType().equals(TokenType.TERM)) {
+						token = lexico.nextToken();
+					} else {
+						//TODO lanca erro por nao conseguir processar o token TERM dentro da sintaxe esperada para ATRIB
+						System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken TERM nÃ£o encontrado.");
+					}
+				}
+
+			} else {
+				//TODO lanca erro por nao conseguir processar o token ATTRIB dentro da sintaxe esperada para ATRIB
+				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken ATTRIB nÃ£o encontrado.");
+			}
+		} else {
+			//TODO lanca erro por nao conseguir processar o token ID dentro da sintaxe esperada para ATRIB
+			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken ID nÃ£o encontrado.");
+		}
+	}
+
+	/**
+	 * Verifica se a sintaxe do EXP esta correta
+	 * @throws Exception
+	 */
+	private void procExp() throws Exception {
+		token = lexico.nextToken();
+
+		if (token.getTokenType().equals(TokenType.LOGIC_VAL)) {
+			token = lexico.nextToken();
+
+			if (firstFollow.isFirstFvallog(token)) {
+				lexico.resetLastToken(token);
+				procFvallog();
+			}
+		} else if (token.getTokenType().equals(TokenType.ID)) {
+			token = lexico.nextToken();
+
+			if (firstFollow.isFirstFid(token)) {
+				lexico.resetLastToken(token);
+				procFid();
+			}
+		} else if (token.getTokenType().equals(TokenType.NUM_INT)) {
+			token = lexico.nextToken();
+
+			if (firstFollow.isFirstFNumInt(token)) {
+				lexico.resetLastToken(token);
+				//TODO procFNumInt();
+				//procFNumInt();
+			}
+		} else if (token.getTokenType().equals(TokenType.NUM_FLOAT)) {
+			token = lexico.nextToken();
+
+			if (firstFollow.isFirstFNumFloat(token)) {
+				lexico.resetLastToken(token);
+				//TODO procFNumFloat();
+				//procFNumFloat();
+			}
+		} else if (token.getTokenType().equals(TokenType.L_PAR)) {
+			token = lexico.nextToken();
+
+			if (firstFollow.isFirstFlpar(token)) {
+				lexico.resetLastToken(token);
+				//TODO procFlpar();
+				//procFlpar();
+			}
+		} else if (!token.getTokenType().equals(TokenType.LITERAL)) {
+			//TODO lanca erro
+			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
+		}
+	}
+
+	/**
+	 * Verifica se a sintaxe do FID esta correta
+	 * @throws Exception
+	 */
+	private void procFid() throws Exception {
+		token = lexico.nextToken();
+
+		if (firstFollow.isFirstFvallog(token)) {
+			lexico.resetLastToken(token);
+			//TODO procFvallog();
+			//procFvallog();
+		} else if (firstFollow.isFirstOpnum(token)) {
+			lexico.resetLastToken(token);
+			//TODO procOpnum();
+			//procOpnum();
+
+			token = lexico.nextToken();
+
+			if (firstFollow.isFirstFOpnum(token)) {
+				lexico.resetLastToken(token);
+				//TODO procFOpnum();
+				//procFOpnum();
+			} else {
+				//TODO lanca erro
+				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
+			}
+		} else {
+			//TODO lanca erro
+			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
+		}
+	}
+
+	/**
+	 * Verifica se a sintaxe do FOPNUM esta correta
+	 * @throws Exception
+	 */
+	private void procFOpnum() throws Exception {
+		token = lexico.nextToken();
+
+		if (firstFollow.isFirstExpnum(token)) {
+			lexico.resetLastToken(token);
+			//TODO procExpnum();
+			//procExpnum();
+
+			token = lexico.nextToken();
+
+			if (firstFollow.isFirstFExpnum_1(token)) {
+				lexico.resetLastToken(token);
+				//TODO procFExpnum_1();
+				//procFExpnum_1();
+			} else {
+				//TODO lanca erro
+				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
+			}
+		} else {
+			//TODO lanca erro
+			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
+		}
+	}
+
+	/**
+	 * Verifica se a sintaxe do FEXPNUM_1 esta correta
+	 * @throws Exception
+	 */
+	private void procFExpnum_1() throws Exception {
+		token = lexico.nextToken();
+
+		if (token.getTokenType().equals(TokenType.RELOP)) {
+			token = lexico.nextToken();
+
+			if (firstFollow.isFirstExpnum(token)) {
+				lexico.resetLastToken(token);
+				//TODO procExpnum();
+				//procExpnum();
+			} else {
+				//TODO lanca erro
+				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
+			}
+		} else {
+			lexico.resetLastToken(token);
+		}
+	}
 }
