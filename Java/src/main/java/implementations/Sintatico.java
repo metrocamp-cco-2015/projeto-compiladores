@@ -307,12 +307,15 @@ public class Sintatico {
 		token = lexico.nextToken();
 
 		if(token.getTokenType().equals(TokenType.RELOP)){
+			token = lexico.nextToken();
+			
 			if(firstFollow.isFirstExpnum(token)){
+				lexico.resetLastToken(token);
 				procExpnum();
 				
 			}else{
 				//TODO lanca erro por nao possuir um L_PAR, ID, NUM_INT ou NUM_FLOAT
-				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEst� faltando um (, identificador, ou um n�mero.");
+				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
 			}
 		}else{
 			lexico.resetLastToken(token);
@@ -323,15 +326,18 @@ public class Sintatico {
 		token = lexico.nextToken();
 		
 		if(firstFollow.isFirstExpnum(token)) {
+			lexico.resetLastToken(token);
 			procExpnum();
 			
 			if(firstFollow.isFirstFexpnum(token)) {
+				lexico.resetLastToken(token);
 				//TODO procFexpnum();	
-			}else {
+			
+			}else{
 				//TODO lanca erro
 				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
 			}
-		}else {
+		}else{
 			//TODO lanca erro
 			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
 		}
@@ -341,13 +347,17 @@ public class Sintatico {
 		token = lexico.nextToken();
 		
 		if(token.getTokenType().equals(TokenType.R_PAR)){
+			token = lexico.nextToken();
+			
 			if(firstFollow.isFirstFrpar(token)) {
+				lexico.resetLastToken(token);
 				//TODO procFrpar();
-			}else {
+			
+			}else{
 				//TODO lanca erro
 				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
 			}
-		}else {
+		}else{
 			//TODO lanca erro
 			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
 		}
@@ -357,7 +367,10 @@ public class Sintatico {
 		token = lexico.nextToken();
 		
 		if(token.getTokenType().equals(TokenType.RELOP)) {
+			token = lexico.nextToken();
+			
 			if(firstFollow.isFirstExpnum(token)) {
+				lexico.resetLastToken(token);
 				procExpnum();
 			}else {
 				//TODO lanca erro
@@ -372,30 +385,39 @@ public class Sintatico {
 		token = lexico.nextToken();
 		
 		if(firstFollow.isFirstFvallog(token)){
+			lexico.resetLastToken(token);
 			procFvallog();
+		
 		}else if(firstFollow.isFirstOpnum(token)){
+			lexico.resetLastToken(token);
 				procOpnum();
+				token = lexico.nextToken();
 				
 				if(firstFollow.isFirstExpnum(token)) {
+					lexico.resetLastToken(token);
 					procExpnum();
+					token = lexico.nextToken();
 					
 					if(token.getTokenType().equals(TokenType.RELOP)) {
+						token = lexico.nextToken();
 						
 						if(firstFollow.isFirstExpnum(token)){
+							lexico.resetLastToken(token);
 							procExpnum();
-						}else {
+						
+						}else{
 							//TODO lanca erro
 							System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
 						}
-					}else {
+					}else{
 						//TODO lanca erro
 						System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
 					}
-				}else {
+				}else{
 					//TODO lanca erro
 					System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
 				}
-		}else {
+		}else{
 			//TODO lanca erro
 			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
 		}
