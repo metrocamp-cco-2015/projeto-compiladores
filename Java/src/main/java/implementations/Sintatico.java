@@ -284,6 +284,13 @@ public class Sintatico {
 				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstá faltando um (, ou um identificador, ou um número.");
 			}
 		}else{
+			if(firstFollow.isFollowFexpnum_2(token)) {
+				
+			}else {
+				//TODO lanca erro por nao possuir um TERM
+				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstá faltando um terminal.");
+				
+			}
 			lexico.resetLastToken(token);
 		}
 	}
@@ -319,6 +326,9 @@ public class Sintatico {
 				//TODO processa FEXPNUM_3
 			}
 			
+		}else {
+			//TODO lanca erro por nao possuir um L_PAR, ID, NUM_INT ou NUM_FLOAT
+			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEstá faltando um (, ou um identificador, ou um número.");
 		}
 		
 	}

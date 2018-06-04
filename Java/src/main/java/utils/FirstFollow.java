@@ -73,4 +73,10 @@ public class FirstFollow {
         }
         return false;
     }
+
+	public boolean isFollowFexpnum_2(Token token) {
+		if(token.getTokenType().equals(TokenType.TERM))
+		return true;
+	}
+	return false;
 }
