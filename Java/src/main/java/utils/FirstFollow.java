@@ -70,6 +70,49 @@ public class FirstFollow {
         }
         return false;
     }
+    
+    public boolean isFirstFnumint(Token token) {
+        if(token.getTokenType().equals(TokenType.ADDSUB)
+                || token.getTokenType().equals(TokenType.MULTDIV)) {
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean isFirstFopnum_1(Token token) {
+    	if(token.getTokenType().equals(TokenType.ID)
+                || token.getTokenType().equals(TokenType.NUM_INT)
+                || token.getTokenType().equals(TokenType.NUM_FLOAT)
+                || token.getTokenType().equals(TokenType.L_PAR)) {
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean isFirstFexpnum_2(Token token) {
+    	if(token.getTokenType().equals(TokenType.RELOP)) {
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean isFirstFnumfloat(Token token) {
+        if(token.getTokenType().equals(TokenType.ADDSUB)
+                || token.getTokenType().equals(TokenType.MULTDIV)) {
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean isFirstFopnum_2(Token token) {
+    	if(token.getTokenType().equals(TokenType.ID)
+                || token.getTokenType().equals(TokenType.NUM_INT)
+                || token.getTokenType().equals(TokenType.NUM_FLOAT)
+                || token.getTokenType().equals(TokenType.L_PAR)) {
+            return true;
+        }
+        return false;
+    }
 
     public boolean isFirstBloco(Token token) {
         if(token.getTokenType().equals(TokenType.BEGIN)
@@ -222,4 +265,69 @@ public class FirstFollow {
         }
         return false;
     }
+
+    public boolean isFollowFexpnum_2(Token token) {
+		if(token.getTokenType().equals(TokenType.TERM)) {
+			return true;
+		}
+		return false;
+    }
+    
+    public boolean isFollowFexpnum_3(Token token) {
+		if(token.getTokenType().equals(TokenType.TERM)) {
+			return true;
+		}
+		return false;
+    }
+    
+    public boolean isFirstFexpnum_3(Token token) {
+		if(token.getTokenType().equals(TokenType.RELOP)) {
+			return true;
+		}
+		return false;
+    }
+    
+    public boolean isFirstRepf(Token token) {
+		if(token.getTokenType().equals(TokenType.FOR)) {
+			return true;
+		}
+		return false;
+    }
+    
+    public boolean isFirstRepw(Token token) {
+		if(token.getTokenType().equals(TokenType.WHILE)) {
+			return true;
+		}
+		return false;
+    }
+    
+    public boolean isFirstDecl(Token token) {
+		if(token.getTokenType().equals(TokenType.DECLARE)) {
+			return true;
+		}
+		return false;
+    }
+    
+    public boolean isFirstCond(Token token) {
+		if(token.getTokenType().equals(TokenType.IF)) {
+			return true;
+		}
+		return false;
+    }
+    
+    public boolean isFirstRep(Token token) {
+		if(token.getTokenType().equals(TokenType.FOR)
+				|| token.getTokenType().equals(TokenType.WHILE)) {
+			return true;
+		}
+		return false;
+    }
+    
+    public boolean isFirstAttrib(Token token) {
+		if(token.getTokenType().equals(TokenType.ID)) {
+			return true;
+		}
+		return false;
+    }
+	
 }
