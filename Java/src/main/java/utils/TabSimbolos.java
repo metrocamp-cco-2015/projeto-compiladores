@@ -36,7 +36,7 @@ public class TabSimbolos {
 		tabela.put("programa", new Token(TokenType.PROGRAM, "programa", 0, 0));
 		tabela.put("fimprog", new Token(TokenType.END_PROG, "fimprog", 0, 0));
 		tabela.put("inicio", new Token(TokenType.BEGIN, "inicio", 0, 0));
-		tabela.put("end", new Token(TokenType.END, "end", 0, 0));
+		tabela.put("fim", new Token(TokenType.END, "fim", 0, 0));
 		tabela.put("se", new Token(TokenType.IF, "se", 0, 0));
 		tabela.put("entao", new Token(TokenType.THEN, "entao", 0, 0));
 		tabela.put("senao", new Token(TokenType.ELSE, "senao", 0, 0));

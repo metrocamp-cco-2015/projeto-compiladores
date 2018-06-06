@@ -14,8 +14,7 @@ public class FirstFollow {
                 || token.getTokenType().equals(TokenType.IF)
                 || token.getTokenType().equals(TokenType.FOR)
                 || token.getTokenType().equals(TokenType.WHILE)
-                || token.getTokenType().equals(TokenType.ID)
-                || isFollowCmds(token)) {
+                || token.getTokenType().equals(TokenType.ID)) {
             return true;
         }
         return false;
@@ -175,9 +174,14 @@ public class FirstFollow {
         }
         return false;
     }
-
+    
     public boolean isFirstExp(Token token) {
-        if(token.getTokenType().equals(TokenType.ID)) {
+        if(token.getTokenType().equals(TokenType.LOGIC_VAL) 
+        		|| token.getTokenType().equals(TokenType.ID)
+        		|| token.getTokenType().equals(TokenType.NUM_INT)
+        		|| token.getTokenType().equals(TokenType.NUM_FLOAT)
+        		|| token.getTokenType().equals(TokenType.L_PAR)
+        		|| token.getTokenType().equals(TokenType.LITERAL)) {
             return true;
         }
         return false;
