@@ -213,7 +213,7 @@ public class Sintatico {
 			lexico.resetLastToken(token);
 			procAttrib();
 		} else {
-            //TODO lanca erro por nao conseguir processar o token dentro da sintaxe esperada para CMD
+			errorHandler.addSyntacticError(token, WRONG_SYNTAX, "CMD");
             System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nNao conseguiu processar CMD.");
         }
 	}
@@ -722,7 +722,7 @@ public class Sintatico {
 				procExpnum();
 			}
 		} else {
-			//TODO lanca erro
+			errorHandler.addSyntacticError(token, WRONG_SYNTAX, "FID_1");
 			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
 		}
 	}
@@ -966,7 +966,7 @@ public class Sintatico {
 				}
 			}
 		} else {
-			//TODO lanca erro
+			errorHandler.addSyntacticError(token, WRONG_SYNTAX, "EXPLO");
 			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
 		}
 	}
@@ -1054,7 +1054,7 @@ public class Sintatico {
 				procFlpar();
 			}
 		} else if (!token.getTokenType().equals(TokenType.LITERAL)) {
-			//TODO lanca erro
+			errorHandler.addSyntacticError(token, WRONG_SYNTAX, "EXP");
 			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
 		}
 	}
@@ -1082,7 +1082,7 @@ public class Sintatico {
 				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
 			}
 		} else {
-			//TODO lanca erro
+			errorHandler.addSyntacticError(token, WRONG_SYNTAX, "FID");
 			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
 		}
 	}
