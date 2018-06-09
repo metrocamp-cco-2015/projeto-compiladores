@@ -1,4 +1,4 @@
-programa TESTE_01;
+
     inicio
         declare var_1 num;
         declare var_2 num;
@@ -25,6 +25,11 @@ programa TESTE_01;
         para var_3 << var_2 ate (var_1 * var_2)
             inicio
                 var_6 << var_6 + var_3;
-            fim            
+            fim
+            
+        enquanto (verdadeiro)
+        	inicio
+        		declare var_7 num;
+        	fim            
      fim
 fimprog;
