@@ -75,12 +75,12 @@ public class ErrorHandler {
      *
      * @param token
      * @param baseMessage
-     * @param expectedToken
+     * @param termToReplace
      */
-    public void addSyntacticError(Token token, String baseMessage, String expectedToken) {
+    public void addSyntacticError(Token token, String baseMessage, String termToReplace) {
         this.addError(new Error(
                 token.getLexema(),
-                this.replaceTokenizedMessage(baseMessage, expectedToken),
+                this.replaceTokenizedMessage(baseMessage, termToReplace),
                 token.getColuna(),
                 token.getLinha()
         ));
