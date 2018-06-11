@@ -41,7 +41,6 @@ public class Sintatico {
 		try {
 			procS();
 		} catch (Exception e) {
-			//TODO lan�ar erro de exception
 			e.printStackTrace();
 		}
 
@@ -72,7 +71,6 @@ public class Sintatico {
 			procContS();
 		} else {
 			errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.PROGRAM.name());
-			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEst� faltando o 'programa'");
 
 			if (token.getTokenType().equals(TokenType.ID)) {
 				token = lexico.nextToken();
@@ -83,7 +81,6 @@ public class Sintatico {
 					procEndS();
 				} else {
 					errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.TERM.name() + " (';')");
-					System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEst� faltando um ';'");
 
 					lexico.resetLastToken(token);
 					//Processa o Bloco
@@ -117,11 +114,9 @@ public class Sintatico {
 					procEndS();
 				} else {
 					errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "BLOCO");
-					System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nN�o est� no first do bloco");
 				}
 			} else {
 				errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.TERM.name() + " (';')");
-				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEst� faltando um ';'");
 
 				lexico.resetLastToken(token);
 				//Processa o Bloco
@@ -131,10 +126,8 @@ public class Sintatico {
 			}
 		} else {
 			errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.ID.name());
-			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEst� faltando o identificador do programa");
 			if (!token.getTokenType().equals(TokenType.TERM)) {
 				errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.TERM.name() + " (';')");
-				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEst� faltando um ';'");
 				lexico.resetLastToken(token);
 			}
 			//Processa o Bloco
@@ -154,11 +147,9 @@ public class Sintatico {
 			token = lexico.nextToken();
 			if (!token.getTokenType().equals(TokenType.TERM)) {
 				errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.TERM.name() + " (';')");
-				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEst� faltando um ';'");
 			}
 		} else {
 			errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.END_PROG.name());
-			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEst� faltando o 'fimprog'");
 		}
 	}
 
@@ -179,7 +170,6 @@ public class Sintatico {
 				token = lexico.nextToken();
 				if (!token.getTokenType().equals(TokenType.END)) {
 					errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.END.name());
-					System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nNao conseguiu processar BLOCO.");
 				}
 			} else {
 				lexico.resetLastToken(token);
@@ -189,7 +179,6 @@ public class Sintatico {
 			procCmd();
 		} else {
 			errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "CMD");
-			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nNao possui o first de CMD");
 		}
 	}
 
@@ -214,8 +203,7 @@ public class Sintatico {
 			procAttrib();
 		} else {
 			errorHandler.addSyntacticError(token, WRONG_SYNTAX, "CMD");
-            System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nNao conseguiu processar CMD.");
-        }
+    }
 	}
 
     /**
@@ -255,7 +243,6 @@ public class Sintatico {
 				lexico.resetLastToken(token);
 			} else {
 				errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.END.name());
-	      System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken n�o esperado, END");
 			}
 		}
 	}
@@ -292,33 +279,26 @@ public class Sintatico {
                                 	procCndb();
                                 } else {
 									                errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "CNDB");
-                                  System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nFirst de CNDB n�o encontrado.");
                                 }
                         	} else {
 								            errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "BLOCO");
-                            System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nFirst de Bloco n�o encontrado.");
                         	}
                         } else {
 							            errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.THEN.name());
-                          System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken THEN não encontrado.");
                         }
 
                     } else {
 						          errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.R_PAR.name() + " (')')");
-                      System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken R_PAR não encontrado.");
                     }
             	} else {
 					      errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "EXPLO");
-    	          System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken n�o esperado, first EXPLO");
             	}
             } else {
 				      errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.L_PAR.name() + " ('(')");
-              System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken L_PAR não encontrado.");
             }
 
         } else {
 			    errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.IF.name());
-          System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken IF não encontrado.");
         }
 	}
 
@@ -336,7 +316,6 @@ public class Sintatico {
         		procBloco();
         	} else {
 				    errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "BLOCO");
-            System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nFirst de Bloco n�o encontrado.");
         	}
         } else {
         	lexico.resetLastToken(token);
@@ -361,22 +340,18 @@ public class Sintatico {
 
                     if (!token.getTokenType().equals(TokenType.TERM)) {
 						          errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.TERM.name() + " (';')");
-                      System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken TERM não encontrado.");
                     }
 
                 } else {
 					        errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.TYPE.name() + " ('text', 'num' ou 'logico')");
-                  System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken TYPE não encontrado.");
                 }
 
             } else {
 				      errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.ID.name());
-              System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken ID não encontrado.");
             }
 
         } else {
 			    errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.DECLARE.name());
-          System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken DECLARE não encontrado.");
         }
     }
 
@@ -393,14 +368,12 @@ public class Sintatico {
 				procExplo();
 			} else {
 				errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "EXPLO");
-	      System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nFirst de Explo n�o encontrado.");
 			}
 		} else {
 			if (firstFollow.isFollowFvallog(token)) {
 				lexico.resetLastToken(token);
 			} else {
 				errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "EXPLO");
-	      System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nFollow de Fvallog n�o encontrado.");
 			}
 		}
 	}
@@ -422,11 +395,9 @@ public class Sintatico {
 				procExpnum();
 			} else {
 				errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "EXPNUM");
-	      System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nFirst de Expnum n�o encontrado.");
 			}
 		} else {
 			errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "OPNUM");
-      System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nFirst de Opnum n�o encontrado.");
 		}
 	}
 
@@ -440,7 +411,6 @@ public class Sintatico {
 		if (!token.getTokenType().equals(TokenType.ADDSUB)
 				&& !token.getTokenType().equals(TokenType.MULTDIV)) {
 			errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.ADDSUB.name() + " ou " + TokenType.MULTDIV.name());
-			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEst� faltando o '+' ou '-'");
 		}
 	}
 
@@ -458,7 +428,6 @@ public class Sintatico {
 			errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.ID.name() +
 					" ou " + TokenType.NUM_INT.name() +
 					" ou " + TokenType.NUM_FLOAT.name());
-			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEst� faltando um identificador, ou um n�mero.");
 		}
 	}
 
@@ -477,11 +446,9 @@ public class Sintatico {
 				procFopnum_1();
 			} else {
 				errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.MULTDIV.name() + " ('*', '/')");
-				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEst� faltando um operador (* ou /).");
 			}
 		} else{
 			errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.ADDSUB.name() + " ('+', '-')");
-			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEst� faltando um operador (+ ou -).");
 		}
 
 	}
@@ -502,14 +469,12 @@ public class Sintatico {
 				procFexpnum_2();
 			} else {
 				errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "FEXPNUM_2");
-				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nFirst de Fexpnum_2 n�o encontrado.");
 			}
 		} else{
 			errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.L_PAR.name() +
 					" ou " + TokenType.ID.name() +
 					" ou " + TokenType.NUM_INT.name() +
 					" ou " + TokenType.NUM_FLOAT.name());
-			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEst� faltando um (, ou um identificador, ou um n�mero.");
 		}
 	}
 
@@ -531,14 +496,12 @@ public class Sintatico {
 						" ou " + TokenType.ID.name() +
 						" ou " + TokenType.NUM_INT.name() +
 						" ou " + TokenType.NUM_FLOAT.name());
-				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEst� faltando um (, ou um identificador, ou um n�mero.");
 			}
 		} else {
 			if (firstFollow.isFollowFexpnum_2(token)) {
 				lexico.resetLastToken(token);
 			} else {
 				errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.TERM.name() + " (';')");
-				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEst� faltando um terminal.");
 			}
 		}
 	}
@@ -564,14 +527,12 @@ public class Sintatico {
 						" ou " + TokenType.ID.name() +
 						" ou " + TokenType.NUM_INT.name() +
 						" ou " + TokenType.NUM_FLOAT.name());
-				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEst� faltando um (, ou um identificador, ou um n�mero.");
 			}
 		} else {
 			errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.L_PAR.name() +
 					" ou " + TokenType.ID.name() +
 					" ou " + TokenType.NUM_INT.name() +
 					" ou " + TokenType.NUM_FLOAT.name());
-			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEst� faltando um (, ou um identificador, ou um n�mero.");
 		}
 	}
 
@@ -593,14 +554,12 @@ public class Sintatico {
 						" ou " + TokenType.ID.name() +
 						" ou " + TokenType.NUM_INT.name() +
 						" ou " + TokenType.NUM_FLOAT.name());
-				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
 			}
 		} else{
 			if (firstFollow.isFollowFexpnum_3(token)) {
 				lexico.resetLastToken(token);
 			} else {
 				errorHandler.addSyntacticError(token, WRONG_SYNTAX + FOLLOW, "FEXPNUM_3");
-				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nFollow de Fexpnum_3 n�o encontrado.");
 			}
 		}
 	}
@@ -622,11 +581,9 @@ public class Sintatico {
 				procFexpnum();
 			} else{
 				errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "FEXPNUM");
-				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
 			}
 		} else{
 			errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "EXPNUM");
-			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
 		}
 	}
 
@@ -646,11 +603,9 @@ public class Sintatico {
 
 			} else{
 				errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "FRPAR");
-				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
 			}
 		} else{
 			errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.R_PAR.name() + " (')')");
-			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto ')'.");
 		}
 	}
 
@@ -669,7 +624,6 @@ public class Sintatico {
 				procExpnum();
 			} else {
 				errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "EXPNUM");
-				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
 			}
 		} else {
 			lexico.resetLastToken(token);
@@ -706,15 +660,12 @@ public class Sintatico {
 
 						} else{
 							errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "EXPNUM");
-							System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
 						}
 					} else{
 						errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.RELOP.name());
-						System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
 					}
 				} else{
 					errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "EXPNUM");
-					System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
 				}
 		} else if (token.getTokenType().equals(TokenType.RELOP)) {
 			token = lexico.nextToken();
@@ -723,12 +674,10 @@ public class Sintatico {
 				lexico.resetLastToken(token);
 				procExpnum();
 			} else {
-				//TODO lanca erro
-				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
+				errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "EXPNUM");
 			}
 		} else {
 			errorHandler.addSyntacticError(token, WRONG_SYNTAX, "FID_1");
-			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
 		}
 	}
 
@@ -749,11 +698,9 @@ public class Sintatico {
 				procFexpnum_3();
 			} else {
 				errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "FEXPNUM_3");
-				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nFirst de Fexpnum_3 nao encontrado.");
 			}
 		} else {
 			errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "EXPNUM");
-			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nFirst de Expnum nao encontrado.");
 		}
 	}
 
@@ -773,7 +720,6 @@ public class Sintatico {
 		} else {
 			errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.FOR.name() +
 					" ou " + TokenType.WHILE.name());
-			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken não é FOR nem WHILE.");
 		}
 	}
 
@@ -811,31 +757,24 @@ public class Sintatico {
 									procBloco();
 								} else {
 									errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "BLOCO");
-									System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken não é isFirstBloco()");
 								}
 							} else {
 								errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "EXPNUM");
-								System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken não é isFirstExpnum()");
 							}
 						} else {
 							errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.TO.name());
-							System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken não é TO.");
 						}
 					} else {
 						errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "EXPNUM");
-						System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken não é isFirstExpnum().");
 					}
 				} else {
 					errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.ATTRIB.name() + " ('<<')");
-					System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken não é ATRIB.");
 				}
 			} else {
 				errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.ID.name());
-				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken não é ID.");
 			}
 		} else {
 			errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.FOR.name());
-			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken não é FOR nem WHILE.");
 		}
 	}
 
@@ -856,11 +795,9 @@ public class Sintatico {
 
 				if (!token.getTokenType().equals(TokenType.R_PAR)) {
 					errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.R_PAR.name() + " (')')");
-					System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken não é ')'");
 				}
 			} else {
 				errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "EXPNUM");
-				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nFirst de Expnum nao encontrado");
 			}
 		} else if (firstFollow.isFirstVal(token)) {
 			lexico.resetLastToken(token);
@@ -875,7 +812,6 @@ public class Sintatico {
 			}
 		} else {
 			errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "EXPNUM");
-			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nFirst de EXPNUM nao encontrado.");
 		}
 	}
 
@@ -905,23 +841,18 @@ public class Sintatico {
 							procBloco();
 						} else {
 							errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "BLOCO");
-							System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken não é isFirstBloco()");
 						}
 					} else {
 						errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.R_PAR.name() + " (')')");
-						System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken não é R_PAR");
 					}
 				} else {
 					errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "EXPLO");
-					System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken não é isFirstExplo()");
 				}
 			} else {
 				errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.L_PAR.name() + " ('(')");
-				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken não é L_PAR");
 			}
 		} else {
 			errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.WHILE.name());
-			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken não é WHILE.");
 		}
 	}
 
@@ -971,24 +902,19 @@ public class Sintatico {
 							lexico.resetLastToken(token);
 							procExpnum();
 						} else {
-							//TODO lanca erro
-							System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
+							errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "EXPNUM");
 						}
 					} else {
-						//TODO lanca erro
-						System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
+						errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.RELOP.name()
 					}
 				} else {
-					//TODO lanca erro
-					System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
+				  errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "EXPNUM");
 				}
 			} else {
-				//TODO lanca erro
-				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
+				errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "OPNUM");
 			}
 		} else {
 			errorHandler.addSyntacticError(token, WRONG_SYNTAX, "EXPLO");
-			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
 		}
 	}
 
@@ -1012,19 +938,15 @@ public class Sintatico {
 
 					if (!token.getTokenType().equals(TokenType.TERM)) {
 						errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.TERM.name() + " (';')");
-						System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken TERM não encontrado.");
 					}
 				} else {
 					errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "EXP");
-					System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nErro por nao conseguir localizar o first de Exp.");
 				}
 			} else {
 				errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.ATTRIB.name() + " ('<<')");
-				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken ATTRIB não encontrado.");
 			}
 		} else {
 			errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.ID.name());
-			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken ID não encontrado.");
 		}
 	}
 
@@ -1078,12 +1000,11 @@ public class Sintatico {
 				lexico.resetLastToken(token);
 				procFlpar();
 			} else {
-				//TODO lanca erro
+				errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "FLPAR");
 				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
 			}
 		} else if (!token.getTokenType().equals(TokenType.LITERAL)) {
 			errorHandler.addSyntacticError(token, WRONG_SYNTAX, "EXP");
-			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
 		}
 	}
 
@@ -1107,11 +1028,9 @@ public class Sintatico {
 				procFOpnum();
 			} else {
 				errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "FOPNUM");
-				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
 			}
 		} else {
 			errorHandler.addSyntacticError(token, WRONG_SYNTAX, "FID");
-			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
 		}
 	}
 
@@ -1135,7 +1054,6 @@ public class Sintatico {
 			}
 		} else {
 			errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "EXPNUM");
-			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
 		}
 	}
 
@@ -1154,7 +1072,6 @@ public class Sintatico {
 				procExpnum();
 			} else {
 				errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "EXPNUM");
-				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken incorreto.");
 			}
 		} else {
 			lexico.resetLastToken(token);
