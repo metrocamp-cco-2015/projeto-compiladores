@@ -1,0 +1,6 @@
+
+gsquid:S3776"RRefactor this method to reduce its Cognitive Complexity from 24 to the 15 allowed.(‚ÍŽò
+Osquid:S1141"5Extract this nested try block into a separate method.(¡»¢üùÿÿÿÿ
+£%squid:RedundantThrowsDeclarationCheck"oRemove the declaration of thrown exception 'java.io.EOFException' which is a subclass of 'java.io.IOException'.(À™¯¦üÿÿÿÿ
+lsquid:S3776"RRefactor this method to reduce its Cognitive Complexity from 31 to the 15 allowed.(À™¯¦üÿÿÿÿ
+=squid:S1148"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ
