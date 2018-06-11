@@ -905,7 +905,7 @@ public class Sintatico {
 							errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "EXPNUM");
 						}
 					} else {
-						errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.RELOP.name()
+						errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.RELOP.name());
 					}
 				} else {
 				  errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "EXPNUM");
