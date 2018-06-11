@@ -116,11 +116,11 @@ public class Sintatico {
 					//Processa o final do programa
 					procEndS();
 				}else {
-<<<<<<< HEAD
+
 					errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "BLOCO");
-=======
+
 					//TODO lan�a erro por nao estar no first do bloco
->>>>>>> vitor
+
 					System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nN�o est� no first do bloco");
 				}
 			}else {
@@ -192,11 +192,11 @@ public class Sintatico {
 			lexico.resetLastToken(token);
 			procCmd();
 		}else {
-<<<<<<< HEAD
+
 			errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "CMD");
-=======
+
 			//TODO Lan�a erro por n�o possui o first de CMD
->>>>>>> vitor
+
 			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nNao possui o first de CMD");
 		}
 	}
@@ -262,11 +262,11 @@ public class Sintatico {
 			if(firstFollow.isFollowCmds(token)) {
 				lexico.resetLastToken(token);
 			}else {
-<<<<<<< HEAD
+
 				errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.END.name());
-=======
+
 				//TODO lanca erro por nao vir token do tipo END
->>>>>>> vitor
+
 	            System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken n�o esperado, END");
 			}
 		}
@@ -303,20 +303,19 @@ public class Sintatico {
                                 	lexico.resetLastToken(token);
                                 	procCndb();
                                 }else {
-<<<<<<< HEAD
+
 									errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "CNDB");
                                     System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nFirst de CNDB n�o encontrado.");
                                 }
                         	}else {
 								errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "BLOCO");
-=======
+
                                 	//TODO lanca erro por nao possuir first do CNDB
                                     System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nFirst de CNDB n�o encontrado.");
                                 }
                         	}else {
                         		//TODO lanca erro por nao possuir first do BLOCO
->>>>>>> vitor
-                                System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nFirst de Bloco n�o encontrado.");
+                  System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nFirst de Bloco n�o encontrado.");
                         	}
                         } else {
 							errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.THEN.name());
@@ -328,11 +327,11 @@ public class Sintatico {
                         System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken R_PAR não encontrado.");
                     }
             	}else {
-<<<<<<< HEAD
+
 					errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "EXPLO");
-=======
+
             		//TODO lanca erro por nao vir o first de EXPLO
->>>>>>> vitor
+
     	            System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken n�o esperado, first EXPLO");
             	}
             } else {
@@ -359,11 +358,11 @@ public class Sintatico {
         		lexico.resetLastToken(token);
         		procBloco();
         	}else {
-<<<<<<< HEAD
+
 				errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "BLOCO");
-=======
+
         		//TODO lanca erro por nao possuir o FIRST do Bloco
->>>>>>> vitor
+
                 System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nFirst de Bloco n�o encontrado.");
         	}
         } else {
@@ -420,22 +419,22 @@ public class Sintatico {
 				lexico.resetLastToken(token);
 				procExplo();
 			}else {
-<<<<<<< HEAD
+
 				errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "EXPLO");
-=======
+
 				//TODO lanca erro por nao encontrar o first de Explo
->>>>>>> vitor
+
 	            System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nFirst de Explo n�o encontrado.");
 			}
 		}else {
 			if (firstFollow.isFollowFvallog(token)) {
 				lexico.resetLastToken(token);
 			}else {
-<<<<<<< HEAD
+
 				errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "EXPLO");
-=======
+
 				//TODO lanca erro por nao encontrar o first de Explo
->>>>>>> vitor
+
 	            System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nFollow de Fvallog n�o encontrado.");
 			}
 		}
@@ -457,19 +456,19 @@ public class Sintatico {
 				lexico.resetLastToken(token);
 				procExpnum();
 			}else {
-<<<<<<< HEAD
+
 				errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "EXPNUM");
 	            System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nFirst de Expnum n�o encontrado.");
 			}
 		} else {
 			errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "OPNUM");
-=======
+
 				//TODO lanca erro por nao encontrar o first de Expnum
 	            System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nFirst de Expnum n�o encontrado.");
 			}
 		} else {
 			//TODO lanca erro por nao encontrar o first de Opnum
->>>>>>> vitor
+
             System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nFirst de Opnum n�o encontrado.");
 		}
 	}
@@ -545,11 +544,11 @@ public class Sintatico {
 				lexico.resetLastToken(token);
 				procFexpnum_2();
 			}else {
-<<<<<<< HEAD
+
 				errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "FEXPNUM_2");
-=======
+
 				//TODO lanca erro por nao possuir First de Fexpnum_2
->>>>>>> vitor
+
 				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nFirst de Fexpnum_2 n�o encontrado.");
 			}
 		}else{
@@ -574,28 +573,27 @@ public class Sintatico {
 			if (firstFollow.isFirstExpnum(token)) {
 				lexico.resetLastToken(token);
 				procExpnum();
-<<<<<<< HEAD
+
 			}else {
 				errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.L_PAR.name() +
 						" ou " + TokenType.ID.name() +
 						" ou " + TokenType.NUM_INT.name() +
 						" ou " + TokenType.NUM_FLOAT.name());
-=======
+
 			} else {
 				//TODO lanca erro por nao possuir um L_PAR, ID, NUM_INT ou NUM_FLOAT
->>>>>>> vitor
+
 				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEst� faltando um (, ou um identificador, ou um n�mero.");
 			}
 		} else {
 			if (firstFollow.isFollowFexpnum_2(token)) {
 				lexico.resetLastToken(token);
-<<<<<<< HEAD
+
 			}else {
 				errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.TERM.name() + " (';')");
-=======
-			} else {
+	} else {
 				//TODO lanca erro por nao possuir um TERM
->>>>>>> vitor
+
 				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEst� faltando um terminal.");
 			}
 		}
@@ -618,7 +616,7 @@ public class Sintatico {
 				procFopnum_2();
 				token = lexico.nextToken();
 			}else {
-<<<<<<< HEAD
+
 				errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.L_PAR.name() +
 						" ou " + TokenType.ID.name() +
 						" ou " + TokenType.NUM_INT.name() +
@@ -630,13 +628,13 @@ public class Sintatico {
 					" ou " + TokenType.ID.name() +
 					" ou " + TokenType.NUM_INT.name() +
 					" ou " + TokenType.NUM_FLOAT.name());
-=======
+
 				//TODO lanca erro por nao possuir um L_PAR, ID, NUM_INT ou NUM_FLOAT
 				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEst� faltando um (, ou um identificador, ou um n�mero.");
 			}
 		}else {
 			//TODO lanca erro por nao possuir um L_PAR, ID, NUM_INT ou NUM_FLOAT
->>>>>>> vitor
+
 			System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nEst� faltando um (, ou um identificador, ou um n�mero.");
 		}
 	}
@@ -665,11 +663,9 @@ public class Sintatico {
 			if(firstFollow.isFollowFexpnum_3(token)) {
 				lexico.resetLastToken(token);
 			}else {
-<<<<<<< HEAD
-				errorHandler.addSyntacticError(token, WRONG_SYNTAX + FOLLOW, "FEXPNUM_3");
-=======
-				//TODO lanca erro por nao follow de Fexpnum_3
->>>>>>> vitor
+	errorHandler.addSyntacticError(token, WRONG_SYNTAX + FOLLOW, "FEXPNUM_3");
+		//TODO lanca erro por nao follow de Fexpnum_3
+
 				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nFollow de Fexpnum_3 n�o encontrado.");
 			}
 		}
@@ -880,7 +876,7 @@ public class Sintatico {
 									lexico.resetLastToken(token);
 									procBloco();
 								} else {
-<<<<<<< HEAD
+
 									errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "BLOCO");
 									System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken não é isFirstBloco()");
 								}
@@ -902,7 +898,7 @@ public class Sintatico {
 				}
 			} else {
 				errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.ID.name());
-=======
+
 									//TODO lanca erro por não ser isFirstBloco()
 									System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken não é isFirstBloco()");
 								}
@@ -924,7 +920,7 @@ public class Sintatico {
 				}
 			} else {
 				//TODO lanca erro por não ser ID
->>>>>>> vitor
+
 				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken não é ID.");
 			}
 		} else {
@@ -998,7 +994,7 @@ public class Sintatico {
 							lexico.resetLastToken(token);
 							procBloco();
 						} else {
-<<<<<<< HEAD
+
 							errorHandler.addSyntacticError(token, WRONG_SYNTAX + FIRST, "BLOCO");
 							System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken não é isFirstBloco()");
 						}
@@ -1012,7 +1008,7 @@ public class Sintatico {
 				}
 			} else {
 				errorHandler.addSyntacticError(token, UNEXPECTED_TOKEN, TokenType.L_PAR.name() + " ('(')");
-=======
+
 							//TODO lanca erro por não ser isFirstBloco()
 							System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken não é isFirstBloco()");
 						}
@@ -1026,7 +1022,7 @@ public class Sintatico {
 				}
 			} else {
 				//TODO lanca erro por não ser L_PAR
->>>>>>> vitor
+
 				System.out.println("Linha: " + token.getLinha() + "\nColuna: " + token.getColuna() + "\nToken não é L_PAR");
 			}
 		} else {
