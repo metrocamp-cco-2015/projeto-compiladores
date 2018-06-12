@@ -1,4 +1,4 @@
-
+programa bla;
     inicio
         declare var_1 num;
         declare var_2 num;
