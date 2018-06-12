@@ -80,7 +80,7 @@ public class Lexico {
 		
 		if(this.buffer != null) {
 			token = this.buffer;
-			this.buffer = null;
+			this.resetLastToken(null);
 			return token;
 		}
 		
@@ -581,5 +581,14 @@ public class Lexico {
 			token = this.nextToken();
 		}
 		return token;
+	}
+
+	/**
+	 * Armazena o Token no buffer
+	 * @param buffer
+	 * 		- Objeto Token que sera armazenado no buffer
+	 */
+	public void resetLastToken(Token buffer) {
+		this.buffer = buffer;
 	}
 }

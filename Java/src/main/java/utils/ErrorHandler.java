@@ -8,12 +8,16 @@
  */
 package src.main.java.utils;
 
+import src.main.java.implementations.Token;
+
 import java.util.ArrayList;
 
 public class ErrorHandler {
 
     private static ErrorHandler instance = new ErrorHandler();
     private ArrayList<Error> errors = new ArrayList<>();
+
+    private static final String STRING_TO_REPLACE = "<STRING_TO_REPLACE>";
 
     /**
      * Recupera a instancia do ErroHandler.
@@ -41,7 +45,7 @@ public class ErrorHandler {
     public void showErrors(){
         if (!errors.isEmpty()) {
 
-            System.out.println("\n\nRelatorio de Erros");
+            System.out.println("\n\nRelatorio de Erros Lexicos");
 
             errors.forEach(error -> {
                 System.out.println("\nLexema: " + error.getLexema());
@@ -51,7 +55,35 @@ public class ErrorHandler {
         } else {
             System.out.println("Nao foram encontrados Erros");
         }
-;
+    }
+
+    /**
+     * Recebe uma mensagem parametrizada e troca o valor STRING_TO_REPLACE
+     * pelo desejado.
+     *
+     * @param message
+     * @param termToReplace
+     * @return
+     */
+    private String replaceTokenizedMessage(String message, String termToReplace) {
+        return message.replace(STRING_TO_REPLACE, termToReplace);
+    }
+
+    /**
+     * Recebe um token, uma mensagem e uma string para substituição. Após isso,
+     * insere um novo Erro na lista de erros.s
+     *
+     * @param token
+     * @param baseMessage
+     * @param termToReplace
+     */
+    public void addSyntacticError(Token token, String baseMessage, String termToReplace) {
+        this.addError(new Error(
+                token.getLexema(),
+                this.replaceTokenizedMessage(baseMessage, termToReplace),
+                token.getColuna(),
+                token.getLinha()
+        ));
     }
 
 }
